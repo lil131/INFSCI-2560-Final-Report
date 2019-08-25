@@ -2,24 +2,27 @@ import React from 'react';
 import './App.css';
 import HomeLayout from './HomeLayout'; //".js" can be omitted.
 import QuestionSet from './QuestionSet'; 
+import ChapterContent from './ChapterContent'; 
+import ChapterList from './ChapterList'; 
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      onPage: 'testPage', // 
-      chapterId: 1,
+      currentPage: 'chapterListPage', // 
+      chapterId: 0,
       user: {
-        admin: false,
+        admin: true,
         username: "abc",
         password: "1234",
-        scores: [[null, null], [null, null]],
-        bookmarks: [0, 0]
+        scores: [[80, null], [null, null]],
+        bookmarks: [2, 1]
       },
       chapters: [
         { 
           id: 0,
-          content: ["1111"],
+          title: 'c1',
+          content: ['1111-1','1111-2'],
           questionSets:[[{ // [ [{},{},{}] , [{},{},{}]] ,
               statement: 'ch1-qs1-1',
               options: ['aa', 'bb', 'cc', 'dd'],
@@ -46,8 +49,9 @@ class App extends React.Component {
               correctAnswer: 'C',
             }]]}, 
         { 
-          id: 0,
-          content: ["1111"],
+          id: 1,
+          title: 'c2',
+          content: ['2222-1','2222-2'],
           questionSets:[[{ // [ [{},{},{}] , [{},{},{}]] ,
               statement: 'ch1-qs1-1',
               options: ['aa', 'bb', 'cc', 'dd'],
@@ -78,21 +82,42 @@ class App extends React.Component {
   };
 
 
-  ChangePage = () => this.setState({onPage: "chapterPage"}); 
-  // chapterPage, testPage, layoutPage, loginPage...
+  onClickOfMenu = (e) => this.setState({currentPage: e.key}); 
+  // chapterListPage, chapterContentPage, testPage, loginPage, managerPage...
+  onSelectPage = (e) => this.setState({currentPage: e.target.value})
 
   renderChild() {
-    const { user, onPage, chapterId, chapters } = this.state;
+    const { user, currentPage, chapterId, chapters } = this.state;
     
 
-    switch (onPage) {
-      case 'chapterPage':
-        return null;        
-
+    switch (currentPage) {
+      case 'loginPage':
+        return null; 
+      
+      case 'managerPage':
+        return null;
+          
+      case 'chapterListPage':
+        return <ChapterList 
+                 chapters={chapters} 
+                 userScores={user.scores}
+                 progresses={user.bookmarks}
+                 onSelectPage={this.onSelectPage}
+               />
+        
+      case 'chapterContentPage':
+          return <ChapterContent 
+                   chapterId={chapterId} 
+                   chapterTitle={chapters[chapterId].title}
+                   bookmark={user.bookmarks[chapterId]} 
+                   content={chapters[chapterId].content}
+                 />
+      
       case 'testPage':
         const questionSetIndex = user.scores[chapterId].findIndex((s,i,l) => !l[i]);
         const questionSet = chapters[chapterId].questionSets[questionSetIndex];
         return <QuestionSet chapterId={chapterId} questions={questionSet} />
+      
 
       default:
         return null;
@@ -101,7 +126,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <HomeLayout >
+      <HomeLayout user={this.state.user} onClickOfMenu={this.onClickOfMenu}>
         {this.renderChild()}
       </HomeLayout>
     );
