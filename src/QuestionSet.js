@@ -1,13 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './App.css';
-import { Radio, Button } from 'antd';
-import { Statistic } from 'antd';
-import { Typography } from 'antd';
+import { Radio, Button, Card, Icon } from 'antd';
+import { Statistic, Typography, Popconfirm, message } from 'antd';
 
 const { Text } = Typography;
 
 const OPT_MAP = ['A', 'B', 'C', 'D'];
+
+
+function cancel(e) {
+  console.log(e);
+}
 
 class ChoiceQuestion extends React.Component {
   static propTypes = {
@@ -64,13 +68,16 @@ class QuestionSet extends React.Component {
       statement: PropTypes.string,
       options: PropTypes.arrayOf(PropTypes.string),
       correctAnswer: PropTypes.string 
-    }))
+    })),
+    questionSetIndex: PropTypes.number,
+    onQuit: PropTypes.func,
+    onScoreSubmit: PropTypes.func
   };
   
   constructor(props) {
     super(props);
     this.state = {
-      userAnswers: Array(2).fill(null),
+      userAnswers: Array(3).fill(null),
       userScore: null,
       pass: false,
     };
@@ -86,11 +93,9 @@ class QuestionSet extends React.Component {
     }
   }
 
-  onQuit = () => {};
-
   onSubmit = (e) => {
     e.preventDefault();
-
+    const { chapterId, questionSetIndex } = this.props;
     // calculate score
     if (!this.state.userScore) {
       const score = this.state.userAnswers.filter(
@@ -98,18 +103,39 @@ class QuestionSet extends React.Component {
       ).length / this.props.questions.length * 100;
       
       this.setState({userScore: score});
+      this.props.onScoreSubmit(chapterId, questionSetIndex, score);
     }
-  }
+  };
 
   render(){
     const { userAnswers, userScore } = this.state;
-    const { questions, chapterId } = this.props;
+    const { questions, chapterId, onQuit } = this.props;
 
     return (
-      <>
-        <header className="App-header">
-          <p>Test for Chapter {chapterId}</p>
-          {userScore !== null ?
+      <Card
+        title={
+          <>
+            <Button type="link" onClick={onQuit} size='large'>
+              <Icon type="left" />
+            </Button>
+            {`Test for Chapter ${chapterId + 1}`}
+          </>
+        }
+        bordered={false}
+        actions={[
+          <Button type="link" onClick={this.onSubmit} size='large'>
+            <Icon type="check-circle" key="submit" theme="twoTone" twoToneColor="#52c41a" />
+            Submit
+          </Button>
+          ,
+          <Button type="link" onClick={onQuit} size='large'>
+            <Icon type="close-circle" key="quit" theme="twoTone" twoToneColor="#eb2f96" />
+            Quit
+          </Button>
+        ]}
+      >
+        {
+          userScore !== null ?
             <Statistic
               title="Your Score:"
               value={userScore}
@@ -117,8 +143,7 @@ class QuestionSet extends React.Component {
               valueStyle={{ color: userScore >= 70 ? '#3f8600' : '#cf1322'}}
             /> :
             null
-          }
-        </header>
+        }
         {
           questions.map((q,i) =>
             <ChoiceQuestion
@@ -131,10 +156,8 @@ class QuestionSet extends React.Component {
               onClick={this.onClick} 
             />
           )
-        }        
-        <Button type="primary" onClick={this.onSubmit}>Submit</Button>
-        <Button type="danger" onClick={this.onQuit}>Quit</Button>
-      </>
+        }    
+      </Card>
     );
   }
 }

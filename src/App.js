@@ -4,19 +4,20 @@ import HomeLayout from './HomeLayout'; //".js" can be omitted.
 import QuestionSet from './QuestionSet'; 
 import ChapterContent from './ChapterContent'; 
 import ChapterList from './ChapterList'; 
+import CreatAccount from './CreatAccount'; 
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPage: 'chapterListPage', // 
+      currentPage: 'testPage', // 
       chapterId: 0,
       user: {
         admin: true,
         username: "abc",
         password: "1234",
         scores: [[80, null], [null, null]],
-        bookmarks: [2, 1]
+        bookmarks: [2, 0] // 1 means page #1
       },
       chapters: [
         { 
@@ -84,7 +85,30 @@ class App extends React.Component {
 
   onClickOfMenu = (e) => this.setState({currentPage: e.key}); 
   // chapterListPage, chapterContentPage, testPage, loginPage, managerPage...
-  onSelectPage = (e) => this.setState({currentPage: e.target.value})
+  
+  onSelectElement = (i, e) => { // logic of using bind()!
+    this.setState({currentPage: e.target.value, chapterId: i})
+    console.log(this.state.currentPage, this.state.chapterId)
+  }
+
+  onBack = (i, bm) => {
+    const {user} = this.state;
+    const updatedUser = user;
+    updatedUser.bookmarks[i] = bm;
+    this.setState({currentPage: 'chapterListPage', user: updatedUser})
+  };
+
+  onQuit = () => {
+    console.log(this.state.user.scores);
+    this.setState({currentPage: 'chapterListPage'});
+  }
+
+  onScoreSubmit = (c, t, s) => {
+    console.log(c,t,s);
+    const newScores = this.state.user.scores.map(arr => arr.slice());
+    newScores[c][t] = s;
+    this.setState({...this.state.user, scores: newScores});
+  }
 
   renderChild() {
     const { user, currentPage, chapterId, chapters } = this.state;
@@ -95,28 +119,35 @@ class App extends React.Component {
         return null; 
       
       case 'managerPage':
-        return null;
-          
+        return <CreatAccount />
+
       case 'chapterListPage':
         return <ChapterList 
                  chapters={chapters} 
                  userScores={user.scores}
                  progresses={user.bookmarks}
-                 onSelectPage={this.onSelectPage}
+                 onSelectElement={this.onSelectElement}
                />
         
       case 'chapterContentPage':
-          return <ChapterContent 
-                   chapterId={chapterId} 
-                   chapterTitle={chapters[chapterId].title}
-                   bookmark={user.bookmarks[chapterId]} 
-                   content={chapters[chapterId].content}
-                 />
+        console.log(this.state.user.scores)
+        return <ChapterContent 
+                  chapterId={chapterId} 
+                  chapterTitle={chapters[chapterId].title}
+                  bookmark={user.bookmarks[chapterId]} 
+                  content={chapters[chapterId].content}
+                  onBack={this.onBack}
+                />
       
       case 'testPage':
         const questionSetIndex = user.scores[chapterId].findIndex((s,i,l) => !l[i]);
         const questionSet = chapters[chapterId].questionSets[questionSetIndex];
-        return <QuestionSet chapterId={chapterId} questions={questionSet} />
+        return <QuestionSet 
+                chapterId={chapterId}
+                questionSetIndex={questionSetIndex}
+                questions={questionSet} 
+                onScoreSubmit={this.onScoreSubmit} 
+                onQuit={this.onQuit}/>
       
 
       default:

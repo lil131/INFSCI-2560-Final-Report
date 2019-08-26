@@ -12,11 +12,11 @@ class ChapterList extends React.Component {
     })),
     userScores: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
     progresses: PropTypes.arrayOf(PropTypes.number),
-    onSelectPage: PropTypes.func
+    onSelectElement: PropTypes.func
   }
 
   render() {
-    const { chapters, userScores, progresses, onSelectPage} = this.props;
+    const { chapters, userScores, progresses, onSelectElement} = this.props;
     return (
             <Card title="Your Progress" bordered={false}>
               <List
@@ -26,18 +26,34 @@ class ChapterList extends React.Component {
                 renderItem={item => (
                   <List.Item
                     actions={[
-                      <Tooltip placement="top" title={Math.max(...userScores[item.id]) >= 70? `Passed!` : `Not Passed`}>
+                      <Tooltip 
+                        placement="top" 
+                        title={Math.max(...userScores[item.id]) >= 70? `Passed!` : `Not Passed`}
+                      >
                           Best Score: {Math.max(...userScores[item.id])}
                       </Tooltip>
                       ,
-                      <Tooltip placement="top" title='Read this chapter'>
-                        <Button type="primary" shape="circle" icon="read" size='small' onClick={onSelectPage}/>
+                      <Tooltip placement="top" title={`Read Chapter ${item.id + 1}`}>
+                        <Button 
+                          value='chapterContentPage'
+                          type="primary" 
+                          shape="circle" 
+                          icon="read" 
+                          size='small' 
+                          onClick={onSelectElement.bind(null, item.id)}/>
                       </Tooltip>
                       ,
                       <Tooltip placement="top" title='Take the test'>
                         {
                           progresses[item.id] === item.content.length ?
-                            <Button type="primary" shape="circle" icon="form" size='small' onClick={onSelectPage}/> :
+                            <Button 
+                              value='testPage'
+                              type="primary" 
+                              shape="circle" 
+                              icon="form" 
+                              size='small' 
+                              onClick={onSelectElement.bind(null, item.id)}
+                            /> :
                             <Button type="primary" shape="circle" icon="form" size='small' disabled/>
                         }
                       </Tooltip>

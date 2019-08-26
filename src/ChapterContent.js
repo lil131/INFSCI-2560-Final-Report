@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Pagination, Card } from 'antd';
+import { Pagination, Card, Icon, Button } from 'antd';
 
 
 class ChapterContent extends React.Component {
@@ -8,34 +8,49 @@ class ChapterContent extends React.Component {
     chapterId: PropTypes.number,
     chapterTitle: PropTypes.string,
     bookmark: PropTypes.number,
-    content: PropTypes.arrayOf(PropTypes.string)
+    content: PropTypes.arrayOf(PropTypes.string),
+    onBack: PropTypes.func
   }
   
   constructor(props) {
     super(props);
     this.state = {
-      bookmark: this.props.bookmark,
+      currentPage: this.props.bookmark === 0 ? 1 : this.props.bookmark
     }
   }
 
   onChangePage = (p, ps) => {
-    this.setState({bookmark: p - 1});
+    this.setState({currentPage: p});
   }
 
+  onBack = () => {
+    const bookmark = this.state.currentPage >= this.props.bookmark ? 
+      this.state.currentPage : this.props.bookmark;
+    this.props.onBack(this.props.chapterId, bookmark);
+  };
+
   render() {
-    const { chapterId, chapterTitle, content, bookmark} = this.props;
+    const { chapterId, chapterTitle, content, currentPage } = this.props;
     const totalPage = content.length * 10;
+    console.log(this.state.currentPage)
 
     return (
       <Card
-        title={`Chapter ${chapterId + 1}: ${chapterTitle}`}
+        title={
+          <>
+            <Button type="link" onClick={this.onBack} size='large'>
+              <Icon type="left" />
+            </Button>
+            {`Chapter ${chapterId + 1}: ${chapterTitle}`}
+          </>
+        }
         bordered={false}
       >
         <p>
-          {content[this.state.bookmark]}
+          {content[this.state.currentPage - 1]}
         </p>
         <div align="center">
-          <Pagination defaultCurrent={bookmark + 1} total={totalPage} onChange={this.onChangePage} />
+          <Pagination defaultCurrent={currentPage} total={totalPage} onChange={this.onChangePage} />
         </div>
       </Card>
     );

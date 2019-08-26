@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './App.css';
-import { Layout, Menu, Dropdown, Icon, Button } from 'antd';
+import { Layout, Menu, Dropdown, Icon } from 'antd';
 
 const { Header, Footer, Content } = Layout;
 
 class HomeLayout extends React.Component {
   static propTypes = {
-    children: PropTypes.element,
+    children: PropTypes.any,//children is a default property of all custom component.
     user: PropTypes.shape({
       admin: PropTypes.bool,
       username: PropTypes.string,
@@ -39,7 +39,7 @@ class HomeLayout extends React.Component {
           </Dropdown>
         </Header>
         <Content>
-          <div style={{ background: '#ECECEC', padding: '30px' }}>
+          <div style={{ background: '#ECECEC', padding: '30px', minHeight: '84vh'}}>
             {children}
           </div>
         </Content>
