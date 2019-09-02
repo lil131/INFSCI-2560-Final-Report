@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, List, Button, Tooltip, Skeleton, Progress } from "antd";
+import { Card, List, Button, Tooltip, Skeleton, Progress } from 'antd';
 
 class ChapterList extends React.Component {
   static propTypes = {
@@ -19,43 +19,43 @@ class ChapterList extends React.Component {
   render() {
     const { chapters, userScores, progresses, onSelectTest, onSelectChapter} = this.props;
     return (
-            <Card title="Your Progress" bordered={false}>
+            <Card title='Your Progress' bordered={false}>
               <List
-                className="demo-loadmore-list"
-                itemLayout="horizontal"
+                className='demo-loadmore-list'
+                itemLayout='horizontal'
                 dataSource={chapters}
                 renderItem={item => (
                   <List.Item
                     actions={[
                       <Tooltip 
-                        placement="top" 
+                        placement='top' 
                         title={Math.max(...userScores[item.id]) >= 70? `Passed!` : `Not Passed`}
                       >
                           Best Score: {Math.round(Math.max(...userScores[item.id]) * 10) / 10}
                       </Tooltip>
                       ,
-                      <Tooltip placement="top" title={`Read Chapter ${item.id + 1}`}>
+                      <Tooltip placement='top' title={`Read Chapter ${item.id + 1}`}>
                         <Button 
                           value='chapterContentPage'
-                          type="primary" 
-                          shape="circle" 
-                          icon="read" 
+                          type='primary' 
+                          shape='circle' 
+                          icon='read' 
                           size='small' 
                           onClick={onSelectChapter.bind(null, item.id)}/>
                       </Tooltip>
                       ,
-                      <Tooltip placement="top" title={`Take the test of Chapter ${item.id + 1}`}>
+                      <Tooltip placement='top' title={`Take the test of Chapter ${item.id + 1}`}>
                         {
                           progresses[item.id] === item.content.length ?
                             <Button 
                               value='testPage'
-                              type="primary" 
-                              shape="circle" 
-                              icon="form" 
+                              type='primary' 
+                              shape='circle' 
+                              icon='form' 
                               size='small' 
                               onClick={onSelectTest.bind(null, item.id)}
                             /> :
-                            <Button type="primary" shape="circle" icon="form" size='small' disabled/>
+                            <Button type='primary' shape='circle' icon='form' size='small' disabled/>
                         }
                       </Tooltip>
                     ]}

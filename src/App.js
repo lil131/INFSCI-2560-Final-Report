@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import HomeLayout from './HomeLayout'; //".js" can be omitted.
+import HomeLayout from './HomeLayout'; //'.js' can be omitted.
 import QuestionSet from './QuestionSet'; 
 import ChapterContent from './ChapterContent'; 
 import ChapterList from './ChapterList'; 
@@ -13,13 +13,14 @@ class App extends React.Component {
     super(props);
     this.state = {
       // chapterListPage, chapterContentPage, testPage, loginPage, managerPage
-      currentPage: 'managerPage', 
+      currentPage: 'chapterListPage', 
+      currentTest: null,
       showScore: false,
       chapterId: 0,
       user: {
         admin: true,
-        username: "abc",
-        password: "1234",
+        username: 'abc',
+        password: '1234',
         scores: [[null, null], [null, null]],
         bookmarks: [2, 0] // 1 means page #1
       },
@@ -93,6 +94,8 @@ class App extends React.Component {
 
   onClickOfMenu = (e) => this.setState({currentPage: e.key}); 
   // chapterListPage, chapterContentPage, testPage, loginPage, managerPage...
+
+  onClickOfHome = () => this.setState({currentPage: 'chapterListPage'})
   
   onSelectChapter = (i, e) => { // logic of using bind()!
     this.setState({currentPage: e.target.value, chapterId: i}); // just to demo the usage of e and bind().
@@ -114,7 +117,7 @@ class App extends React.Component {
   openNotification = (i) => {
     const key = `open${Date.now()}`;
     const btn = (
-      <Button type="primary" size="small" onClick={() => notification.close(key)}>
+      <Button type='primary' size='small' onClick={() => notification.close(key)}>
         Confirm
       </Button>
     );
@@ -210,7 +213,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <HomeLayout user={this.state.user} onClickOfMenu={this.onClickOfMenu}>
+      <HomeLayout user={this.state.user} onClickOfMenu={this.onClickOfMenu} onClickOfHome={this.onClickOfHome}>
         {this.renderChild()}
       </HomeLayout>
     );

@@ -37,7 +37,7 @@ class ChoiceQuestion extends React.Component {
         {id + 1}. {statement}: { 
           // show answer when answer is not null and userAns is not same as answer:
           answer && answer !== userAns ?
-            <Text type="danger">{"Ans: " + answer}</Text> :
+            <Text type='danger'>{'Ans: ' + answer}</Text> :
             null
         }
         <br />
@@ -108,21 +108,21 @@ class QuestionSet extends React.Component {
       <Card
         title={
           <>
-            <Button type="link" onClick={onQuit} size='large'>
-              <Icon type="left" />
+            <Button type='link' onClick={onQuit} size='large'>
+              <Icon type='left' />
             </Button>
             {`Test for Chapter ${chapterId + 1}`}
           </>
         }
         bordered={false}
         actions={[
-          <Button type="link" onClick={this.onSubmit} size='large'>
-            <Icon type="check-circle" key="submit" theme="twoTone" twoToneColor="#52c41a" />
+          <Button type='link' onClick={this.onSubmit} size='large'>
+            <Icon type='check-circle' key='submit' theme='twoTone' twoToneColor='#52c41a' />
             Submit
           </Button>
           ,
-          <Button type="link" onClick={onQuit} size='large'>
-            <Icon type="close-circle" key="quit" theme="twoTone" twoToneColor="#eb2f96" />
+          <Button type='link' onClick={onQuit} size='large'>
+            <Icon type='close-circle' key='quit' theme='twoTone' twoToneColor='#eb2f96' />
             Quit
           </Button>
         ]}
@@ -130,7 +130,7 @@ class QuestionSet extends React.Component {
         {
           userScore !== null ?
             <Statistic
-              title="Your Score:"
+              title='Your Score:'
               value={userScore}
               precision={1}
               valueStyle={{ color: userScore >= 70 ? '#3f8600' : '#cf1322'}}

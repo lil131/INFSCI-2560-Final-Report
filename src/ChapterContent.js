@@ -38,8 +38,8 @@ class ChapterContent extends React.Component {
       <Card
         title={
           <>
-            <Button type="link" onClick={this.onBack} size='large'>
-              <Icon type="left" />
+            <Button type='link' onClick={this.onBack} size='large'>
+              <Icon type='left' />
             </Button>
             {`Chapter ${chapterId + 1}: ${chapterTitle}`}
           </>
@@ -49,7 +49,7 @@ class ChapterContent extends React.Component {
         <p>
           {content[this.state.currentPage - 1]}
         </p>
-        <div align="center">
+        <div align='center'>
           <Pagination defaultCurrent={this.state.currentPage} total={totalPage} onChange={this.onChangePage} />
         </div>
       </Card>

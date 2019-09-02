@@ -1,1 +1,17 @@
 @import '~antd/dist/antd.css';
+
+Dropdown.user {
+  clear: right;
+}
+
+.left {
+  float: left;
+  width: 8%; /* three boxes (use 25% for four, and 50% for two, etc) */
+}
+
+.right {
+  float: right;
+  width: 5%;
+  position: absolute;
+  right: 0px;
+}
