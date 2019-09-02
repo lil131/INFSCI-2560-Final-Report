@@ -14,9 +14,9 @@ class App extends React.Component {
     this.state = {
       // chapterListPage, chapterContentPage, testPage, loginPage, managerPage
       currentPage: 'chapterListPage', 
-      currentTest: null,
       showScore: false,
       chapterId: 0,
+      currentTest: null,
       user: {
         admin: true,
         username: 'abc',
@@ -109,23 +109,26 @@ class App extends React.Component {
       this.openNotification(i);
     }
     else {
-      this.setState({currentPage: 'testPage', chapterId: i, showScore: false});
+      this.setState({currentPage: 'testPage', chapterId: i, currentTest: questionSetIndex});
     }
     console.log(this.state.currentPage, this.state.chapterId, questionSetIndex);
   }
 
   openNotification = (i) => {
+    const bestScore = Math.max(...this.state.user.scores[i]);
     const key = `open${Date.now()}`;
     const btn = (
       <Button type='primary' size='small' onClick={() => notification.close(key)}>
         Confirm
       </Button>
     );
-    const msg = 'Chapter ' + (i + 1).toString() + ' Failed!'
+    const msg = 'Chapter ' + (i + 1).toString() + bestScore >= 70 ? ' Passed!' : ' Failed!';
     notification.open({
       message: msg,
       description:
-        'You have failed all the tests of this chapter, please contact system manager for help.',
+        bestScore >= 70 ? 
+          'You conquered this chapter, keep going to the next one.' : 
+          'You have failed all the tests of this chapter, please contact system manager for help.',
       btn,
       key,
       duration: 0,
@@ -148,12 +151,12 @@ class App extends React.Component {
     const {user, showScore} = this.state;
     const newScores = user.scores.map(arr => arr.slice());
     newScores[c][t] = s;
-    this.setState({user: {...user, scores: newScores}, showScore: true});
+    this.setState({user: {...user, scores: newScores}});
     console.log(user.scores, c, t, s, showScore)
   }
 
   renderChild() {
-    const { user, currentPage, chapterId, chapters, showScore } = this.state;
+    const { user, currentPage, chapterId, chapters, currentTest } = this.state;
 
     switch (currentPage) {
       case 'loginPage':
@@ -188,19 +191,11 @@ class App extends React.Component {
         );
       
       case 'testPage':
-        const findIndex = user.scores[chapterId].findIndex((s,i,l) => l[i]===null);
-        let questionSetIndex;
-        if (showScore) {
-          questionSetIndex = findIndex === -1 ? user.scores[chapterId].length - 1 : findIndex - 1;
-        }
-        else {
-          questionSetIndex = findIndex;
-        }
-        const questionSet = chapters[chapterId].questionSets[questionSetIndex];
+        const questionSet = chapters[chapterId].questionSets[currentTest];
         return (
           <QuestionSet 
             chapterId={chapterId}
-            questionSetIndex={questionSetIndex}
+            questionSetIndex={currentTest}
             questions={questionSet} 
             onScoreSubmit={this.onScoreSubmit} 
             onQuit={this.onQuit}/>
