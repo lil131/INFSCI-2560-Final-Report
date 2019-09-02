@@ -30,7 +30,7 @@ class ChapterContent extends React.Component {
   };
 
   render() {
-    const { chapterId, chapterTitle, content, currentPage } = this.props;
+    const { chapterId, chapterTitle, content } = this.props;
     const totalPage = content.length * 10;
     console.log(this.state.currentPage)
 
@@ -50,7 +50,7 @@ class ChapterContent extends React.Component {
           {content[this.state.currentPage - 1]}
         </p>
         <div align="center">
-          <Pagination defaultCurrent={currentPage} total={totalPage} onChange={this.onChangePage} />
+          <Pagination defaultCurrent={this.state.currentPage} total={totalPage} onChange={this.onChangePage} />
         </div>
       </Card>
     );

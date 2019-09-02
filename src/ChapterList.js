@@ -12,11 +12,12 @@ class ChapterList extends React.Component {
     })),
     userScores: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
     progresses: PropTypes.arrayOf(PropTypes.number),
-    onSelectElement: PropTypes.func
+    onSelectTest: PropTypes.func,
+    onSelectChapter: PropTypes.func,
   }
 
   render() {
-    const { chapters, userScores, progresses, onSelectElement} = this.props;
+    const { chapters, userScores, progresses, onSelectTest, onSelectChapter} = this.props;
     return (
             <Card title="Your Progress" bordered={false}>
               <List
@@ -30,7 +31,7 @@ class ChapterList extends React.Component {
                         placement="top" 
                         title={Math.max(...userScores[item.id]) >= 70? `Passed!` : `Not Passed`}
                       >
-                          Best Score: {Math.max(...userScores[item.id])}
+                          Best Score: {Math.round(Math.max(...userScores[item.id]) * 10) / 10}
                       </Tooltip>
                       ,
                       <Tooltip placement="top" title={`Read Chapter ${item.id + 1}`}>
@@ -40,10 +41,10 @@ class ChapterList extends React.Component {
                           shape="circle" 
                           icon="read" 
                           size='small' 
-                          onClick={onSelectElement.bind(null, item.id)}/>
+                          onClick={onSelectChapter.bind(null, item.id)}/>
                       </Tooltip>
                       ,
-                      <Tooltip placement="top" title='Take the test'>
+                      <Tooltip placement="top" title={`Take the test of Chapter ${item.id + 1}`}>
                         {
                           progresses[item.id] === item.content.length ?
                             <Button 
@@ -52,7 +53,7 @@ class ChapterList extends React.Component {
                               shape="circle" 
                               icon="form" 
                               size='small' 
-                              onClick={onSelectElement.bind(null, item.id)}
+                              onClick={onSelectTest.bind(null, item.id)}
                             /> :
                             <Button type="primary" shape="circle" icon="form" size='small' disabled/>
                         }
@@ -72,7 +73,6 @@ class ChapterList extends React.Component {
                           />
                         }
                       />
-                      {/* <div>Best Score: {Math.max(...userScores[item.id])}</div> */}
                     </Skeleton>
                   </List.Item>
                 )}

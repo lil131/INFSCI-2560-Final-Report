@@ -2,16 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './App.css';
 import { Radio, Button, Card, Icon } from 'antd';
-import { Statistic, Typography, Popconfirm, message } from 'antd';
+import { Statistic, Typography } from 'antd';
 
 const { Text } = Typography;
 
 const OPT_MAP = ['A', 'B', 'C', 'D'];
-
-
-function cancel(e) {
-  console.log(e);
-}
 
 class ChoiceQuestion extends React.Component {
   static propTypes = {
@@ -79,12 +74,10 @@ class QuestionSet extends React.Component {
     this.state = {
       userAnswers: Array(3).fill(null),
       userScore: null,
-      pass: false,
     };
   }
 
-  onClick = (i,ans) => this.handleClick(i,ans);
-  handleClick(i, ans){
+  onClick = (i,ans) => {
     if (!this.state.userScore) {
       // update userAnswer
       const userAnswers = this.state.userAnswers.slice();
@@ -95,7 +88,7 @@ class QuestionSet extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    const { chapterId, questionSetIndex } = this.props;
+    const { chapterId, questionSetIndex, onScoreSubmit } = this.props;
     // calculate score
     if (!this.state.userScore) {
       const score = this.state.userAnswers.filter(
@@ -103,7 +96,7 @@ class QuestionSet extends React.Component {
       ).length / this.props.questions.length * 100;
       
       this.setState({userScore: score});
-      this.props.onScoreSubmit(chapterId, questionSetIndex, score);
+      onScoreSubmit(chapterId, questionSetIndex, score);
     }
   };
 
@@ -139,7 +132,7 @@ class QuestionSet extends React.Component {
             <Statistic
               title="Your Score:"
               value={userScore}
-              precision={2}
+              precision={1}
               valueStyle={{ color: userScore >= 70 ? '#3f8600' : '#cf1322'}}
             /> :
             null
