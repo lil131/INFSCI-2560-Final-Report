@@ -25,6 +25,10 @@ const branches = [
         value: 'department-2',
         label: 'department-2',
       },
+      {
+        value: 'department-3', 
+        label: 'department-3'
+      }
     ],
   },
   {
@@ -39,6 +43,10 @@ const branches = [
         value: 'department-2',
         label: 'department-2',
       },
+      {
+        value: 'department-3', 
+        label: 'department-3'
+      }
     ],
   },
 ];
@@ -46,7 +54,6 @@ const branches = [
 class CreatAccount extends React.Component {
   state = {
     confirmDirty: false,
-    autoCompleteResult: [],
   };
 
   handleSubmit = e => {
@@ -78,16 +85,6 @@ class CreatAccount extends React.Component {
       form.validateFields(['confirm'], { force: true });
     }
     callback();
-  };
-
-  handleWebsiteChange = value => {
-    let autoCompleteResult;
-    if (!value) {
-      autoCompleteResult = [];
-    } else {
-      autoCompleteResult = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
-    }
-    this.setState({ autoCompleteResult });
   };
 
   render() {
