@@ -66,7 +66,8 @@ class QuestionSet extends React.Component {
     })),
     questionSetIndex: PropTypes.number,
     onQuit: PropTypes.func,
-    onScoreSubmit: PropTypes.func
+    onScoreSubmit: PropTypes.func,
+    showScore: PropTypes.bool,
   };
   
   constructor(props) {

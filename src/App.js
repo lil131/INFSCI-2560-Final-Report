@@ -136,16 +136,16 @@ class App extends React.Component {
   };
 
   onQuit = () => {
-    console.log(this.state.user.scores);
+    console.log(this.state.user.scores, this.state.showScore);
     this.setState({currentPage: 'chapterListPage'});
   }
 
   onScoreSubmit = (c, t, s) => {
-    const {user} = this.state;
+    const {user, showScore} = this.state;
     const newScores = user.scores.map(arr => arr.slice());
     newScores[c][t] = s;
     this.setState({user: {...user, scores: newScores}, showScore: true});
-    console.log(user.scores, c, t, s)
+    console.log(user.scores, c, t, s, showScore)
   }
 
   renderChild() {
@@ -182,7 +182,7 @@ class App extends React.Component {
         const findIndex = user.scores[chapterId].findIndex((s,i,l) => l[i]===null);
         let questionSetIndex;
         if (showScore) {
-          questionSetIndex = findIndex === -1 ? user.scores[chapterId].length : findIndex - 1;
+          questionSetIndex = findIndex === -1 ? user.scores[chapterId].length - 1 : findIndex - 1;
         }
         else {
           questionSetIndex = findIndex;
@@ -194,7 +194,6 @@ class App extends React.Component {
                 questions={questionSet} 
                 onScoreSubmit={this.onScoreSubmit} 
                 onQuit={this.onQuit}/>
-      
 
       default:
         return null;
