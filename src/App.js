@@ -4,15 +4,16 @@ import HomeLayout from './HomeLayout'; //".js" can be omitted.
 import QuestionSet from './QuestionSet'; 
 import ChapterContent from './ChapterContent'; 
 import ChapterList from './ChapterList'; 
-import CreatAccount from './CreatAccount'; 
+import ManagerPage from './ManagerPage'; 
 import { Button, notification } from 'antd';
+import Login from './Login';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       // chapterListPage, chapterContentPage, testPage, loginPage, managerPage
-      currentPage: 'chapterListPage', 
+      currentPage: 'managerPage', 
       showScore: false,
       chapterId: 0,
       user: {
@@ -150,33 +151,38 @@ class App extends React.Component {
 
   renderChild() {
     const { user, currentPage, chapterId, chapters, showScore } = this.state;
-    
 
     switch (currentPage) {
       case 'loginPage':
         return null; 
       
       case 'managerPage':
-        return <CreatAccount />
+        return (
+          <ManagerPage />
+        );
 
       case 'chapterListPage':
-        return <ChapterList 
-                 chapters={chapters} 
-                 userScores={user.scores}
-                 progresses={user.bookmarks}
-                 onSelectTest={this.onSelectTest}
-                 onSelectChapter={this.onSelectChapter}
-               />
-        
+        return (
+          <ChapterList 
+            chapters={chapters} 
+            userScores={user.scores}
+            progresses={user.bookmarks}
+            onSelectTest={this.onSelectTest}
+            onSelectChapter={this.onSelectChapter}
+          />
+        );
+
       case 'chapterContentPage':
         console.log(this.state.user.scores)
-        return <ChapterContent 
-                  chapterId={chapterId} 
-                  chapterTitle={chapters[chapterId].title}
-                  bookmark={user.bookmarks[chapterId]} 
-                  content={chapters[chapterId].content}
-                  onBack={this.onBack}
-                />
+        return (
+          <ChapterContent 
+            chapterId={chapterId} 
+            chapterTitle={chapters[chapterId].title}
+            bookmark={user.bookmarks[chapterId]} 
+            content={chapters[chapterId].content}
+            onBack={this.onBack}
+          />
+        );
       
       case 'testPage':
         const findIndex = user.scores[chapterId].findIndex((s,i,l) => l[i]===null);
@@ -188,12 +194,14 @@ class App extends React.Component {
           questionSetIndex = findIndex;
         }
         const questionSet = chapters[chapterId].questionSets[questionSetIndex];
-        return <QuestionSet 
-                chapterId={chapterId}
-                questionSetIndex={questionSetIndex}
-                questions={questionSet} 
-                onScoreSubmit={this.onScoreSubmit} 
-                onQuit={this.onQuit}/>
+        return (
+          <QuestionSet 
+            chapterId={chapterId}
+            questionSetIndex={questionSetIndex}
+            questions={questionSet} 
+            onScoreSubmit={this.onScoreSubmit} 
+            onQuit={this.onQuit}/>
+        );
 
       default:
         return null;

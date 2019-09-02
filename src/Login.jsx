@@ -1,19 +1,24 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import HomeLayout from './HomeLayout';
 
+export default class Login extends Component {
+  static propTypes = {
 
-function Login(props) {
-    const func = () => console.log(props.id)
+  }
 
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+
+  //   }
+  // }
+
+  render() {
     return (
-        <div onClick={func}>
-        </div>
+      <HomeLayout>
+        
+      </HomeLayout>
     )
+  }
 }
-
-Login.propTypes = {
-
-}
-
-export default Login
-

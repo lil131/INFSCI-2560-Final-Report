@@ -49,3 +49,4 @@ class HomeLayout extends React.Component {
   }
 }
 export default HomeLayout;
+// grey: #ECECEC
