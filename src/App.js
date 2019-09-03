@@ -5,15 +5,18 @@ import QuestionSet from './QuestionSet';
 import ChapterContent from './ChapterContent'; 
 import ChapterList from './ChapterList'; 
 import ManagerPage from './ManagerPage'; 
-import { Button, notification } from 'antd';
+import { Button, notification, Form } from 'antd';
 import Login from './Login';
+
+const WrappedLogin = Form.create({ name: 'normal_login' })(Login);
+
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       // chapterListPage, chapterContentPage, testPage, loginPage, managerPage
-      currentPage: 'chapterListPage', 
+      currentPage: 'loginPage', 
       showScore: false,
       chapterId: 0,
       currentTest: null,
@@ -160,7 +163,9 @@ class App extends React.Component {
 
     switch (currentPage) {
       case 'loginPage':
-        return null; 
+        return (
+          <WrappedLogin />
+        ); 
       
       case 'managerPage':
         return (
