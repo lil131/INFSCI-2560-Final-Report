@@ -1,0 +1,18 @@
+{
+    "plugins": [
+        "react"
+    ],
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended"
+    ],
+    "rules": {
+       "no-set-state": "off",
+       "strict": 0
+    },
+    "parser": "babel-eslint",
+    "env": {
+        "browser": true,
+        "node": true
+    },
+  }

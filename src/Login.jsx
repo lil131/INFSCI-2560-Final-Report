@@ -1,10 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import 'antd/dist/antd.css';
 import './Login.css';
 import { Form, Icon, Input, Button, Checkbox, Card } from "antd";
 
 class Login extends React.Component {
+  static propTypes = {
+    form: PropTypes.any,
+  };
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {

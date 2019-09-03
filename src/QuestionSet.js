@@ -116,12 +116,12 @@ class QuestionSet extends React.Component {
         }
         bordered={false}
         actions={[
-          <Button type='link' onClick={this.onSubmit} size='large'>
+          <Button key='submit' type='link' onClick={this.onSubmit} size='large'>
             <Icon type='check-circle' key='submit' theme='twoTone' twoToneColor='#52c41a' />
             Submit
           </Button>
           ,
-          <Button type='link' onClick={onQuit} size='large'>
+          <Button key='quit' type='link' onClick={onQuit} size='large'>
             <Icon type='close-circle' key='quit' theme='twoTone' twoToneColor='#eb2f96' />
             Quit
           </Button>

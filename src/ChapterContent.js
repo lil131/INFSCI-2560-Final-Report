@@ -19,7 +19,8 @@ class ChapterContent extends React.Component {
     }
   }
 
-  onChangePage = (p, ps) => {
+  // api: (p,ps)=>{}, if ps is no used, it can be omitted.
+  onChangePage = (p) => {
     this.setState({currentPage: p});
   }
 

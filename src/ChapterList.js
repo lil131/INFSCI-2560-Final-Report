@@ -27,14 +27,15 @@ class ChapterList extends React.Component {
                 renderItem={item => (
                   <List.Item
                     actions={[
-                      <Tooltip 
+                      <Tooltip
+                        key='score'
                         placement='top' 
                         title={Math.max(...userScores[item.id]) >= 70? `Passed!` : `Not Passed`}
                       >
                           Best Score: {Math.round(Math.max(...userScores[item.id]) * 10) / 10}
                       </Tooltip>
                       ,
-                      <Tooltip placement='top' title={`Read Chapter ${item.id + 1}`}>
+                      <Tooltip key='chapter' placement='top' title={`Read Chapter ${item.id + 1}`}>
                         <Button 
                           value='chapterContentPage'
                           type='primary' 
@@ -44,7 +45,7 @@ class ChapterList extends React.Component {
                           onClick={onSelectChapter.bind(null, item.id)}/>
                       </Tooltip>
                       ,
-                      <Tooltip placement='top' title={`Take the test of Chapter ${item.id + 1}`}>
+                      <Tooltip key='test' placement='top' title={`Take the test of Chapter ${item.id + 1}`}>
                         {
                           progresses[item.id] === item.content.length ?
                             <Button 

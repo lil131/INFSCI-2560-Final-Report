@@ -32,11 +32,10 @@ class HomeLayout extends React.Component {
     return(
       <Layout>
         <Header>
-          <div class='left'>
+          <div className='left'>
             <Button type='primary' icon='home' shape='circle' onClick={onClickOfHome}/>
           </div>
-          <div class='right'>
-            
+          <div className='right'>
             <Dropdown class='user' overlay={menu}>
               <a className='ant-dropdown-link' href='#'> 
                 <Icon class='user' type='user' size='large' />

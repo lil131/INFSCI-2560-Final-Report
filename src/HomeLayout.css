@@ -4,12 +4,12 @@ Dropdown.user {
   clear: right;
 }
 
-.left {
+div.left {
   float: left;
   width: 8%; /* three boxes (use 25% for four, and 50% for two, etc) */
 }
 
-.right {
+div.right {
   float: right;
   width: 5%;
   position: absolute;

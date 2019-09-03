@@ -92,7 +92,7 @@ class App extends React.Component {
             }]]}
       ],
     }
-  };
+  }
 
 
   onClickOfMenu = (e) => this.setState({currentPage: e.key}); 
@@ -162,17 +162,19 @@ class App extends React.Component {
     const { user, currentPage, chapterId, chapters, currentTest } = this.state;
 
     switch (currentPage) {
-      case 'loginPage':
+      case 'loginPage': {
         return (
           <WrappedLogin />
-        ); 
+        );
+      }
       
-      case 'managerPage':
+      case 'managerPage': {
         return (
           <ManagerPage />
         );
+      }
 
-      case 'chapterListPage':
+      case 'chapterListPage': {
         return (
           <ChapterList 
             chapters={chapters} 
@@ -182,8 +184,9 @@ class App extends React.Component {
             onSelectChapter={this.onSelectChapter}
           />
         );
+      }
 
-      case 'chapterContentPage':
+      case 'chapterContentPage': {
         console.log(this.state.user.scores)
         return (
           <ChapterContent 
@@ -194,8 +197,9 @@ class App extends React.Component {
             onBack={this.onBack}
           />
         );
+      }
       
-      case 'testPage':
+      case 'testPage': {
         const questionSet = chapters[chapterId].questionSets[currentTest];
         return (
           <QuestionSet 
@@ -205,9 +209,11 @@ class App extends React.Component {
             onScoreSubmit={this.onScoreSubmit} 
             onQuit={this.onQuit}/>
         );
+      }
 
-      default:
+      default: {
         return null;
+      }
     }
   }
 

@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import 'antd/dist/antd.css';
 import './UserDataManagement.css';
-import { Form, Row, Col, Input, Button, Icon, Cascader, Select } from 'antd';
+import { Form, Row, Col, Input, Button, Cascader, Select } from 'antd';
 
 const { Option } = Select;
 
@@ -42,13 +43,16 @@ const grades = [
 ];
 
 class UserDataManagement extends React.Component {
+  static propTypes = {
+    form: PropTypes.any,
+  };
+
   state = {
     expand: false,
   };
 
   // To generate mock Form.Item
   getFields() {
-    const count = this.state.expand ? 6 : 3;
     const { getFieldDecorator } = this.props.form;
     const searchFields = ['Name', 'Staff ID', 'Email'];
     const selectFields = ['Branch', 'Department', 'Grade'];
