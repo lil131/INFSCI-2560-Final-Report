@@ -8,6 +8,7 @@
     ],
     "rules": {
        "no-set-state": "off",
+       "no-console": "off",
        "strict": 0
     },
     "parser": "babel-eslint",
