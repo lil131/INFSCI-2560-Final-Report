@@ -19,7 +19,7 @@ class ChapterContent extends React.Component {
     }
   }
 
-  // api: (p,ps)=>{}, if ps is no used, it can be omitted.
+  // api: (p,ps)=>{}, if ps is not used, it can be omitted.
   onChangePage = (p) => {
     this.setState({currentPage: p});
   }
