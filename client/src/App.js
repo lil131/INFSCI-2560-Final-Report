@@ -7,6 +7,7 @@ import ChapterList from './ChapterList';
 import ManagerPage from './ManagerPage';
 import { Button, notification, Form } from 'antd';
 import Login from './Login';
+import { BrowserRouter  as Router, Switch, Route, Link } from "react-router-dom";
 
 const WrappedLogin = Form.create({ name: 'normal_login' })(Login);
 
@@ -20,8 +21,7 @@ class App extends React.Component {
       showScore: false,
       chapterId: 0,
       currentTest: null,
-      user: {
-        admin: true,
+      user: {admin: true,
         username: 'abc',
         password: '1234',
         scores: [[null, null], [null, null]],
@@ -94,7 +94,6 @@ class App extends React.Component {
     }
   }
 
-
   onClickOfMenu = (e) => this.setState({currentPage: e.key});
   // chapterListPage, chapterContentPage, testPage, loginPage, managerPage...
 
@@ -158,70 +157,52 @@ class App extends React.Component {
     console.log(user.scores, c, t, s, showScore)
   }
 
-  renderChild() {
-    const { user, currentPage, chapterId, chapters, currentTest } = this.state;
-
-    switch (currentPage) {
-      case 'loginPage': {
-        return (
-          <WrappedLogin />
-        );
-      }
-
-      case 'managerPage': {
-        return (
-          <ManagerPage />
-        );
-      }
-
-      case 'chapterListPage': {
-        return (
-          <ChapterList
-            chapters={chapters}
-            userScores={user.scores}
-            progresses={user.bookmarks}
-            onSelectTest={this.onSelectTest}
-            onSelectChapter={this.onSelectChapter}
-          />
-        );
-      }
-
-      case 'chapterContentPage': {
-        console.log(this.state.user.scores)
-        return (
-          <ChapterContent
-            chapterId={chapterId}
-            chapterTitle={chapters[chapterId].title}
-            bookmark={user.bookmarks[chapterId]}
-            content={chapters[chapterId].content}
-            onBack={this.onBack}
-          />
-        );
-      }
-
-      case 'testPage': {
-        const questionSet = chapters[chapterId].questionSets[currentTest];
-        return (
-          <QuestionSet
-            chapterId={chapterId}
-            questionSetIndex={currentTest}
-            questions={questionSet}
-            onScoreSubmit={this.onScoreSubmit}
-            onQuit={this.onQuit}/>
-        );
-      }
-
-      default: {
-        return null;
-      }
-    }
-  }
-
   render() {
+    const { user, currentPage, chapterId, chapters, currentTest } = this.state;
+    const questionSet = chapters[0].questionSets[0];
     return (
-      <HomeLayout user={this.state.user} onClickOfMenu={this.onClickOfMenu} onClickOfHome={this.onClickOfHome}>
-        {this.renderChild()}
-      </HomeLayout>
+      <Router>
+        <HomeLayout user={this.state.user} onClickOfMenu={this.onClickOfMenu} onClickOfHome={this.onClickOfHome}>
+          <div>
+            {/* A <Switch> looks through its children <Route>s and
+                renders the first one that matches the current URL. */}
+            <Switch>
+              <Route path="/manager">
+                <ManagerPage />
+              </Route>
+              <Route path="/">
+                <ChapterList
+                  chapters={chapters}
+                  userScores={user.scores}
+                  progresses={user.bookmarks}
+                  onSelectTest={this.onSelectTest}
+                  onSelectChapter={this.onSelectChapter}
+                />
+              </Route>
+              <Route path="/chapter">
+                <ChapterContent
+                  chapterId={chapterId}
+                  chapterTitle={chapters[chapterId].title}
+                  bookmark={user.bookmarks[chapterId]}
+                  content={chapters[chapterId].content}
+                  onBack={this.onBack}
+                />
+              </Route>
+              <Route path="/questions">
+                <QuestionSet
+                  chapterId={chapterId}
+                  questionSetIndex={currentTest}
+                  questions={questionSet}
+                  onScoreSubmit={this.onScoreSubmit}
+                  onQuit={this.onQuit}/>
+              </Route>
+              <Route path="/login">
+                <WrappedLogin />
+              </Route>
+            </Switch>
+          </div>
+        </HomeLayout>
+      </Router>
     );
   }
 }

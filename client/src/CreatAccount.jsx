@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import 'antd/dist/antd.css';
 import './index.css';
+import axios from 'axios';
 import {
   Form,
   Input,
@@ -27,7 +28,7 @@ const branches = [
         label: 'department-2',
       },
       {
-        value: 'department-3', 
+        value: 'department-3',
         label: 'department-3'
       }
     ],
@@ -45,7 +46,7 @@ const branches = [
         label: 'department-2',
       },
       {
-        value: 'department-3', 
+        value: 'department-3',
         label: 'department-3'
       }
     ],
@@ -66,6 +67,14 @@ class CreatAccount extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        delete values.confirm;
+        axios.post('/users', values)
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
       }
     });
   };
@@ -142,7 +151,7 @@ class CreatAccount extends React.Component {
             ],
           })(<Input />)}
         </Form.Item>
-        <Form.Item 
+        <Form.Item
           label={
             <span>
               Password&nbsp;
@@ -150,8 +159,8 @@ class CreatAccount extends React.Component {
               <Icon type="question-circle-o" />
               </Tooltip>
             </span>
-          } 
-          hasFeedback 
+          }
+          hasFeedback
         >
           {getFieldDecorator('password', {
             rules: [
@@ -219,7 +228,7 @@ class CreatAccount extends React.Component {
             rules: [{ required: true, message: 'Please input your phone number!' }],
           })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
         </Form.Item>
-        
+
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">
             Register

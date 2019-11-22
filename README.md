@@ -1,3 +1,17 @@
+# Note
+- Nov.22
+  - changed page routes, created user model and api
+
+| Route | Note |
+| -------- | -------- |
+| /     | |
+| /login | |
+| /chapters| |
+| /chapter | |
+| /questions | |
+| /manager#create| Connected to DB |
+| /manager#search|  |
+
 ## Development setup
 ```
 npm run install-dev
@@ -16,3 +30,8 @@ MONGODB_URI=***
 NODE_ENV=***
 PORT=***
 ```
+
+## References
+- An Easy Way to Get Started with the MERN Stack: https://alligator.io/react/mern-stack-intro/
+- React-route-dom: https://reacttraining.com/react-router/web/guides/quick-start
+- Axios: https://github.com/axios/axios

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Tabs, Form } from 'antd';
 import './ManagerPage.css';
-import CreatAccount from './CreatAccount'; 
-import UserDataManagement from './UserDataManagement'; 
+import CreatAccount from './CreatAccount.jsx';
+import UserDataManagement from './UserDataManagement';
 
 const { TabPane } = Tabs;
-const WrappedCreatAccount = Form.create({ name: 'register' })(CreatAccount); 
+const WrappedCreatAccount = Form.create({ name: 'register' })(CreatAccount);
 const WrappedUserDataManagement = Form.create({ name: 'advanced_search' })(UserDataManagement);
 
 
