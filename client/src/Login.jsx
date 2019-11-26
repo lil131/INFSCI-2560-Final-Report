@@ -37,7 +37,7 @@ class Login extends Component {
     const { getFieldDecorator } = this.props.form;
     return (
          <Card
-          class='login-card'
+          className='login-card'
           cover={<img alt="example"
           src="https://99designs-start-attachments.imgix.net/alchemy-pictures/2019%2F01%2F31%2F23%2F02%2F16%2Fb5ebee9e-e517-44b4-8857-53e530a00b53%2FKitasavi.png?auto=format&ch=Width%2CDPR&w=250&h=250" />}
           bordered={false}

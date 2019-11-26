@@ -230,6 +230,21 @@ class CreatAccount extends React.Component {
             ],
           })(<Cascader options={branches} />)}
         </Form.Item>
+
+        <Form.Item label="Permission">
+          {getFieldDecorator('permission', {
+            rules: [{ required: true, message: 'Please assign the user permission' }],
+          })(
+            <Select
+              placeholder="Select permission"
+            >
+              <Option value="0">Admin</Option>
+              <Option value="1">Employee</Option>
+            </Select>,
+          )}
+        </Form.Item>
+
+
         <Form.Item label="Phone Number">
           {getFieldDecorator('phone', {
             rules: [{ required: true, message: 'Please input your phone number!' }],

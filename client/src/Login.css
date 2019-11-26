@@ -10,9 +10,9 @@
     width: 100%;
   }
   .login-card {
-    display: block;
+    /* display: inline-block;
     margin-left: auto;
     margin-right: auto;
-    float: right;
+    float: right; */
+    margin: auto
   }
-

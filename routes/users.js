@@ -42,6 +42,7 @@ router.post('/', async (req, res) => {
     nickname,
     staffID,
     branches,
+    permission,
     phone
   } = req.body;
   const newUser = new User({
@@ -51,6 +52,7 @@ router.post('/', async (req, res) => {
     nickname,
     staffID,
     branches,
+    permission,
     phone,
     grade: 0,
     date: Date.now()

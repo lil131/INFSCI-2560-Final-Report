@@ -107,7 +107,6 @@ class App extends React.Component {
       console.log("Void");
       break;
       case 'logout':
-      console.log("Time to sign out");
       store.dispatch(logoutUser());
       // Redirect to login
       window.location.href = "/login";
