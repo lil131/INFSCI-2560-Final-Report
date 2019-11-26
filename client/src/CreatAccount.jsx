@@ -1,8 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { registerUser } from "./actions/authActions";
 import 'antd/dist/antd.css';
 import './index.css';
 import axios from 'axios';
+import md5 from 'md5';
 import {
   Form,
   Input,
@@ -68,13 +72,16 @@ class CreatAccount extends React.Component {
       if (!err) {
         console.log('Received values of form: ', values);
         delete values.confirm;
-        axios.post('/users', values)
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+        this.props.registerUser(values);
+        // values.password = md5(values.password)
+        // axios.post('/users', values)
+        // .then(function (response) {
+        //   console.log(response);
+        //   // TODO: Clear form data here
+        // })
+        // .catch(function (error) {
+        //   console.log(error);
+        // });
       }
     });
   };
@@ -239,4 +246,19 @@ class CreatAccount extends React.Component {
   }
 }
 
-export default CreatAccount;
+CreatAccount.propTypes = {
+  registerUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+// export default CreatAccount;
+export default connect(
+  mapStateToProps,
+  { registerUser }
+)(CreatAccount);

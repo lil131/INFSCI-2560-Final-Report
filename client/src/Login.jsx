@@ -1,19 +1,34 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import 'antd/dist/antd.css';
 import './Login.css';
 import { Form, Icon, Input, Button, Checkbox, Card } from "antd";
+import { connect } from "react-redux";
+import { loginUser } from "./actions/authActions";
 
-class Login extends React.Component {
+class Login extends Component {
   static propTypes = {
     form: PropTypes.any,
   };
 
+  componentWillReceiveProps(nextProps) {
+    console.log("componentWillReceiveProps!!");
+    if (nextProps.auth.isAuthenticated) {
+      this.props.history.push("/chapters");
+    }
+
+    if (nextProps.errors) {
+      this.setState({
+        errors: nextProps.errors
+      });
+    }
+  }
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        this.props.loginUser(values);
       }
     });
   };
@@ -80,5 +95,20 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+Login.propTypes = {
+  loginUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+export default connect(
+  mapStateToProps,
+  { loginUser }
+)(Login);
+// export default Login;
 // logo: https://i.ibb.co/D83B97y/edin-logo.jpg

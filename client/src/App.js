@@ -1,23 +1,30 @@
 import React from 'react';
+import PropTypes from "prop-types";
+import jwt_decode from "jwt-decode";
+import setAuthToken from "./utils/setAuthToken";
+import { Provider } from "react-redux";
+import { setCurrentUser, logoutUser } from "./actions/authActions";
+import store from "./store";
+import { Button, notification, Form } from 'antd';
+import { BrowserRouter  as Router, Switch, Route } from "react-router-dom";
+
 import './App.css';
+import Landing from "./layout/Landing";
 import HomeLayout from './HomeLayout'; //'.js' can be omitted.
 import QuestionSet from './QuestionSet';
 import ChapterContent from './ChapterContent';
 import ChapterList from './ChapterList';
 import ManagerPage from './ManagerPage';
-import { Button, notification, Form } from 'antd';
 import Login from './Login';
-import { BrowserRouter  as Router, Switch, Route, Link } from "react-router-dom";
-
+import PrivateRoute from './components/PrivateRoute';
 const WrappedLogin = Form.create({ name: 'normal_login' })(Login);
-
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       // chapterListPage, chapterContentPage, testPage, loginPage, managerPage
-      currentPage: 'loginPage',
+      currentPage: '/chapters',
       showScore: false,
       chapterId: 0,
       currentTest: null,
@@ -94,8 +101,22 @@ class App extends React.Component {
     }
   }
 
-  onClickOfMenu = (e) => this.setState({currentPage: e.key});
-  // chapterListPage, chapterContentPage, testPage, loginPage, managerPage...
+  onClickOfMenu = (e) => {
+    switch (e.key) {
+      case 'managerPage':
+      console.log("Void");
+      break;
+      case 'logout':
+      console.log("Time to sign out");
+      store.dispatch(logoutUser());
+      // Redirect to login
+      window.location.href = "/login";
+      break;
+      default:
+      break;
+    }
+    // this.setState({currentPage: e.key})
+  };
 
   onClickOfHome = () => this.setState({currentPage: 'chapterListPage'})
 
@@ -160,49 +181,61 @@ class App extends React.Component {
   render() {
     const { user, currentPage, chapterId, chapters, currentTest } = this.state;
     const questionSet = chapters[0].questionSets[0];
+
+    const MyChapterList = (props) => {
+      return (
+        <ChapterList
+          chapters={chapters}
+          userScores={user.scores}
+          progresses={user.bookmarks}
+          onSelectTest={this.onSelectTest}
+          onSelectChapter={this.onSelectChapter}
+        />
+      );
+    }
+
+    const MyChapterContent = (props) => {
+      return (
+        <ChapterContent
+          chapterId={chapterId}
+          chapterTitle={chapters[chapterId].title}
+          bookmark={user.bookmarks[chapterId]}
+          content={chapters[chapterId].content}
+          onBack={this.onBack}
+        />
+      );
+    }
+
+    const MyQuestionSet = (props) => {
+      return (
+        <QuestionSet
+          chapterId={chapterId}
+          questionSetIndex={currentTest}
+          questions={questionSet}
+          onScoreSubmit={this.onScoreSubmit}
+          onQuit={this.onQuit}/>
+      );
+    }
+
     return (
-      <Router>
-        <HomeLayout user={this.state.user} onClickOfMenu={this.onClickOfMenu} onClickOfHome={this.onClickOfHome}>
-          <div>
-            {/* A <Switch> looks through its children <Route>s and
-                renders the first one that matches the current URL. */}
-            <Switch>
-              <Route path="/manager">
-                <ManagerPage />
-              </Route>
-              <Route path="/">
-                <ChapterList
-                  chapters={chapters}
-                  userScores={user.scores}
-                  progresses={user.bookmarks}
-                  onSelectTest={this.onSelectTest}
-                  onSelectChapter={this.onSelectChapter}
-                />
-              </Route>
-              <Route path="/chapter">
-                <ChapterContent
-                  chapterId={chapterId}
-                  chapterTitle={chapters[chapterId].title}
-                  bookmark={user.bookmarks[chapterId]}
-                  content={chapters[chapterId].content}
-                  onBack={this.onBack}
-                />
-              </Route>
-              <Route path="/questions">
-                <QuestionSet
-                  chapterId={chapterId}
-                  questionSetIndex={currentTest}
-                  questions={questionSet}
-                  onScoreSubmit={this.onScoreSubmit}
-                  onQuit={this.onQuit}/>
-              </Route>
-              <Route path="/login">
-                <WrappedLogin />
-              </Route>
-            </Switch>
-          </div>
-        </HomeLayout>
-      </Router>
+      <Provider store={store}>
+        <Router>
+          <HomeLayout user={this.state.user} onClickOfMenu={this.onClickOfMenu} onClickOfHome={this.onClickOfHome}>
+            <div>
+              {/* A <Switch> looks through its children <Route>s and
+                  renders the first one that matches the current URL. */}
+                <Switch>
+                  <Route exact path="/login" component={WrappedLogin} />
+                  <PrivateRoute exact path="/" component={Landing} />
+                  <PrivateRoute exact path="/manager" component={ManagerPage} />
+                  <PrivateRoute exact path="/chapters" component={MyChapterList} />
+                  <PrivateRoute exact path="/chapter" component={MyChapterContent} />
+                  <PrivateRoute exact path="/questions" component={MyQuestionSet} />
+                </Switch>
+            </div>
+          </HomeLayout>
+        </Router>
+      </Provider>
     );
   }
 }

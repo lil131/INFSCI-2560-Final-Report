@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from "react-redux";
+import { logoutUser } from "./actions/authActions";
 import './HomeLayout.css';
 import { Layout, Menu, Dropdown, Icon, Button } from 'antd';
 
@@ -21,7 +23,7 @@ class HomeLayout extends React.Component {
 
   render(){
     const { children, user, onClickOfMenu, onClickOfHome } = this.props;
-    const menu =  
+    const menu =
       <Menu onClick={onClickOfMenu}>
         {user.admin? <Menu.Item key='managerPage'>Create account</Menu.Item> :
           null
@@ -36,10 +38,10 @@ class HomeLayout extends React.Component {
             <Button type='primary' icon='home' shape='circle' onClick={onClickOfHome}/>
           </div>
           <div className='right'>
-            <Dropdown class='user' overlay={menu}>
-              <a className='ant-dropdown-link' href='#'> 
-                <Icon class='user' type='user' size='large' />
-                {user.username} 
+            <Dropdown className='user' overlay={menu}>
+              <a className='ant-dropdown-link' href='#'>
+                <Icon className='user' type='user' size='large' />
+                {user.username}
                 <Icon type='down' />
               </a>
             </Dropdown>
@@ -55,5 +57,20 @@ class HomeLayout extends React.Component {
     );
   }
 }
-export default HomeLayout;
+
+HomeLayout.propTypes = {
+  logoutUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps,
+  { logoutUser }
+)(HomeLayout);
+
+// export default HomeLayout;
 // grey: #ECECEC
