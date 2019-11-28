@@ -105,6 +105,7 @@ class App extends React.Component {
     switch (e.key) {
       case 'managerPage':
       console.log("Void");
+      console.log(store.getState());
       break;
       case 'logout':
       store.dispatch(logoutUser());
@@ -117,7 +118,7 @@ class App extends React.Component {
     // this.setState({currentPage: e.key})
   };
 
-  onClickOfHome = () => this.setState({currentPage: 'chapterListPage'})
+  onClickOfHome = () => {window.location.href = "/chapters";}//this.setState({currentPage: 'chapterListPage'})
 
   onSelectChapter = (i, e) => { // logic of using bind()!
     this.setState({currentPage: e.target.value, chapterId: i}); // just to demo the usage of e and bind().
@@ -184,7 +185,6 @@ class App extends React.Component {
     const MyChapterList = (props) => {
       return (
         <ChapterList
-          chapters={chapters}
           userScores={user.scores}
           progresses={user.bookmarks}
           onSelectTest={this.onSelectTest}

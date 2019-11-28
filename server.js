@@ -8,6 +8,7 @@ const path = require('path');
 // importing files
 const routes = require('./routes');
 const users =require('./routes/users');
+const chapters =require('./routes/chapters');
 
 // Define Global Variables
 const app = express();
@@ -23,6 +24,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/', routes);
 app.use('/api/users', users);
+app.use('/api/chapters', chapters);
+
 // Step 3
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static( 'client/build' ));
