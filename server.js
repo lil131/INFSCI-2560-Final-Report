@@ -9,7 +9,7 @@ const path = require('path');
 const routes = require('./routes');
 const users =require('./routes/users');
 const chapters =require('./routes/chapters');
-
+const comments =require('./routes/comments');
 // Define Global Variables
 const app = express();
 const log = console.log;
@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/', routes);
 app.use('/api/users', users);
 app.use('/api/chapters', chapters);
-
+app.use('/api/comments', comments);
 // Step 3
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static( 'client/build' ));

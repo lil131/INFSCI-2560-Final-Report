@@ -16,69 +16,169 @@ export default function fetch(state = initialState, action) {
     case GET_API_SUCCESS:
       return {
         chapters: [
-          {
-            id: 0,
-            title: 'c1',
-            content: ['1111-1','1111-2'],
-            questionSets:[
-              [{ // [ [{},{},{}] , [{},{},{}]] ,
-                statement: 'ch1-qs1-1',
-                options: ['aa', 'bb', 'cc', 'dd'],
-                correctAnswer: 'C',
-              }, {
-                statement: 'ch1-qs1-2',
-                options: ['aa', 'bb', 'cc', 'dd'],
-                correctAnswer: 'D',
-              }, {
-                statement: 'ch1-qs1-3',
-                options: ['aa', 'bb', 'cc', 'dd'],
-                correctAnswer: 'D',
-              }],
-              [{
-                statement: 'ch1-qs2-1',
-                options: ['aa', 'bb', 'cc', 'dd'],
-                correctAnswer: 'A',
-              }, {
-                statement: 'ch1-qs2-2',
-                options: ['aa', 'bb', 'cc', 'dd'],
-                correctAnswer: 'B',
-              }, {
-                statement: 'ch1-qs2-3',
-                options: ['aa', 'bb', 'cc', 'dd'],
-                correctAnswer: 'C',
-              }]]},
-          {
-            id: 1,
-            title: 'c2',
-            content: ['2222-1','2222-2'],
-            questionSets:[
-              [{ // [ [{},{},{}] , [{},{},{}]] ,
-                statement: 'ch1-qs1-1',
-                options: ['aa', 'bb', 'cc', 'dd'],
-                correctAnswer: 'C',
-              }, {
-                statement: 'ch1-qs1-2',
-                options: ['aa', 'bb', 'cc', 'dd'],
-                correctAnswer: 'A',
-              }, {
-                statement: 'ch1-qs1-3',
-                options: ['aa', 'bb', 'cc', 'dd'],
-                correctAnswer: 'B',
-              }],
-              [{
-                statement: 'ch1-qs2-1',
-                options: ['aa', 'bb', 'cc', 'dd'],
-                correctAnswer: 'A',
-              }, {
-                statement: 'ch1-qs2-2',
-                options: ['aa', 'bb', 'cc', 'dd'],
-                correctAnswer: 'D',
-              }, {
-                statement: 'ch1-qs2-3',
-                options: ['aa', 'bb', 'cc', 'dd'],
-                correctAnswer: 'C',
-              }]]}
-        ]
+        {
+            "content": [
+                "1111-1",
+                "1111-2"
+            ],
+            "questionSets": [
+                [
+                    {
+                        "options": [
+                            "aa",
+                            "bb",
+                            "cc",
+                            "dd"
+                        ],
+                        "_id": "5ddf44df3b481159f4c0757b",
+                        "statement": "ch1-qs1-1",
+                        "correctAnswer": 2
+                    },
+                    {
+                        "options": [
+                            "aa",
+                            "bb",
+                            "cc",
+                            "dd"
+                        ],
+                        "_id": "5ddf44df3b481159f4c0757a",
+                        "statement": "ch1-qs1-2",
+                        "correctAnswer": 0
+                    },
+                    {
+                        "options": [
+                            "aa",
+                            "bb",
+                            "cc",
+                            "dd"
+                        ],
+                        "_id": "5ddf44df3b481159f4c07579",
+                        "statement": "ch1-qs1-3",
+                        "correctAnswer": 1
+                    }
+                ],
+                [
+                    {
+                        "options": [
+                            "aa",
+                            "bb",
+                            "cc",
+                            "dd"
+                        ],
+                        "_id": "5ddf44df3b481159f4c0757e",
+                        "statement": "ch1-qs2-1",
+                        "correctAnswer": 0
+                    },
+                    {
+                        "options": [
+                            "aa",
+                            "bb",
+                            "cc",
+                            "dd"
+                        ],
+                        "_id": "5ddf44df3b481159f4c0757d",
+                        "statement": "ch1-qs2-2",
+                        "correctAnswer": 3
+                    },
+                    {
+                        "options": [
+                            "aa",
+                            "bb",
+                            "cc",
+                            "dd"
+                        ],
+                        "_id": "5ddf44df3b481159f4c0757c",
+                        "statement": "ch1-qs2-3",
+                        "correctAnswer": 2
+                    }
+                ]
+            ],
+            "id": 0,
+            "title": "c1",
+            "__v": 0
+        },
+        {
+            "content": [
+                "2222-1",
+                "2222-2"
+            ],
+            "questionSets": [
+                [
+                    {
+                        "options": [
+                            "aa",
+                            "bb",
+                            "cc",
+                            "dd"
+                        ],
+                        "_id": "5ddf44ef3b481159f4c07581",
+                        "statement": "ch1-qs1-1",
+                        "correctAnswer": 2
+                    },
+                    {
+                        "options": [
+                            "aa",
+                            "bb",
+                            "cc",
+                            "dd"
+                        ],
+                        "_id": "5ddf44ef3b481159f4c07580",
+                        "statement": "ch1-qs1-2",
+                        "correctAnswer": 0
+                    },
+                    {
+                        "options": [
+                            "aa",
+                            "bb",
+                            "cc",
+                            "dd"
+                        ],
+                        "_id": "5ddf44ef3b481159f4c0757f",
+                        "statement": "ch1-qs1-3",
+                        "correctAnswer": 1
+                    }
+                ],
+                [
+                    {
+                        "options": [
+                            "aa",
+                            "bb",
+                            "cc",
+                            "dd"
+                        ],
+                        "_id": "5ddf44ef3b481159f4c07584",
+                        "statement": "ch1-qs2-1",
+                        "correctAnswer": 0
+                    },
+                    {
+                        "options": [
+                            "aa",
+                            "bb",
+                            "cc",
+                            "dd"
+                        ],
+                        "_id": "5ddf44ef3b481159f4c07583",
+                        "statement": "ch1-qs2-2",
+                        "correctAnswer": 3
+                    },
+                    {
+                        "options": [
+                            "aa",
+                            "bb",
+                            "cc",
+                            "dd"
+                        ],
+                        "_id": "5ddf44ef3b481159f4c07582",
+                        "statement": "ch1-qs2-3",
+                        "correctAnswer": 2
+                    }
+                ]
+            ],
+            "id": 1,
+            "title": "c2",
+            "__v": 0
+        }
+    ]
       };
     case CREATE_API_SUCCESS:
       return {
