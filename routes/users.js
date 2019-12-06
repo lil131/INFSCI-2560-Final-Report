@@ -11,32 +11,20 @@ const passport = require("passport");
 const router = express.Router();
 require('dotenv').config();
 
-const nodemailer = require('nodemailer');
-const transporter = nodemailer.createTransport({
- service: 'gmail',
- auth: {
-        user: 'sung273@gmail.com',
-        pass: 'dqwdqw'
-    }
+const crypto = require("crypto");
+const async = require('async');
+// Configure nodemailer to send email 
+const nodemailer = require("nodemailer");
+var email = process.env.MAILER_EMAIL_ID || 'tina1995hsieh@gmail.com';
+var pass = process.env.MAILER_PASSWORD || 'vu,4ru8 vm0 '; //laqnknqmigabuaoa
+
+var smtpTrans = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: email,
+    pass: pass
+  }
 });
-
-const mailOptions = {
-  from: 'sender@email.com', // sender address
-  to: 'cas386@pitt.edu', // list of receivers
-  subject: 'Subject of your email', // Subject line
-  html: '<p>Your html here</p>'// plain text body
-};
-
-router.get('/email', function(req, res) {
-  transporter.sendMail(mailOptions, function (err, info) {
-   if(err)
-     console.log(err)
-   else
-     console.log(info);
-     res.json(info)
-   });
-
-})
 
 router.get('/', async (req, res) => {
   try {
@@ -207,4 +195,102 @@ router.post('/login', async (req, res) => {
   });
 });
 
+router.get('/forgot', function(req, res) {
+  res.status(200).json({
+     message: 'Forgot password',
+     statusCode: 200,
+     user: req.query.user
+   })
+});
+
+router.post('/forgot', function(req, res, next) {
+  // Async waterfall helps to make sure that 
+  // each of the functions are performed one after the other
+  async.waterfall([
+    function(done) {
+      // Asynchronous
+      // create the random token
+      crypto.randomBytes(20, function(err, buf) {
+        var token = buf.toString('hex');
+        done(err, token);
+      });
+    },
+    // search the database for the user existence
+    // if it exist, a token is generated and updates the user object in the database
+    function(token, done) {
+      User.findOne({ email: req.body.email }, function(err, user) {
+        if (!user) {
+        req.flash('error', 'User not found. No account with that email address exists.');
+          return res.redirect('/forgot');
+        }
+        console.log('Completed step 1: confirmed the user email');
+        
+        // User.findByIdAndUpdate({ _id: user._id }, 
+        //   { reset_password_token: token, reset_password_expires: Date.now() + 3600000 }, 
+        //   { upsert: true, new: true }).exec(function(err, new_user) {
+        //     done(err, token, new_user);
+        //   });
+        user.reset_password_token = token;
+        user.reset_password_expires = Date.now() + 3600000; // 1 hour
+
+        user.save(function(err) {
+          done(err, token, user);
+        });
+      });
+    },
+    function(token, user, done) {
+      console.log('completed step 2: reset password token');
+
+      // email template
+      var data = {
+        from: 'sender@email.com', //email,
+        to: 'chh171@pitt.edu', //user.email,
+        subject: 'Password Reset',
+        text: 'You are receiving this because you have requested the reset of the password for your account.\n\n' +
+          'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+          //'http://' + req.headers.host + '/reset/' + token + '\n\n' +
+          'http://localhost:3000/api/users/reset/' + token + '\n\n' +
+          'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+      };
+
+      smtpTrans.sendMail(data, function(err, info) {
+        if(!err){
+          console.log('Completed step 3: send the password reset email');
+          res.json(info);
+          //return res.redirect('/forgot');
+        } else {
+          console.log(err);
+          return done(err);
+        }
+      });
+    }
+  ], function(err) {
+    console.log('this err' + ' ' + err)
+    res.status(422).json({ 
+      message: err 
+    });
+  });
+});
+
+/*router.get('/reset/:token', function(req, res) {
+  // Check if the token exists in the database and has not expired.
+  User.findOne({
+    reset_password_token: req.params.token,
+    reset_password_expires: {
+      $gt: Date.now()
+    }
+  }, function(err, user) {
+    console.log(user);
+    if (!user) {
+      req.flash('error', 'Password reset token is invalid or has expired.');
+      return res.redirect('/forgot');
+    }
+    res.status(200).json({
+    message: 'Reset password',
+    statusCode: 200,
+    token: req.params.token
+  })
+  });
+});
+*/
 module.exports = router;
