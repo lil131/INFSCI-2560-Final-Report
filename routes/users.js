@@ -124,7 +124,8 @@ router.post('/login', async (req, res) => {
               success: true,
               token: "Bearer " + token,
               nickname: user.nickname,
-              permission: user.permission
+              permission: user.permission,
+              user_id: user.id
             });
           }
         );

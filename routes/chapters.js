@@ -4,19 +4,47 @@ const {
 } = require('lodash');
 const jwt = require("jsonwebtoken");
 const Chapter = require('../models/chapter');
+const Progress = require('../models/progress');
 const router = express.Router();
 require('dotenv').config();
 
 /**
- * @route GET api/chapter
+ * @route GET api/chapters
  * @desc query all chapters
  */
-router.get('/', async (req, res) => {
+router.get('/users/:user_id', async (req, res) => {
   try {
     const chapters = await Chapter.find({});
+    const progresses = await Progress.findOne({user_id: req.params.user_id});
     return res.json({
-      chapters
+      chapters, progresses,"user_id": req.params.user_id
     });
+  } catch (error) {
+    return res.status(500).json({
+      message: 'Internal Server error'
+    });
+  }
+});
+
+/**
+ * @route GET api/chapters
+ * @desc query one chapter content and user progress
+ */
+router.get('/:chapter_id/users/:user_id', async (req, res) => {
+  try {
+    Chapter.findById(req.params.chapter_id, function(err, chapter_content) {
+      Progress.findOne({user_id: req.params.user_id}, function(err, user_progress) {
+        // TOOD error handle
+        let p = user_progress.progresses
+        return res.json({
+          chapter_content, progress: user_progress.progresses
+        });
+      });
+    });
+
+    // return res.json({
+    //   chapter, progress
+    // });
   } catch (error) {
     return res.status(500).json({
       message: 'Internal Server error'

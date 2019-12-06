@@ -10,6 +10,8 @@ const routes = require('./routes');
 const users =require('./routes/users');
 const chapters =require('./routes/chapters');
 const comments =require('./routes/comments');
+const progresses = require('./routes/progresses');
+
 // Define Global Variables
 const app = express();
 const log = console.log;
@@ -26,6 +28,7 @@ app.use('/', routes);
 app.use('/api/users', users);
 app.use('/api/chapters', chapters);
 app.use('/api/comments', comments);
+app.use('/api/progresses', progresses);
 // Step 3
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static( 'client/build' ));

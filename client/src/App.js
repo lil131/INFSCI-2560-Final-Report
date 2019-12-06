@@ -101,11 +101,18 @@ class App extends React.Component {
     }
   }
 
+  componentDidMount() {
+    console.log("@App componentDidMount!!");
+    // console.log("Make sure: "+ JSON.stringify(state));
+    // this.props.user();
+  }
+
   onClickOfMenu = (e) => {
     switch (e.key) {
       case 'managerPage':
       console.log("Void");
       console.log(store.getState());
+      window.location.href = "/manager";
       break;
       case 'logout':
       store.dispatch(logoutUser());
@@ -222,14 +229,14 @@ class App extends React.Component {
           <HomeLayout user={this.state.user} onClickOfMenu={this.onClickOfMenu} onClickOfHome={this.onClickOfHome}>
             <div>
               {/* A <Switch> looks through its children <Route>s and
-                  renders the first one that matches the current URL. */}
+                  renders the first one that matches the current URL.
+                  <PrivateRoute exact path="/" component={Landing} />*/}
                 <Switch>
                   <Route exact path="/login" component={WrappedLogin} />
-                  <PrivateRoute exact path="/" component={Landing} />
                   <PrivateRoute exact path="/manager" component={ManagerPage} />
-                  <PrivateRoute exact path="/chapters" component={MyChapterList} />
-                  <PrivateRoute exact path="/chapter" component={MyChapterContent} />
-                  <PrivateRoute exact path="/questions" component={MyQuestionSet} />
+                  <PrivateRoute exact path="/chapters" component={ChapterList} />
+                  <PrivateRoute exact path="/chapter/:chapter_id" component={ChapterContent} />
+                  <PrivateRoute exact path="/questions/:chapter_id" component={QuestionSet} />
                 </Switch>
             </div>
           </HomeLayout>
