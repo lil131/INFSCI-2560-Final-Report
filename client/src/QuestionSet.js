@@ -14,16 +14,16 @@ class ChoiceQuestion extends React.Component {
     statement: PropTypes.string.isRequired,
     options: PropTypes.arrayOf(PropTypes.string).isRequired,
     answer: PropTypes.string,
-    userAns: PropTypes.string, 
+    userAns: PropTypes.string,
     onClick: PropTypes.func.isRequired
   }
 
-  static defaultProps = { 
+  static defaultProps = {
     userAns: null
   }
-  
+
   onChange = e => this.props.onClick(this.props.id, e.target.value);
-  
+
   render() {
     const radioStyle = {
       display: 'block',
@@ -34,14 +34,14 @@ class ChoiceQuestion extends React.Component {
     const { answer, userAns, id, statement, options } = this.props;
     return(
       <>
-        {id + 1}. {statement}: { 
+        {id + 1}. {statement}: {
           // show answer when answer is not null and userAns is not same as answer:
           answer && answer !== userAns ?
             <Text type='danger'>{'Ans: ' + answer}</Text> :
             null
         }
         <br />
-        <Radio.Group onChange={this.onChange}> 
+        <Radio.Group onChange={this.onChange}>
           {
             options.map((o,i) => (
               <Radio key={i} style={radioStyle} value={OPT_MAP[i]}>
@@ -57,18 +57,27 @@ class ChoiceQuestion extends React.Component {
 }
 
 class QuestionSet extends React.Component {
+
+  componentDidMount () {
+    const { chapterId } = this.props.location.state
+    console.log("chapterId: "+chapterId);
+  }
+
+  // render() {
+  //   return(<h3>eeqweqww</h3>)
+  // }
   static propTypes = {
     chapterId: PropTypes.number,
     questions: PropTypes.arrayOf(PropTypes.shape({
       statement: PropTypes.string,
       options: PropTypes.arrayOf(PropTypes.string),
-      correctAnswer: PropTypes.string 
+      correctAnswer: PropTypes.string
     })),
     questionSetIndex: PropTypes.number,
     onQuit: PropTypes.func,
     onScoreSubmit: PropTypes.func,
   };
-  
+
   constructor(props) {
     super(props);
     this.state = {
@@ -81,37 +90,52 @@ class QuestionSet extends React.Component {
     if (!this.state.userScore) {
       // update userAnswer
       const userAnswers = this.state.userAnswers.slice();
-      userAnswers[i] = ans;    
+      userAnswers[i] = ans;
       this.setState({userAnswers: userAnswers});
     }
   }
 
   onSubmit = (e) => {
     e.preventDefault();
-    const { chapterId, questionSetIndex, onScoreSubmit } = this.props;
+    const { chapterId, questionSetIndex } = this.props;
     // calculate score
     if (!this.state.userScore) {
       const score = this.state.userAnswers.filter(
         (a, i) => a === this.props.questions[i].correctAnswer
       ).length / this.props.questions.length * 100;
-      
+
       this.setState({userScore: score});
-      onScoreSubmit(chapterId, questionSetIndex, score);
+      // onScoreSubmit(chapterId, questionSetIndex, score);
     }
   };
 
+  onQuit = () => {
+    this.props.history.goBack()
+  };
+  
+  test = () => {
+    console.log("Quit");
+    const { questions, chapterId } = this.props.location.state;
+    console.log("questions: " + JSON.stringify(questions));
+  };
+
+  // render() {
+  //   return (<button onClick={this.test}>check</button>)
+  // }
   render(){
     const { userAnswers, userScore } = this.state;
-    const { questions, chapterId, onQuit } = this.props;
+    const { questions, chapterId } = this.props.location.state;
 
     return (
+      <div>
+      <button onClick={this.test}>check</button>
       <Card
         title={
           <>
-            <Button type='link' onClick={onQuit} size='large'>
+            <Button type='link' onClick={this.onQuit} size='large'>
               <Icon type='left' />
             </Button>
-            {`Test for Chapter ${chapterId + 1}`}
+            {`Test for Chapter ${chapterId}`}
           </>
         }
         bordered={false}
@@ -121,7 +145,7 @@ class QuestionSet extends React.Component {
             Submit
           </Button>
           ,
-          <Button key='quit' type='link' onClick={onQuit} size='large'>
+          <Button key='quit' type='link' onClick={this.onQuit} size='large'>
             <Icon type='close-circle' key='quit' theme='twoTone' twoToneColor='#eb2f96' />
             Quit
           </Button>
@@ -141,16 +165,17 @@ class QuestionSet extends React.Component {
           questions.map((q,i) =>
             <ChoiceQuestion
               key={i}
-              id={i} 
+              id={i}
               statement={q.statement}
               options={q.options}
-              answer={userScore !== null? q.correctAnswer: null} 
-              userAns={userAnswers[i]} 
-              onClick={this.onClick} 
+              answer={userScore !== null? q.correctAnswer: null}
+              userAns={userAnswers[i]}
+              onClick={this.onClick}
             />
           )
-        }    
+        }
       </Card>
+      </div>
     );
   }
 }

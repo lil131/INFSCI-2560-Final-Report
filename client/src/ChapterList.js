@@ -30,30 +30,21 @@ class ChapterList extends React.Component {
         alert(err)
       );
   }
-  //
-  // componentDidUpdate(nextProps) {
-  //   console.log("@chapterlist componentWillReceiveProps!!");
-  //   console.log("chapters: " + this.props.chapters);
-  //   if (nextProps.errors) {
-  //     this.setState({
-  //       errors: nextProps.errors
-  //     });
-  //   }
-  // }
 
   test = () => {
     console.log("test btn");
     let item = this.state.chapters[0];
     console.log("item title: "+ item);
-    console.log(this.state.progresses.progresses);
+    console.log(this.state.chapters[0].content.length);
     console.log(this.state.progresses.progresses[item.title].viewed);
+    console.log("question: "+ JSON.stringify(this.state.chapters[0].questionSets[0]));
   }
 
   onSelectChapter = (item, e) => { // logic of using bind()!
     // this.setState({currentPage: e.target.value, chapterId: i}); // just to demo the usage of e and bind().
     // console.log(this.state.currentPage, this.state.chapterId);
-    console.log("onSelectChapter: "+JSON.stringify(item));
-    // this.props.history.push("/chapter/"+id);
+    // console.log("onSelectChapter: "+JSON.stringify(item));
+    // // this.props.history.push("/chapter/"+id);
     this.props.history.push({
       pathname: "/chapter/"+item._id
       // ,
@@ -61,16 +52,9 @@ class ChapterList extends React.Component {
       //          progresses: this.state.progresses.progresses[item.title]
       //          }
     })
-
-    // <ChapterList
-    //   userScores={user.scores}
-    //   progresses={user.bookmarks}
-    //   onSelectTest={this.onSelectTest}
-    //   onSelectChapter={this.onSelectChapter}
-    // />
   }
 
-  onSelectTest = (i) => { // logic of using bind()!
+  onSelectTest = (i, e) => { // logic of using bind()!
     // const questionSetIndex = this.state.user.scores[i].findIndex((s,i,l) => l[i]===null);
     // // if tried all the tests, reset the scores:
     // if (questionSetIndex === -1) {
@@ -80,84 +64,9 @@ class ChapterList extends React.Component {
     //   this.setState({currentPage: 'testPage', chapterId: i, currentTest: questionSetIndex});
     // }
     // console.log(this.state.currentPage, this.state.chapterId, questionSetIndex);
-    console.log("onSelectTest: " + i);
+    console.log("onSelectTest: " + JSON.stringify(i));
+    //onClick={this.onSelectTest.bind(null, item)}
   }
-
-  renderChapterCell = () => {
-    return (
-        <List
-          className='demo-loadmore-list'
-          itemLayout='horizontal'
-          dataSource={this.state.chapters}
-          renderItem = { item => (
-            <List.Item actions={[
-                      <Tooltip
-                        key='score'
-                        placement='top'
-                        title={Math.max(...this.state.progresses.progresses[item.title].scores) >= 70? `Passed!` : `Not Passed`}
-                      >
-                          Best Score: {Math.round(Math.max(...this.state.progresses.progresses[item.title].scores) * 10) / 10}
-                      </Tooltip>
-                      ,
-                      <Tooltip key='chapter' placement='top' title={`Read Chapter ${item.title}`}>
-                        <Button
-                          value='chapterContentPage'
-                          type='primary'
-                          shape='circle'
-                          icon='read'
-                          size='small'>
-                          <Link to="/chapter/1"></Link>
-                        </Button>
-                      </Tooltip>
-                      ,
-                      <Tooltip key='test' placement='top' title={`Take the test of Chapter ${item.title}`}>
-                        {
-                          this.state.progresses.progresses[item.title].viewed === item.content.length ?
-                            <Button
-                              value='testPage'
-                              type='primary'
-                              shape='circle'
-                              icon='form'
-                              size='small'
-                              onClick={this.onSelectTest.bind(null, item._id)}
-                            /> :
-                            <Button type='primary' shape='circle' icon='form' size='small' disabled/>
-                        }
-                      </Tooltip>
-                    ]}
-            >
-            <Skeleton avatar title={false} loading={false} >
-                    <List.Item.Meta
-                      title={`${item._id}. ${item.title}`}
-                      description={
-                        <Progress
-                          strokeColor={{
-                            '0%': '#108ee9',
-                            '100%': '#87d068',
-                          }}
-                          percent={this.state.progresses.progresses[item._id] / item.content.length * 100}
-                        />
-                      }
-                    />
-                  </Skeleton>
-            </List.Item>
-          )}
-        />
-    )
-  }
-
-  // render() {
-  //   return (
-  //     <div>
-  //       <h3>32132131232</h3>
-  //       <button onClick={this.test}>432423</button>
-  //       <Card title='Your Progress' bordered={false}>
-  //       </Card>
-  //     </div>
-  //   )
-  // }
-
-
 
   render() {
     const { chapters, userScores, progresses, onSelectTest, onSelectChapter} = this.props;
@@ -191,18 +100,26 @@ class ChapterList extends React.Component {
                       </Tooltip>
                       ,
                       <Tooltip key='test' placement='top' title={`Take the test of Chapter ${item.title}`}>
+
                         {
-                          this.state.progresses.progresses[item.title] === item.content.length ?
+                          this.state.progresses.progresses[item.title].viewed === item.content.length ?
+                          <Link to={{pathname: '/questions/'+item._id,
+                                     state: {
+                                        chapterId: item._id,
+                                        questionSetIndex: 0,
+                                        questions: item.questionSets[0]
+                                      }
+                                    }}>
                             <Button
                               value='testPage'
                               type='primary'
                               shape='circle'
                               icon='form'
                               size='small'
-                              onClick={onSelectTest.bind(null, item.id)}
-                            /> :
+                              ></Button></Link> :
                             <Button type='primary' shape='circle' icon='form' size='small' disabled/>
                         }
+
                       </Tooltip>
                     ]}
                   >
@@ -215,7 +132,7 @@ class ChapterList extends React.Component {
                               '0%': '#108ee9',
                               '100%': '#87d068',
                             }}
-                            percent={50}
+                            percent={100}
                           />
                         }
                       />

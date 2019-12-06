@@ -23,11 +23,13 @@ class HomeLayout extends React.Component {
 
   render(){
     const { children, user, onClickOfMenu, onClickOfHome } = this.props;
+    const userData = JSON.parse(localStorage.getItem("currentUser"))
     const menu =
       <Menu onClick={onClickOfMenu}>
-        {user.admin? <Menu.Item key='managerPage'>Create account</Menu.Item> :
+        {userData.permission === 0 ? <Menu.Item key='managerPage'>Create account</Menu.Item> :
           null
         }
+        <Menu.Item key='profile'>Edit Profile</Menu.Item>
         <Menu.Item key='logout'>Log out</Menu.Item>
       </Menu>
 

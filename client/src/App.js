@@ -109,9 +109,12 @@ class App extends React.Component {
 
   onClickOfMenu = (e) => {
     switch (e.key) {
+      case 'profile':
+      console.log("profile");
+      
+      break;
       case 'managerPage':
-      console.log("Void");
-      console.log(store.getState());
+      console.log("managerPage");
       window.location.href = "/manager";
       break;
       case 'logout':
