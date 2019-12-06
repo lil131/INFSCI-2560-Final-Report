@@ -15,6 +15,7 @@ import QuestionSet from './QuestionSet';
 import ChapterContent from './ChapterContent';
 import ChapterList from './ChapterList';
 import ManagerPage from './ManagerPage';
+import EditAccountWrapper from './EditAccountWrapper';
 import Login from './Login';
 import PrivateRoute from './components/PrivateRoute';
 const WrappedLogin = Form.create({ name: 'normal_login' })(Login);
@@ -234,6 +235,7 @@ class App extends React.Component {
                   <PrivateRoute exact path="/chapters" component={ChapterList} />
                   <PrivateRoute exact path="/chapter/:chapter_id" component={ChapterContent} />
                   <PrivateRoute exact path="/questions/:chapter_id" component={QuestionSet} />
+                  <PrivateRoute exact path="/profile" component={EditAccountWrapper} />
                 </Switch>
             </div>
           </HomeLayout>

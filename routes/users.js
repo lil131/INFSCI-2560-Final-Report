@@ -25,6 +25,18 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/:user_id', async (req, res) => {
+  try {
+    User.findById(req.params.user_id, function(err, userData) {
+      res.json({userData})
+    })
+  } catch(error) {
+    return res.status(500).json({
+      message: 'Internal Server error'
+    });
+  }
+})
+
 router.get('/test', async (req, res) => {
   try {
     Chapter.find({}, function(err, chapters) {
