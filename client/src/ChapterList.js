@@ -18,7 +18,7 @@ class ChapterList extends React.Component {
   componentWillMount() {
     console.log("@chapterlist componentDidMount!!");
     let userData = JSON.parse(localStorage.getItem("currentUser"))
-    console.log("Current user: " + userData.user_id);
+    console.log("Current user: " + JSON.stringify(userData));
 
     axios
       .get("/chapters/users/"+userData.user_id)
