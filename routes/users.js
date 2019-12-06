@@ -11,6 +11,33 @@ const passport = require("passport");
 const router = express.Router();
 require('dotenv').config();
 
+const nodemailer = require('nodemailer');
+const transporter = nodemailer.createTransport({
+ service: 'gmail',
+ auth: {
+        user: 'sung273@gmail.com',
+        pass: 'dqwdqw'
+    }
+});
+
+const mailOptions = {
+  from: 'sender@email.com', // sender address
+  to: 'cas386@pitt.edu', // list of receivers
+  subject: 'Subject of your email', // Subject line
+  html: '<p>Your html here</p>'// plain text body
+};
+
+router.get('/email', function(req, res) {
+  transporter.sendMail(mailOptions, function (err, info) {
+   if(err)
+     console.log(err)
+   else
+     console.log(info);
+     res.json(info)
+   });
+
+})
+
 router.get('/', async (req, res) => {
   try {
     const users = await User.find({});
