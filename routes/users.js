@@ -5,6 +5,8 @@ const {
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require('../models/user');
+const Progress = require('../models/progress');
+const Chapter = require('../models/chapter');
 const passport = require("passport");
 const router = express.Router();
 require('dotenv').config();
@@ -16,6 +18,22 @@ router.get('/', async (req, res) => {
     return res.json({
       users
     });
+  } catch (error) {
+    return res.status(500).json({
+      message: 'Internal Server error'
+    });
+  }
+});
+
+router.get('/test', async (req, res) => {
+  try {
+    Chapter.find({}, function(err, chapters) {
+      let init = {}
+      chapters.forEach(chapter => {
+        init[chapter.title] = {viewed: 0, scores: []}
+      })
+      return res.json(init)
+    })
   } catch (error) {
     return res.status(500).json({
       message: 'Internal Server error'
@@ -72,11 +90,21 @@ router.post('/', async (req, res) => {
           newUser.password = hash;
           newUser
             .save()
-            .then(user => res.json({
-              message: 'Data successfully saved',
-              statusCode: 200,
-              user: users
-            }))
+            .then(user => {
+              Chapter.find({}, function(err, chapters) {
+                let init = {}
+                chapters.forEach(chapter => {
+                  init[chapter.title] = {viewed: 0, scores: []}
+                })
+                let new_progress = new Progress({user_id: user._id, progresses: init})
+                new_progress.save().then(() => {
+                  return res.json({
+                     message: 'Data successfully saved',
+                     statusCode: 200
+                   })
+                })
+              })
+              })
             .catch(err => console.log(err));
         });
     }
@@ -124,8 +152,7 @@ router.post('/login', async (req, res) => {
               success: true,
               token: "Bearer " + token,
               nickname: user.nickname,
-              permission: user.permission,
-              user_id: user.id
+              permission: user.permission
             });
           }
         );
