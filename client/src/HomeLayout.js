@@ -24,9 +24,11 @@ class HomeLayout extends React.Component {
   render(){
     const { children, user, onClickOfMenu, onClickOfHome } = this.props;
     const userData = JSON.parse(localStorage.getItem("currentUser"))
+    const perm = userData ? userData.permission : -1
+    const username = userData ? userData.nickname : "Guest"
     const menu =
       <Menu onClick={onClickOfMenu}>
-        {userData.permission === 0 ? <Menu.Item key='managerPage'>Create account</Menu.Item> :
+        {perm === 0 ? <Menu.Item key='managerPage'>Create account</Menu.Item> :
           null
         }
         <Menu.Item key='profile'>Edit Profile</Menu.Item>
@@ -43,7 +45,7 @@ class HomeLayout extends React.Component {
             <Dropdown className='user' overlay={menu}>
               <a className='ant-dropdown-link' href='#'>
                 <Icon className='user' type='user' size='large' />
-                {user.username}
+                {username}
                 <Icon type='down' />
               </a>
             </Dropdown>

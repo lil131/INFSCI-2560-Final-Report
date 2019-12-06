@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 const PrivateRoute = ({ component: Component, auth, ...rest }: RouteProps) => (
   <Route {...rest} render={props =>
-      localStorage.getItem('jwtToken') ? (
+      localStorage.getItem('currentUser') ? (
         <Component {...props} />
       ) : (
         <Redirect to={{ pathname: '/login'/*, state: { from: props.location } */}} />

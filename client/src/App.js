@@ -101,17 +101,11 @@ class App extends React.Component {
     }
   }
 
-  componentDidMount() {
-    console.log("@App componentDidMount!!");
-    // console.log("Make sure: "+ JSON.stringify(state));
-    // this.props.user();
-  }
-
   onClickOfMenu = (e) => {
     switch (e.key) {
       case 'profile':
       console.log("profile");
-      
+
       break;
       case 'managerPage':
       console.log("managerPage");

@@ -32,12 +32,12 @@ class ChapterList extends React.Component {
   }
 
   test = () => {
-    console.log("test btn");
-    let item = this.state.chapters[0];
-    console.log("item title: "+ item);
-    console.log(this.state.chapters[0].content.length);
-    console.log(this.state.progresses.progresses[item.title].viewed);
-    console.log("question: "+ JSON.stringify(this.state.chapters[0].questionSets[0]));
+    // let item = this.state.chapters[0];
+    let item = this.state
+    console.log("item title: "+ JSON.stringify(item));
+    // console.log(this.state.chapters[0].content.length);
+    // console.log(this.state.progresses.progresses[item.title].viewed);
+    // console.log("question: "+ JSON.stringify(this.state.chapters[0].questionSets[0]));
   }
 
   onSelectChapter = (item, e) => { // logic of using bind()!

@@ -12,9 +12,10 @@ class Login extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    console.log("componentWillReceiveProps!!");
+    console.log("componentWillReceiveProps!!"+JSON.stringify(nextProps));
     if (nextProps.auth.isAuthenticated) {
-      this.props.history.push("/chapters");
+      // this.props.history.push("/chapters");
+      window.location.href = "/chapters";
     }
 
     if (nextProps.errors) {
