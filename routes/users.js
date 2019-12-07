@@ -356,8 +356,7 @@ router.post('/reset/:token', function(req, res) {
             bcrypt.hash(auser.password, 10, (err, hash) => {
               if (err) return res.status(404).json(err)
               auser.password = hash;
-              return res.json(auser)
-              auser.save(function(err) {
+              auser.save().then(function(err) {
               if (err) {
                 return res.status(422).send({
                   message: err
