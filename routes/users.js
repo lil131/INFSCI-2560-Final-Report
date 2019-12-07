@@ -398,29 +398,4 @@ router.post('/reset/:token', function(req, res) {
   });
 });
 
-
-// router.post('/reset/:token', async(req, res) => {
-//   Reset.findOne({
-//         reset_password_token: req.params.token,
-//         reset_password_expires: {
-//           $gt: Date.now()
-//         }
-//       }, function(err, reset) {
-//         if (!reset) {
-//           console.log('error', 'Password reset token is invalid or has expired.');
-//           return res.status(400).send({
-//             message: 'Password reset token is invalid or has expired.'
-//           });
-//         }
-//         User.findOne({
-//           _id: reset.userID
-//         }, function(err, auser) {
-//           bcrypt.hash(auser.password, 10, (err, hash) => {
-//         if (err) throw err;
-//         auser.password = hash;
-//       });
-//         })
-//       })
-
-// })
 module.exports = router;
