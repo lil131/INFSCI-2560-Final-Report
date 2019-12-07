@@ -13,7 +13,7 @@ class ChoiceQuestion extends React.Component {
     id: PropTypes.number.isRequired,
     statement: PropTypes.string.isRequired,
     options: PropTypes.arrayOf(PropTypes.string).isRequired,
-    answer: PropTypes.string,
+    answer: PropTypes.number,
     userAns: PropTypes.string,
     onClick: PropTypes.func.isRequired
   }
@@ -36,8 +36,8 @@ class ChoiceQuestion extends React.Component {
       <>
         {id + 1}. {statement}: {
           // show answer when answer is not null and userAns is not same as answer:
-          answer && answer !== userAns ?
-            <Text type='danger'>{'Ans: ' + answer}</Text> :
+          OPT_MAP[answer] && OPT_MAP[answer] !== userAns ?
+            <Text type='danger'>{'Ans: ' + OPT_MAP[answer]}</Text> :
             null
         }
         <br />
@@ -69,9 +69,10 @@ class QuestionSet extends React.Component {
   static propTypes = {
     chapterId: PropTypes.number,
     questions: PropTypes.arrayOf(PropTypes.shape({
-      statement: PropTypes.string,
       options: PropTypes.arrayOf(PropTypes.string),
-      correctAnswer: PropTypes.string
+      _id: PropTypes.string,
+      statement: PropTypes.string,
+      correctAnswer: PropTypes.number,
     })),
     questionSetIndex: PropTypes.number,
     onQuit: PropTypes.func,
@@ -81,7 +82,7 @@ class QuestionSet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userAnswers: Array(3).fill(null),
+      userAnswers: Array(this.props.location.state.questions.length).fill(null),
       userScore: null,
     };
   }
@@ -97,12 +98,13 @@ class QuestionSet extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    const { chapterId, questionSetIndex } = this.props;
+    const { userAnswers, userScore } = this.state;
+    const { questions } = this.props.location.state;
     // calculate score
-    if (!this.state.userScore) {
-      const score = this.state.userAnswers.filter(
-        (a, i) => a === this.props.questions[i].correctAnswer
-      ).length / this.props.questions.length * 100;
+    if (!userScore) {
+      const score = userAnswers.filter(
+        (a, i) => a === OPT_MAP[questions[i].correctAnswer]
+      ).length / questions.length * 100;
 
       this.setState({userScore: score});
       // onScoreSubmit(chapterId, questionSetIndex, score);
@@ -112,11 +114,12 @@ class QuestionSet extends React.Component {
   onQuit = () => {
     this.props.history.goBack()
   };
-  
+
   test = () => {
     console.log("Quit");
     const { questions, chapterId } = this.props.location.state;
     console.log("questions: " + JSON.stringify(questions));
+    console.log("userAnswers: " + JSON.stringify(this.state.userAnswers));
   };
 
   // render() {
