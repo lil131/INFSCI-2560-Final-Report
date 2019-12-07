@@ -35,25 +35,25 @@ const departments = [
 
   class Table extends React.Component {
      constructor(props) {
-        super(props) //since we are extending class Table so we have to use super in order to override Component class constructor
-        this.state = { //state is by default an object
+        super(props) 
+        this.state = { 
            staff: [
-              { id: 1, name: 'Wasif', staffID: 21, email: 'wasif@email.com', scores: [90,30] },
-              { id: 2, name: 'Ali', staffID: 19, email: 'ali@email.com', scores: [90,30] },
-              { id: 3, name: 'Saad', staffID: 16, email: 'saad@email.com', scores: [90,30] },
-              { id: 4, name: 'Asad', staffID: 25, email: 'asad@email.com', scores: [90,30] }
+              { name: 'Wasif', staffID: 21, email: 'wasif@email.com', branch: 'branch-1', department: 'dep-1', scores: [90,30] },
+              { name: 'Ali', staffID: 19, email: 'ali@email.com', branch: 'branch-2', department: 'dep-2', scores: [90,30] }
            ]
         }
      }
 
      renderTableData() {
        return this.state.staff.map((staff, index) => {
-          const { id, name, staffID, email, scores } = staff //destructuring
+          const { name, staffID, email, branch, department, scores } = staff
           return (
-             <tr key={id}>
+             <tr key={staffID}>
                 <td>{name}</td>
                 <td>{staffID}</td>
                 <td>{email}</td>
+                <td>{branch}</td>
+                <td>{department}</td>
                 <td>{scores}</td>
              </tr>
           )
@@ -70,7 +70,6 @@ const departments = [
    render() {
       return (
          <div>
-            <h1 id='title'>React Dynamic Table</h1>
             <table id='staff'>
                <tbody>
                   <tr>{this.renderTableHeader()}</tr>
