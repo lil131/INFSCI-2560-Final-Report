@@ -369,12 +369,12 @@ router.post('/reset/:token', function(req, res) {
         // by comparing the two typed passwords
         User.findOne({
           _id: reset.userID
-        }, function(err, auser) {
+        }, function(err, user) {
           if (req.body.newPassword === req.body.verifyPassword) {
-            bcrypt.hash(auser.password, 10, (err, hash) => {
+            bcrypt.hash(req.body.newPassword, 10, (err, hash) => {
               if (err) return res.status(404).json(err)
-              auser.password = hash;
-              auser.save().then(function(err) {
+              user.password = hash;
+              user.save().then(function(err) {
               if (err) {
                 return res.status(422).send({
                   message: err
@@ -383,7 +383,7 @@ router.post('/reset/:token', function(req, res) {
                 // an email is sent to the user on successfully completing his/her password reset.
                 var data = {
                   from: 'sender@email.com', //email,
-                  to: auser.email,
+                  to: user.email,
                   subject: 'Password Reset Confirmation',
                   text: 'Hello,\n\n' +
                     ' - This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
