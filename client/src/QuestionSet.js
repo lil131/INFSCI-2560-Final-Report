@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './App.css';
 import { Radio, Button, Card, Icon } from 'antd';
 import { Statistic, Typography } from 'antd';
+import axios from 'axios';
 
 const { Text } = Typography;
 
@@ -84,6 +85,7 @@ class QuestionSet extends React.Component {
     this.state = {
       userAnswers: Array(this.props.location.state.questions.length).fill(null),
       userScore: null,
+      disableSubmitBtn: false
     };
   }
 
@@ -106,10 +108,25 @@ class QuestionSet extends React.Component {
         (a, i) => a === OPT_MAP[questions[i].correctAnswer]
       ).length / questions.length * 100;
 
-      this.setState({userScore: score});
+      this.setState({userScore: score, disableSubmitBtn: true});
+      this.uploadScore()
       // onScoreSubmit(chapterId, questionSetIndex, score);
     }
   };
+
+  uploadScore = () => {
+    const { chapter_id } = this.props.match.params
+    let userData = JSON.parse(localStorage.getItem("currentUser"))
+    let score = (parseFloat(this.state.userScore) > 0) ? this.state.userScore : -1
+    axios
+      .put("/progresses/"+chapter_id+"/users/"+userData.user_id, {"score": score})
+      .then(res => {
+        console.log("result: "+ JSON.stringify(res.data));
+      })
+      .catch(err =>
+        alert(err)
+      );
+  }
 
   onQuit = () => {
     this.props.history.goBack()
@@ -120,6 +137,10 @@ class QuestionSet extends React.Component {
     const { questions, chapterId } = this.props.location.state;
     console.log("questions: " + JSON.stringify(questions));
     console.log("userAnswers: " + JSON.stringify(this.state.userAnswers));
+
+    const { chapter_id } = this.props.match.params
+    console.log("chapter id: "+chapter_id);
+    console.log("Score: "+ this.state.userScore);
   };
 
   // render() {
@@ -143,7 +164,7 @@ class QuestionSet extends React.Component {
         }
         bordered={false}
         actions={[
-          <Button key='submit' type='link' onClick={this.onSubmit} size='large'>
+          <Button key='submit' type='link' onClick={this.onSubmit} size='large' disabled={this.state.disableSubmitBtn} >
             <Icon type='check-circle' key='submit' theme='twoTone' twoToneColor='#52c41a' />
             Submit
           </Button>

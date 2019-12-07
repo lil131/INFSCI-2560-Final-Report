@@ -14,9 +14,9 @@ require('dotenv').config();
 
 const crypto = require("crypto");
 const async = require('async');
-// Configure nodemailer to send email 
+// Configure nodemailer to send email
 const nodemailer = require("nodemailer");
-var email = process.env.MAILER_EMAIL_ID; 
+var email = process.env.MAILER_EMAIL_ID;
 var pass = process.env.MAILER_PASSWORD;
 
 var smtpTrans = nodemailer.createTransport({
@@ -218,6 +218,24 @@ router.post('/login', async (req, res) => {
   });
 });
 
+/**
+ * @route GET api/users/search
+ * @desc Search users by conditions
+ * @access Public
+ */
+router.get('/manager/search', function(req, res) {
+  // let {nickname, staffID, email} = req.body
+  let nickname = "eden"
+  let query_term
+  // if (nickname) { query_term['nickname'] =
+  // if (staffID) { query_term['staffID'] =  staffID
+  // if (email) { query_term['email'] =  email
+
+  User.find( {nickname: { $regex : new RegExp("eden", "i") }} , function(err, users) {
+    return res.json(users);
+  })
+})
+
 
 router.get('/forgot', function(req, res) {
   res.status(200).json({
@@ -231,7 +249,7 @@ router.get('/forgot', function(req, res) {
  * @desc Send confirmed email for the user
  */
 router.post('/forgot', function(req, res, next) {
-  // Async waterfall helps to make sure that 
+  // Async waterfall helps to make sure that
   // each of the functions are performed one after the other
   async.waterfall([
     function(done) {
@@ -254,8 +272,8 @@ router.post('/forgot', function(req, res, next) {
         }
         console.log('Completed step 1: confirmed the user email');
 
-        // User.findByIdAndUpdate({ _id: user._id }, 
-        //   { reset_password_token: token, reset_password_expires: Date.now() + 3600000 }, 
+        // User.findByIdAndUpdate({ _id: user._id },
+        //   { reset_password_token: token, reset_password_expires: Date.now() + 3600000 },
         //   { upsert: true, new: true }).exec(function(err, new_user) {
         //     done(err, token, new_user);
         //   });
@@ -347,7 +365,7 @@ router.post('/reset/:token', function(req, res) {
           });
         }
 
-        // Check to see that the password entered is correctly typed 
+        // Check to see that the password entered is correctly typed
         // by comparing the two typed passwords
         User.findOne({
           _id: reset.userID
