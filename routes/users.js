@@ -223,19 +223,17 @@ router.post('/login', async (req, res) => {
  * @desc Search users by conditions
  * @access Public
  */
-router.get('/manager/search', function(req, res) {
+router.post('/manager/search', function(req, res) {
   // let {nickname, staffID, email} = req.body
-  let nickname = "eden"
-  let query_term
-  // if (nickname) { query_term['nickname'] =
-  // if (staffID) { query_term['staffID'] =  staffID
-  // if (email) { query_term['email'] =  email
-
-  User.find( {nickname: { $regex : new RegExp("eden", "i") }} , function(err, users) {
+  let query_term = {}
+  if (req.body.nickname) { query_term['nickname'] = { $regex : new RegExp( req.body.nickname, "i") } }//req.body.nickname }
+  if (req.body.staffID) { query_term['staffID'] =  req.body.staffID }
+  if (req.body.email) { query_term['email'] =  { $regex : new RegExp( req.body.email, "i") } }//req.body.email }
+  // return res.json(query_term);
+  User.find( query_term , function(err, users) {
     return res.json(users);
   })
 })
-
 
 router.get('/forgot', function(req, res) {
   res.status(200).json({

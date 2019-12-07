@@ -96,7 +96,7 @@ class UserDataManagement extends React.Component {
   // To generate mock Form.Item
   getFields() {
     const { getFieldDecorator } = this.props.form;
-    const searchFields = ['nickname', 'staffID', 'email'];
+    const searchFields = [['Name', 'nickname'], ['StaffID', 'staffID'], ['Email', 'email']];
     const selectFields = ['Branch', 'Department', 'Grade'];
     const selectFrom = [branches, departments];
     const children = [];
@@ -112,15 +112,15 @@ class UserDataManagement extends React.Component {
     for (let i = 0; i < 3; i++) {
       children.push(
         <Col span={8} key={i} >
-          <Form.Item label={searchFields[i]}>
-            {getFieldDecorator(searchFields[i], {
+          <Form.Item label={searchFields[i][0]}>
+            {getFieldDecorator(searchFields[i][1], {
               rules: [
                 {
                   required: false,
                   message: 'Input something!',
                 },
               ],
-            })(<Input placeholder={searchFields[i]} />)}
+            })(<Input placeholder={searchFields[i][0]} />)}
           </Form.Item>
         </Col>,
       );
