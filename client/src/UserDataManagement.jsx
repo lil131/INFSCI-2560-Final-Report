@@ -78,6 +78,14 @@ const departments = [
       });
     };
 
+    resetScore = (chapter, staffIndex) => {
+      const staff = this.props.userData.staff[staffIndex];
+      const scores = staff.progress[0].progresses[chapter].scores;
+      const myObject = this.refs.chapter;
+      console.log(myObject);
+
+    }
+
     renderTableData() {
       console.log("userData: ", this.props.userData.staff);
       const chapters = this.props.userData.chapters; //array
@@ -85,7 +93,7 @@ const departments = [
       if (!this.props.userData.staff) {
         return;
        } else {
-         return this.props.userData.staff.map((staff) => {
+         return this.props.userData.staff.map((staff, i) => {
            const { branches, email, progress, nickname, staffID } = staff
            return (
               <tr key={staffID}>
@@ -115,7 +123,11 @@ const departments = [
                           <div key={key}>
                             <h3 >{key}</h3>
                             <p>Progress: { Math.floor((chProg[key].viewed / chapterLen) * 100) + "%"}</p>
-                            <p>Scores: {Math.max(...chProg[key].scores) > 0 ? Math.max(...chProg[key].scores) : 0}</p>
+                            <p ref={key}>Scores: {Math.max(...chProg[key].scores) > 0 ? Math.max(...chProg[key].scores) : 0}
+                              <Button type="danger" size="small" onClick={this.resetScore.bind(null, key, i)}>
+                                Reset Score
+                              </Button>
+                            </p>
                           </div>
                         );
                       })
