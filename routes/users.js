@@ -224,15 +224,24 @@ router.post('/login', async (req, res) => {
  * @access Public
  */
 router.post('/manager/search', function(req, res) {
-  // let {nickname, staffID, email} = req.body
   let query_term = {}
   if (req.body.nickname) { query_term['nickname'] = { $regex : new RegExp( req.body.nickname, "i") } }//req.body.nickname }
   if (req.body.staffID) { query_term['staffID'] =  req.body.staffID }
   if (req.body.email) { query_term['email'] =  { $regex : new RegExp( req.body.email, "i") } }//req.body.email }
-  // return res.json(query_term);
-  User.find( query_term , function(err, users) {
-    return res.json(users);
+  User.aggregate([ {$match: query_term},
+  {
+      $lookup: {
+      from: "progresses",
+      localField: "_id",
+      foreignField: "user_id",
+      as: "progress"
+    }}
+  ], function(err, result) {
+    return res.json(result)
   })
+  // User.find( query_term , function(err, users) {
+  //   return res.json(users);
+  // })
 })
 
 router.get('/forgot', function(req, res) {
