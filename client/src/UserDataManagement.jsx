@@ -84,6 +84,17 @@ const departments = [
       const myObject = this.refs.chapter;
       console.log(myObject);
 
+      let userData = JSON.parse(localStorage.getItem("currentUser"))
+      axios.post('/progresses/users/'+userData.user_id+'/reset', {"title": chapter})
+      .then((response) => {
+        // const userData = response.data;
+        // console.log("userData: ", userData);
+        // this.setState({userData: userData});
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
     }
 
     renderTableData() {
