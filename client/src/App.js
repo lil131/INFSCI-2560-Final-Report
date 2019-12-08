@@ -23,6 +23,9 @@ import Forget from './Forget';
 import Reset from './Reset';
 
 const WrappedLogin = Form.create({ name: 'normal_login' })(Login);
+const WrappedForget = Form.create({ name: 'normal_forget' })(Forget);
+const WrappedReset = Form.create({ name: 'normal_reset' })(Reset);
+const WrappedAddChapterContent = Form.create({name: 'normal_addChapterContent'})(AddChapterContent);
 
 class App extends React.Component {
   constructor(props) {
@@ -245,7 +248,7 @@ class App extends React.Component {
                   <PrivateRoute exact path="/chapter/:chapter_id" component={ChapterContent} />
                   <PrivateRoute exact path="/questions/:chapter_id" component={QuestionSet} />
                   <PrivateRoute exact path="/profile" component={EditAccountWrapper} />
-                  <PrivateRoute exact path="/chapters/add" component={AddChapterContent} />
+                  <PrivateRoute exact path="/chapters/add" component={WrappedAddChapterContent} />
                 </Switch>
             </div>
           </HomeLayout>
