@@ -5,6 +5,7 @@ import 'antd/dist/antd.css';
 import './Login.css';
 import { connect } from "react-redux";
 import { loginUser } from "./actions/authActions";
+import axios from 'axios';
 
 class Forget extends React.Component {
   static propTypes = {
@@ -16,13 +17,19 @@ class Forget extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        this.props.loginUser(values);
+        axios
+          .post("/users/forgot", values)
+          .then(res => {
+            alert("please check you email and reset your password with an hour.")
+          })
+          .catch(err =>
+            alert(err)
+          );
       }
     });
   };
 
   render() {
-    console.log("alanaalana", this.props.form);
     const { getFieldDecorator } = this.props.form;
     return (
       <Card
@@ -47,9 +54,9 @@ class Forget extends React.Component {
               />
             )}
           </Form.Item>
-          
+
           <Form.Item>
-            
+
             <Button
               type="primary"
               htmlType="submit"
@@ -79,4 +86,3 @@ export default connect(
   mapStateToProps,
   { loginUser }
 )(Forget);
-

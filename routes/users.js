@@ -273,7 +273,7 @@ router.post('/forgot', function(req, res, next) {
     // if it exist, a token is generated and updates the user object in the database
     function(token, done) {
       User.findOne({
-        email: req.query.email
+        email: req.body.email
       }, function(err, user) {
         if (!user) {
           req.flash('error', 'User not found. No account with that email address exists.');
@@ -373,7 +373,7 @@ router.post('/reset/:token', function(req, res) {
             message: 'Password reset token is invalid or has expired.'
           });
         }
-
+        return res.json(reset)
         // Check to see that the password entered is correctly typed
         // by comparing the two typed passwords
         User.findOne({

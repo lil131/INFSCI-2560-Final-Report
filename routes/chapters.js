@@ -15,10 +15,25 @@ require('dotenv').config();
 router.get('/users/:user_id', async (req, res) => {
   try {
     const chapters = await Chapter.find({});
-    const progresses = await Progress.findOne({user_id: req.params.user_id});
-    return res.json({
-      chapters, progresses,"user_id": req.params.user_id
+    Progress.findOne({user_id: req.params.user_id}, function(err, progresses) {
+
+      let user_progress = {}
+      chapters.forEach(chapter => {
+        if (chapter.title in progresses.progresses) {
+          user_progress[chapter.title] = progresses.progresses[chapter.title]
+        } else {
+          user_progress[chapter.title] = {
+            viewed: 0,
+            scores: []
+          }
+        }
+      })
+      let res_progresses = {progresses: user_progress}
+      return res.json({
+        chapters, progresses: res_progresses,"user_id": req.params.user_id
+      });
     });
+
   } catch (error) {
     return res.status(500).json({
       message: 'Internal Server error'
