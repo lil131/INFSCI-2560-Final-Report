@@ -237,7 +237,9 @@ router.post('/manager/search', function(req, res) {
       as: "progress"
     }}
   ], function(err, result) {
-    return res.json(result)
+    Chapter.find({}, function( err1, chapters){
+      return res.json({staff: result, chapters})
+    })
   })
   // User.find( query_term , function(err, users) {
   //   return res.json(users);
