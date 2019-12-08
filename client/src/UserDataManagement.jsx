@@ -79,12 +79,13 @@ const departments = [
     };
 
     renderTableData() {
-      console.log("staffList: ", this.props.staffList[0]);
-      console.log("type of staffList: ", typeof(this.props.staffList))
-      if (!this.props.staffList) {
+      console.log("userData: ", this.props.userData.staff);
+      const chapters = this.props.userData.chapters; //array
+      // console.log("type of staffList: ", typeof(this.props.staffList))
+      if (!this.props.userData.staff) {
         return;
        } else {
-         return this.props.staffList.map((staff) => {
+         return this.props.userData.staff.map((staff) => {
            const { branches, email, progress, nickname, staffID } = staff
            return (
               <tr key={staffID}>
@@ -104,17 +105,20 @@ const departments = [
                       onOk={this.handleOk}
                       onCancel={this.handleCancel}
                     >
-                    {
-                      // console.log("progress type: ", typeof(progress[0].progresses));
-                      // const chapterPrg = progress[0].progresses;
-                      // Object.keys(chapterPrg).map((key, index) => {
-                      //
-                      // });
-                      // progress[0].progresses.map((g) => {
-                      //   return (
-                      //     <p>{}</p> // <------------------- scores & chapters
-                      //   )
-                      // })
+                    { 
+                      // console.log("progress type: ", typeof(progress[0].progresses))
+                      Object.keys(progress[0].progresses).map((key, index) => {
+                        console.log(key);
+                        let chProg = progress[0].progresses;
+                        let chapterLen = chapters[index].content.length;
+                        return (
+                          <div key={key}>
+                            <h3 >{key}</h3>
+                            <p>Progress: { Math.floor((chProg[key].viewed / chapterLen) * 100) + "%"}</p>
+                            <p>Scores: {Math.max(...chProg[key].scores) > 0 ? Math.max(...chProg[key].scores) : 0}</p>
+                          </div>
+                        );
+                      })
                     }
                     </Modal>
                   </div>
@@ -137,7 +141,7 @@ const departments = [
          <div>
             <table id='staff'>
                <tbody>
-                  <tr>{this.renderTableHeader()}</tr>
+                  <tr key="header">{this.renderTableHeader()}</tr>
                   {this.renderTableData()}
                </tbody>
             </table>
@@ -156,7 +160,7 @@ class UserDataManagement extends React.Component {
 
   state = {
     expand: false,
-    staff: []
+    userData: []
   };
 
   // To generate mock Form.Item
@@ -227,9 +231,9 @@ class UserDataManagement extends React.Component {
         if (!err) {
           axios.post('/users/manager/search', values)
           .then((response) => {
-            const staffs = response.data;
-            console.log("staffs: ", staffs);
-            this.setState({staff: staffs});
+            const userData = response.data;
+            console.log("userData: ", userData);
+            this.setState({userData: userData});
           })
           .catch(function (error) {
             console.log(error);
@@ -263,7 +267,7 @@ class UserDataManagement extends React.Component {
             </Col>
           </Row>
         </Form>
-        <Table staffList={this.state.staff}/>
+        <Table userData={this.state.userData}/>
       </div>
     );
   }
