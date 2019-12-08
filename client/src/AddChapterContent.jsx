@@ -89,10 +89,7 @@ class AddChapterContent extends Component {
           <Row>
             <Col span={24} style={{ textAlign: 'right' }}>
               <Button type="primary" htmlType="submit">
-                Search
-              </Button>
-              <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
-                Clear
+                Add another content
               </Button>
             </Col>
           </Row>
@@ -104,9 +101,10 @@ class AddChapterContent extends Component {
 
 const styles = {
   editor: {
-    border: '1px solid gray',
-    minHeight: '6em',
-    color: 'rgba(0, 0, 0, 0.65)'
+    'border': '1px solid #d9d9d9',
+    'minHeight': '6em',
+    'border-radius': '4px',
+    'padding': '0px 10px'
   }
 };
 
