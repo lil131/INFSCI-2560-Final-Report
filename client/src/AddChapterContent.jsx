@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import 'antd/dist/antd.css';
 import './Login.css';
-import './AddChapterContent.css';
 import { Form, Row, Col, Icon, Input, Button, Checkbox, Card } from "antd";
 import { connect } from "react-redux";
 import { loginUser } from "./actions/authActions";
 import {Editor, EditorState, RichUtils} from 'draft-js';
+import DynamicFieldSet from './components/DynamicFieldSet'
 
 class AddChapterContent extends Component {
   constructor(props) {
@@ -52,6 +52,7 @@ class AddChapterContent extends Component {
   };
 
   render() {
+    const WrappedDynamicFieldSet = Form.create({ name: 'dynamic_form_item' })(DynamicFieldSet);
     const { getFieldDecorator } = this.props.form;
     return (
       <div>
@@ -86,6 +87,8 @@ class AddChapterContent extends Component {
 
             }
           </Form.Item>
+          <WrappedDynamicFieldSet />
+
           <Row>
             <Col span={24} style={{ textAlign: 'right' }}>
               <Button type="primary" htmlType="submit">
