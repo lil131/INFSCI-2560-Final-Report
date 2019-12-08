@@ -5,7 +5,7 @@ const {
 const Progress = require('../models/progress');
 const Chapter = require('../models/chapter');
 const router = express.Router();
-
+const MAX_SCORES_CAPACITY = 2
 /**
  * @route GET api/progresses
  * @desc query all users' progress list
@@ -52,7 +52,7 @@ router.post('/', async (req, res) => {
 
 /**
  * @route UPDATE api/progresses/
- * @desc Update progress by user
+ * @desc Update viewed and scores by user
  */
 router.put('/:chapter_id/users/:user_id', async (req, res) => {
   if (isEmpty(req.body)) {
@@ -81,7 +81,18 @@ router.put('/:chapter_id/users/:user_id', async (req, res) => {
       if (req.body.viewed <= response.progresses[chapter['title']].viewed) {
         return res.status(200).json("SUCCESS")
       }
-      response.progresses[chapter['title']].viewed = req.body.viewed
+      if (req.body.viewed) {
+        response.progresses[chapter['title']].viewed = req.body.viewed
+      }
+      if (req.body.score) {
+        let arr = response.progresses[chapter['title']].scores
+        if (arr.length < 2) {
+          arr.push(req.body.score)
+          response.progresses[chapter['title']].scores = arr
+        } else {
+          return res.status(480).json("Reached the maximum test times")
+        }
+      }
       let new_progress = new Progress({user_id: req.params.user_id, progresses: response.progresses})
 
       new_progress.save().then(response.remove())

@@ -28,9 +28,8 @@ class HomeLayout extends React.Component {
     const username = userData ? userData.nickname : "Guest"
     const menu =
       <Menu onClick={onClickOfMenu}>
-        {perm === 0 ? <Menu.Item key='managerPage'>Create account</Menu.Item> :
-          null
-        }
+        {perm === 0 ? <Menu.Item key='managerPage'>Create account</Menu.Item> : null }
+        {perm === 0 ? <Menu.Item key='addChapter'>Create chapter</Menu.Item> : null }
         <Menu.Item key='profile'>Edit Profile</Menu.Item>
         <Menu.Item key='logout'>Log out</Menu.Item>
       </Menu>
@@ -41,15 +40,18 @@ class HomeLayout extends React.Component {
           <div className='left'>
             <Button type='primary' icon='home' shape='circle' onClick={onClickOfHome}/>
           </div>
-          <div className='right'>
-            <Dropdown className='user' overlay={menu}>
-              <a className='ant-dropdown-link' href='#'>
-                <Icon className='user' type='user' size='large' />
-                {username}
-                <Icon type='down' />
-              </a>
-            </Dropdown>
-          </div>
+          { userData ?
+            <div className='right'>
+              <Dropdown className='user' overlay={menu}>
+                <a className='ant-dropdown-link' href='#'>
+                  <Icon className='user' type='user' size='large' />
+                  {username}
+                  <Icon type='down' />
+                </a>
+              </Dropdown>
+            </div> : 
+            null 
+          }
         </Header>
         <Content>
           <div style={{ background: '#ECECEC', padding: '30px', minHeight: '84vh'}}>

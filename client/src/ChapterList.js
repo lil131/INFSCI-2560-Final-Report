@@ -34,7 +34,11 @@ class ChapterList extends React.Component {
   test = () => {
     // let item = this.state.chapters[0];
     let item = this.state
+    let chapters = this.state.chapters;
     console.log("item title: "+ JSON.stringify(item));
+    console.log("progresses: "+ JSON.stringify(this.state.progresses));
+    console.log("scores: " + JSON.stringify(this.state.progresses.progresses.ch1.scores));
+
     // console.log(this.state.chapters[0].content.length);
     // console.log(this.state.progresses.progresses[item.title].viewed);
     // console.log("question: "+ JSON.stringify(this.state.chapters[0].questionSets[0]));
@@ -86,7 +90,7 @@ class ChapterList extends React.Component {
                         placement='top'
                         title={`Not Passed`}
                       >
-                          Best Score: 20
+                          Best Score: {}
                       </Tooltip>
                       ,
                       <Tooltip key='chapter' placement='top' title={`Read Chapter ${item.title}`}>
@@ -132,7 +136,8 @@ class ChapterList extends React.Component {
                               '0%': '#108ee9',
                               '100%': '#87d068',
                             }}
-                            percent={100}
+                            // percent={80}
+                            percent={this.state.progresses.progresses[item.title].viewed / this.state.chapters[0].content.length * 100}
                           />
                         }
                       />

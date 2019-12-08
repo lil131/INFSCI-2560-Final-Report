@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './App.css';
 import { Radio, Button, Card, Icon } from 'antd';
 import { Statistic, Typography } from 'antd';
+import axios from 'axios';
 
 const { Text } = Typography;
 
@@ -13,7 +14,7 @@ class ChoiceQuestion extends React.Component {
     id: PropTypes.number.isRequired,
     statement: PropTypes.string.isRequired,
     options: PropTypes.arrayOf(PropTypes.string).isRequired,
-    answer: PropTypes.string,
+    answer: PropTypes.number,
     userAns: PropTypes.string,
     onClick: PropTypes.func.isRequired
   }
@@ -36,8 +37,8 @@ class ChoiceQuestion extends React.Component {
       <>
         {id + 1}. {statement}: {
           // show answer when answer is not null and userAns is not same as answer:
-          answer && answer !== userAns ?
-            <Text type='danger'>{'Ans: ' + answer}</Text> :
+          OPT_MAP[answer] && OPT_MAP[answer] !== userAns ?
+            <Text type='danger'>{'Ans: ' + OPT_MAP[answer]}</Text> :
             null
         }
         <br />
@@ -69,9 +70,10 @@ class QuestionSet extends React.Component {
   static propTypes = {
     chapterId: PropTypes.number,
     questions: PropTypes.arrayOf(PropTypes.shape({
-      statement: PropTypes.string,
       options: PropTypes.arrayOf(PropTypes.string),
-      correctAnswer: PropTypes.string
+      _id: PropTypes.string,
+      statement: PropTypes.string,
+      correctAnswer: PropTypes.number,
     })),
     questionSetIndex: PropTypes.number,
     onQuit: PropTypes.func,
@@ -81,8 +83,9 @@ class QuestionSet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userAnswers: Array(3).fill(null),
+      userAnswers: Array(this.props.location.state.questions.length).fill(null),
       userScore: null,
+      disableSubmitBtn: false
     };
   }
 
@@ -97,26 +100,47 @@ class QuestionSet extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    const { chapterId, questionSetIndex } = this.props;
+    const { userAnswers, userScore } = this.state;
+    const { questions } = this.props.location.state;
     // calculate score
-    if (!this.state.userScore) {
-      const score = this.state.userAnswers.filter(
-        (a, i) => a === this.props.questions[i].correctAnswer
-      ).length / this.props.questions.length * 100;
+    if (!userScore) {
+      const score = userAnswers.filter(
+        (a, i) => a === OPT_MAP[questions[i].correctAnswer]
+      ).length / questions.length * 100;
 
-      this.setState({userScore: score});
+      this.setState({userScore: score, disableSubmitBtn: true});
+      this.uploadScore()
       // onScoreSubmit(chapterId, questionSetIndex, score);
     }
   };
 
+  uploadScore = () => {
+    const { chapter_id } = this.props.match.params
+    let userData = JSON.parse(localStorage.getItem("currentUser"))
+    let score = (parseFloat(this.state.userScore) > 0) ? this.state.userScore : -1
+    axios
+      .put("/progresses/"+chapter_id+"/users/"+userData.user_id, {"score": score})
+      .then(res => {
+        console.log("result: "+ JSON.stringify(res.data));
+      })
+      .catch(err =>
+        alert(err)
+      );
+  }
+
   onQuit = () => {
     this.props.history.goBack()
   };
-  
+
   test = () => {
     console.log("Quit");
     const { questions, chapterId } = this.props.location.state;
     console.log("questions: " + JSON.stringify(questions));
+    console.log("userAnswers: " + JSON.stringify(this.state.userAnswers));
+
+    const { chapter_id } = this.props.match.params
+    console.log("chapter id: "+chapter_id);
+    console.log("Score: "+ this.state.userScore);
   };
 
   // render() {
@@ -140,7 +164,7 @@ class QuestionSet extends React.Component {
         }
         bordered={false}
         actions={[
-          <Button key='submit' type='link' onClick={this.onSubmit} size='large'>
+          <Button key='submit' type='link' onClick={this.onSubmit} size='large' disabled={this.state.disableSubmitBtn} >
             <Icon type='check-circle' key='submit' theme='twoTone' twoToneColor='#52c41a' />
             Submit
           </Button>

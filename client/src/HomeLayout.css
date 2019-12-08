@@ -11,7 +11,12 @@ div.left {
 
 div.right {
   float: right;
-  width: 5%;
-  position: absolute;
   right: 0px;
+}
+
+.ant-layout-header {
+    height: 64px;
+    padding: 0 30px;
+    line-height: 64px;
+    background: #001529;
 }
