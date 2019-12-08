@@ -35,12 +35,12 @@ const departments = [
 
   class Table extends React.Component {
     constructor(props) {
-      super(props) 
-      this.state = { 
+      super(props)
+      this.state = {
         tableHeader: ["Name", "StaffID", "Email", "Branch", "Department", "Scores"],
         visible: false,
           //  staff: [
-          //     { 
+          //     {
           //       branches: ["branch-1", "department-1"],
           //       email: "cas386@pitt.edu",
           //       grade: 0,
@@ -57,20 +57,20 @@ const departments = [
           //  ]
         }
      }
-     
+
     showModal = () => {
       this.setState({
         visible: true,
       });
     };
-  
+
     handleOk = e => {
       // console.log(e);
       this.setState({
         visible: false,
       });
     };
-  
+
     handleCancel = e => {
       // console.log(e);
       this.setState({
@@ -104,11 +104,12 @@ const departments = [
                       onOk={this.handleOk}
                       onCancel={this.handleCancel}
                     >
-                    { console.log("progress type: ", typeof(progress[0].progresses));
-                      const chapterPrg = progress[0].progresses;
-                      Object.keys(chapterPrg).map((key, index) => {
-                        
-                      });
+                    {
+                      // console.log("progress type: ", typeof(progress[0].progresses));
+                      // const chapterPrg = progress[0].progresses;
+                      // Object.keys(chapterPrg).map((key, index) => {
+                      //
+                      // });
                       // progress[0].progresses.map((g) => {
                       //   return (
                       //     <p>{}</p> // <------------------- scores & chapters
@@ -116,7 +117,7 @@ const departments = [
                       // })
                     }
                     </Modal>
-                  </div> 
+                  </div>
                 </td>
               </tr>
            )

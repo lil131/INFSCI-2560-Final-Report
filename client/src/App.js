@@ -242,7 +242,7 @@ class App extends React.Component {
                 <Switch>
                   <Route exact path="/login" component={WrappedLogin} />
                   <Route exact path="/forget" component={WrappedForget} />
-                  <Route exact path="/reset" component={WrappedReset} />
+                  <Route exact path="/reset/:token" component={WrappedReset} />
                   <PrivateRoute exact path="/manager" component={ManagerPage} />
                   <PrivateRoute exact path="/chapters" component={ChapterList} />
                   <PrivateRoute exact path="/chapter/:chapter_id" component={ChapterContent} />

@@ -5,6 +5,7 @@ import 'antd/dist/antd.css';
 import './Login.css';
 import { connect } from "react-redux";
 import { loginUser } from "./actions/authActions";
+import axios from 'axios';
 
 class Reset extends React.Component {
   static propTypes = {
@@ -13,16 +14,24 @@ class Reset extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    const {token} = this.props.match.params
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        this.props.loginUser(values);
+        axios
+          .post("/users/reset/"+token, values)
+          .then(res => {
+            alert("Update your password successfully!, please login again")
+            this.props.history.push("/login")
+          })
+          .catch(err =>
+            alert(err)
+          );
       }
     });
   };
 
   render() {
-    console.log("alanaalana", this.props.form);
     const { getFieldDecorator } = this.props.form;
     return (
       <Card
@@ -34,7 +43,7 @@ class Reset extends React.Component {
       >
         <Form onSubmit={this.handleSubmit} className="login-form">
           <Form.Item>
-            {getFieldDecorator("password", {
+            {getFieldDecorator("newPassword", {
               rules: [
                 { required: true, message: "Please input your new password!" }
               ]
@@ -43,13 +52,14 @@ class Reset extends React.Component {
                 prefix={
                   <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
                 }
+                type="password"
                 placeholder="Password"
               />
             )}
           </Form.Item>
 
           <Form.Item>
-            {getFieldDecorator("confirmPassword", {
+            {getFieldDecorator("verifyPassword", {
               rules: [
                 { required: true, message: "Please input your new password again!" }
               ]
@@ -58,13 +68,14 @@ class Reset extends React.Component {
                 prefix={
                   <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
                 }
+                type="password"
                 placeholder="Confirm Password"
               />
             )}
           </Form.Item>
-          
+
           <Form.Item>
-            
+
             <Button
               type="primary"
               htmlType="submit"
@@ -93,4 +104,3 @@ export default connect(
   mapStateToProps,
   { loginUser }
 )(Reset);
-
