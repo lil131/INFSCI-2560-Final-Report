@@ -105,7 +105,7 @@ const departments = [
                       onOk={this.handleOk}
                       onCancel={this.handleCancel}
                     >
-                    { 
+                    {
                       // console.log("progress type: ", typeof(progress[0].progresses))
                       Object.keys(progress[0].progresses).map((key, index) => {
                         console.log(key);

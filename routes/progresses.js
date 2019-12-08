@@ -101,4 +101,25 @@ router.put('/:chapter_id/users/:user_id', async (req, res) => {
   })
 });
 
+router.put('/users/:user_id/reset', function(req, res) {
+  Progress.findOne({user_id: req.params.user_id}, function(err, response) {
+    if (err) {
+      return res.status(404).json({
+        message: 'Could not find the user progress data',
+        statusCode: 404
+      });
+    }
+
+      // progresses.progresses[req.body.title].viewed = 0
+      // progresses.progresses[req.body.title].scores = []
+      response.progresses[req.body.title].viewed = 0
+      response.progresses[req.body.title].scores = []
+    // }
+    let new_progress = new Progress({user_id: req.params.user_id, progresses: response.progresses})
+
+    new_progress.save().then(response.remove())
+    res.status(200).json(new_progress)
+  })
+})
+
 module.exports = router;
