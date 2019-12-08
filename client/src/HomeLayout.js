@@ -42,17 +42,17 @@ class HomeLayout extends React.Component {
             <Button type='primary' icon='home' shape='circle' onClick={onClickOfHome}/>
           </div>
           { userData ?
-          <div className='right'>
-            <Dropdown className='user' overlay={menu}>
-              <a className='ant-dropdown-link' href='#'>
-                <Icon className='user' type='user' size='large' />
-                {username}
-                <Icon type='down' />
-              </a>
-            </Dropdown>
-          </div>
-          : null
-        }
+            <div className='right'>
+              <Dropdown className='user' overlay={menu}>
+                <a className='ant-dropdown-link' href='#'>
+                  <Icon className='user' type='user' size='large' />
+                  {username}
+                  <Icon type='down' />
+                </a>
+              </Dropdown>
+            </div> : 
+            null 
+          }
         </Header>
         <Content>
           <div style={{ background: '#ECECEC', padding: '30px', minHeight: '84vh'}}>

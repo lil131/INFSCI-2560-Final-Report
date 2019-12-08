@@ -33,9 +33,31 @@ const departments = [
     }
   ];
 
-  class Scores extends React.Component {
-    state = { visible: false };
-  
+  class Table extends React.Component {
+    constructor(props) {
+      super(props) 
+      this.state = { 
+        tableHeader: ["Name", "StaffID", "Email", "Branch", "Department", "Scores"],
+        visible: false,
+          //  staff: [
+          //     { 
+          //       branches: ["branch-1", "department-1"],
+          //       email: "cas386@pitt.edu",
+          //       grade: 0,
+          //       nickname: "Eden",
+          //       password: "$2a$10$6AWdOMM0MjJp0oq.h1ES1ePA8R4sSq2HH8khC0aF7gpDmObpKAdkC",
+          //       permission: 0,
+          //       phone: 341241324341,
+          //       prefix: 86,
+          //       staffID: 1,
+          //       __v: 0,
+          //       _id: "5ddcd8d65692222ca785b1f8",
+          //     },
+          //     // { name: 'Ali', staffID: 19, email: 'ali@email.com', branch: 'branch-2', department: 'dep-2', scores: [90,30] }
+          //  ]
+        }
+     }
+     
     showModal = () => {
       this.setState({
         visible: true,
@@ -55,73 +77,47 @@ const departments = [
         visible: false,
       });
     };
-  
-    render() {
-      return (
-        <div>
-          <Button type="primary" onClick={this.showModal}>
-            Open Modal
-          </Button>
-          <Modal
-            title="Basic Modal"
-            visible={this.state.visible}
-            onOk={this.handleOk}
-            onCancel={this.handleCancel}
-          >
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-          </Modal>
-        </div>
-      );
-    }
-  }
 
-  class Table extends React.Component {
-     constructor(props) {
-        super(props) 
-        this.state = { 
-          tableHeader: ["Name", "StaffID", "Email", "Branch", "Department", "Scores"],
-          //  staff: [
-          //     { 
-          //       branches: ["branch-1", "department-1"],
-          //       email: "cas386@pitt.edu",
-          //       grade: 0,
-          //       nickname: "Eden",
-          //       password: "$2a$10$6AWdOMM0MjJp0oq.h1ES1ePA8R4sSq2HH8khC0aF7gpDmObpKAdkC",
-          //       permission: 0,
-          //       phone: 341241324341,
-          //       prefix: 86,
-          //       staffID: 1,
-          //       __v: 0,
-          //       _id: "5ddcd8d65692222ca785b1f8",
-          //     },
-          //     // { name: 'Ali', staffID: 19, email: 'ali@email.com', branch: 'branch-2', department: 'dep-2', scores: [90,30] }
-          //  ]
-        }
-     }
-  
-
-     renderTableData() {
-       console.log("staffList: ", this.props.staffList[0]);
-       console.log("type: ", typeof(this.props.staffList))
-       if (!this.props.staffList) {
-         return;
-        } else {
-          return this.props.staffList.map((staff) => {
-            const { branches, email, grade, nickname, staffID } = staff
-            return (
-               <tr key={staffID}>
-                  <td>{nickname}</td>
-                  <td>{staffID}</td>
-                  <td>{email}</td>
-                  <td>{branches[0]}</td>
-                  <td>{branches[1]}</td>
-                  <td>{grade}</td>
-               </tr>
-            )
-         })
-        }
+    renderTableData() {
+      console.log("staffList: ", this.props.staffList[0]);
+      console.log("type: ", typeof(this.props.staffList))
+      if (!this.props.staffList) {
+        return;
+       } else {
+         return this.props.staffList.map((staff) => {
+           const { branches, email, progresses, nickname, staffID } = staff
+           return (
+              <tr key={staffID}>
+                <td>{nickname}</td>
+                <td>{staffID}</td>
+                <td>{email}</td>
+                <td>{branches[0]}</td>
+                <td>{branches[1]}</td>
+                <td>
+                  <div>
+                    <Button type="primary" onClick={this.showModal}>
+                      View Details
+                    </Button>
+                    <Modal
+                      title="Basic Modal"
+                      visible={this.state.visible}
+                      onOk={this.handleOk}
+                      onCancel={this.handleCancel}
+                    >
+                    {
+                      progresses.map((g) => {
+                        return (
+                          <p>{}</p> // <------------------- scores & chapters
+                        )
+                      })
+                    }
+                    </Modal>
+                  </div> 
+                </td>
+              </tr>
+           )
+        })
+       }
     }
 
     renderTableHeader() {
