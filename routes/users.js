@@ -44,7 +44,7 @@ router.get('/test', async (req, res) => {
       chapters.forEach(chapter => {
         init[chapter.title] = {viewed: 0, scores: []}
       })
-      return res.json(init)
+      return res.json("huhu")
     })
   } catch (error) {
     return res.status(500).json({
