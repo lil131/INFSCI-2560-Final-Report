@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import 'antd/dist/antd.css';
 import './UserDataManagement.css';
-import { Form, Row, Col, Input, Button, Cascader, Select } from 'antd';
+import { Form, Row, Col, Input, Button, Cascader, Select, Modal } from 'antd';
 import axios from 'axios';
 
 const { Option } = Select;
@@ -33,35 +33,99 @@ const departments = [
     }
   ];
 
+  class Scores extends React.Component {
+    state = { visible: false };
+  
+    showModal = () => {
+      this.setState({
+        visible: true,
+      });
+    };
+  
+    handleOk = e => {
+      console.log(e);
+      this.setState({
+        visible: false,
+      });
+    };
+  
+    handleCancel = e => {
+      console.log(e);
+      this.setState({
+        visible: false,
+      });
+    };
+  
+    render() {
+      return (
+        <div>
+          <Button type="primary" onClick={this.showModal}>
+            Open Modal
+          </Button>
+          <Modal
+            title="Basic Modal"
+            visible={this.state.visible}
+            onOk={this.handleOk}
+            onCancel={this.handleCancel}
+          >
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+          </Modal>
+        </div>
+      );
+    }
+  }
+
   class Table extends React.Component {
      constructor(props) {
-        super(props) //since we are extending class Table so we have to use super in order to override Component class constructor
-        this.state = { //state is by default an object
-           staff: [
-              { id: 1, name: 'Wasif', staffID: 21, email: 'wasif@email.com', scores: [90,30] },
-              { id: 2, name: 'Ali', staffID: 19, email: 'ali@email.com', scores: [90,30] },
-              { id: 3, name: 'Saad', staffID: 16, email: 'saad@email.com', scores: [90,30] },
-              { id: 4, name: 'Asad', staffID: 25, email: 'asad@email.com', scores: [90,30] }
-           ]
+        super(props) 
+        this.state = { 
+          tableHeader: ["Name", "StaffID", "Email", "Branch", "Department", "Scores"],
+          //  staff: [
+          //     { 
+          //       branches: ["branch-1", "department-1"],
+          //       email: "cas386@pitt.edu",
+          //       grade: 0,
+          //       nickname: "Eden",
+          //       password: "$2a$10$6AWdOMM0MjJp0oq.h1ES1ePA8R4sSq2HH8khC0aF7gpDmObpKAdkC",
+          //       permission: 0,
+          //       phone: 341241324341,
+          //       prefix: 86,
+          //       staffID: 1,
+          //       __v: 0,
+          //       _id: "5ddcd8d65692222ca785b1f8",
+          //     },
+          //     // { name: 'Ali', staffID: 19, email: 'ali@email.com', branch: 'branch-2', department: 'dep-2', scores: [90,30] }
+          //  ]
         }
      }
+  
 
      renderTableData() {
-       return this.state.staff.map((staff, index) => {
-          const { id, name, staffID, email, scores } = staff //destructuring
-          return (
-             <tr key={id}>
-                <td>{name}</td>
-                <td>{staffID}</td>
-                <td>{email}</td>
-                <td>{scores}</td>
-             </tr>
-          )
-       })
+       console.log("staffList: ", this.props.staffList[0]);
+       console.log("type: ", typeof(this.props.staffList))
+       if (!this.props.staffList) {
+         return;
+        } else {
+          return this.props.staffList.map((staff) => {
+            const { branches, email, grade, nickname, staffID } = staff
+            return (
+               <tr key={staffID}>
+                  <td>{nickname}</td>
+                  <td>{staffID}</td>
+                  <td>{email}</td>
+                  <td>{branches[0]}</td>
+                  <td>{branches[1]}</td>
+                  <td>{grade}</td>
+               </tr>
+            )
+         })
+        }
     }
 
     renderTableHeader() {
-      let header = Object.keys(this.state.staff[0])
+      let header = this.state.tableHeader;
       return header.map((key, index) => {
          return <th key={index}>{key.toUpperCase()}</th>
       })
@@ -70,7 +134,6 @@ const departments = [
    render() {
       return (
          <div>
-            <h1 id='title'>React Dynamic Table</h1>
             <table id='staff'>
                <tbody>
                   <tr>{this.renderTableHeader()}</tr>
@@ -92,6 +155,7 @@ class UserDataManagement extends React.Component {
 
   state = {
     expand: false,
+    staff: []
   };
 
   // To generate mock Form.Item
@@ -154,16 +218,17 @@ class UserDataManagement extends React.Component {
     return children;
   }
 
+
   handleSearch = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       console.log('Received values of form: ', values);
         if (!err) {
           axios.post('/users/manager/search', values)
-          .then(function (response) {
-            console.log(response);
-            this.setState(response.data)
-            // TODO: Clear form data here
+          .then((response) => {
+            const staffs = response.data;
+            console.log("staffs: ", staffs);
+            this.setState({staff: staffs});
           })
           .catch(function (error) {
             console.log(error);
@@ -178,7 +243,7 @@ class UserDataManagement extends React.Component {
 
   toggle = () => {
     const { expand } = this.state;
-    this.setState({ expand: !expand });
+    this.setState({ expand: !expand, staff: [] });
   };
 
   render() {
@@ -197,7 +262,7 @@ class UserDataManagement extends React.Component {
             </Col>
           </Row>
         </Form>
-        <Table/>
+        <Table staffList={this.state.staff}/>
       </div>
     );
   }
