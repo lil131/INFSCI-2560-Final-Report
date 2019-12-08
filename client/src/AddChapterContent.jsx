@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import 'antd/dist/antd.css';
 import './Login.css';
 import './AddChapterContent.css';
-import { Form, Icon, Input, Button, Checkbox, Card } from "antd";
+import { Form, Row, Col, Icon, Input, Button, Checkbox, Card } from "antd";
 import { connect } from "react-redux";
 import { loginUser } from "./actions/authActions";
 import {Editor, EditorState, RichUtils} from 'draft-js';
@@ -52,23 +52,61 @@ class AddChapterContent extends Component {
   };
 
   render() {
+    const { getFieldDecorator } = this.props.form;
     return (
       <div>
-        <button onClick={this._onBoldClick.bind(this)}>Bold</button>
-        <Editor
-          editorState={this.state.editorState}
-          handleKeyCommand={this.handleKeyCommand}
-          onChange={this.onChange}
-        />
+        <h2>Add Chapter</h2>
+
+        <Form className="ant-advanced-search-form" onSubmit={this.handleSearch}>
+          <Form.Item label="Title">
+            {getFieldDecorator("chapter_title", {
+              rules: [
+                {
+                  required: false,
+                  message: 'Input something!',
+                },
+              ],
+            })(<Input placeholder="Chapter Title" />)}
+          </Form.Item>
+          <Form.Item label="Content">
+            {getFieldDecorator("content", {
+              rule: [
+                {
+                  required: true,
+                  message: "Input chapter content"
+                }
+              ]
+            })(<div style={styles.editor} onClick={this.focusEditor}>
+              <Editor
+                ref={this.setEditor}
+                editorState={this.state.editorState}
+                onChange={this.onChange}
+              />
+            </div>)
+
+            }
+          </Form.Item>
+          <Row>
+            <Col span={24} style={{ textAlign: 'right' }}>
+              <Button type="primary" htmlType="submit">
+                Search
+              </Button>
+              <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
+                Clear
+              </Button>
+            </Col>
+          </Row>
+        </Form>
       </div>
-      )
+    )
   }
 }
 
 const styles = {
   editor: {
     border: '1px solid gray',
-    minHeight: '6em'
+    minHeight: '6em',
+    color: 'rgba(0, 0, 0, 0.65)'
   }
 };
 
