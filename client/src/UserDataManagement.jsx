@@ -33,55 +33,12 @@ const departments = [
     }
   ];
 
-  class Scores extends React.Component {
-    state = { visible: false };
-  
-    showModal = () => {
-      this.setState({
-        visible: true,
-      });
-    };
-  
-    handleOk = e => {
-      console.log(e);
-      this.setState({
-        visible: false,
-      });
-    };
-  
-    handleCancel = e => {
-      console.log(e);
-      this.setState({
-        visible: false,
-      });
-    };
-  
-    render() {
-      return (
-        <div>
-          <Button type="primary" onClick={this.showModal}>
-            Open Modal
-          </Button>
-          <Modal
-            title="Basic Modal"
-            visible={this.state.visible}
-            onOk={this.handleOk}
-            onCancel={this.handleCancel}
-          >
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-          </Modal>
-        </div>
-      );
-    }
-  }
-
   class Table extends React.Component {
-     constructor(props) {
-        super(props) 
-        this.state = { 
-          tableHeader: ["Name", "StaffID", "Email", "Branch", "Department", "Scores"],
+    constructor(props) {
+      super(props) 
+      this.state = { 
+        tableHeader: ["Name", "StaffID", "Email", "Branch", "Department", "Scores"],
+        visible: false,
           //  staff: [
           //     { 
           //       branches: ["branch-1", "department-1"],
@@ -100,28 +57,71 @@ const departments = [
           //  ]
         }
      }
+     
+    showModal = () => {
+      this.setState({
+        visible: true,
+      });
+    };
   
+    handleOk = e => {
+      // console.log(e);
+      this.setState({
+        visible: false,
+      });
+    };
+  
+    handleCancel = e => {
+      // console.log(e);
+      this.setState({
+        visible: false,
+      });
+    };
 
-     renderTableData() {
-       console.log("staffList: ", this.props.staffList[0]);
-       console.log("type: ", typeof(this.props.staffList))
-       if (!this.props.staffList) {
-         return;
-        } else {
-          return this.props.staffList.map((staff) => {
-            const { branches, email, grade, nickname, staffID } = staff
-            return (
-               <tr key={staffID}>
-                  <td>{nickname}</td>
-                  <td>{staffID}</td>
-                  <td>{email}</td>
-                  <td>{branches[0]}</td>
-                  <td>{branches[1]}</td>
-                  <td>{grade}</td>
-               </tr>
-            )
-         })
-        }
+    renderTableData() {
+      console.log("staffList: ", this.props.staffList[0]);
+      console.log("type of staffList: ", typeof(this.props.staffList))
+      if (!this.props.staffList) {
+        return;
+       } else {
+         return this.props.staffList.map((staff) => {
+           const { branches, email, progress, nickname, staffID } = staff
+           return (
+              <tr key={staffID}>
+                <td>{nickname}</td>
+                <td>{staffID}</td>
+                <td>{email}</td>
+                <td>{branches[0]}</td>
+                <td>{branches[1]}</td>
+                <td>
+                  <div>
+                    <Button type="primary" onClick={this.showModal}>
+                      View Details
+                    </Button>
+                    <Modal
+                      title="Basic Modal"
+                      visible={this.state.visible}
+                      onOk={this.handleOk}
+                      onCancel={this.handleCancel}
+                    >
+                    { console.log("progress type: ", typeof(progress[0].progresses));
+                      const chapterPrg = progress[0].progresses;
+                      Object.keys(chapterPrg).map((key, index) => {
+                        
+                      });
+                      // progress[0].progresses.map((g) => {
+                      //   return (
+                      //     <p>{}</p> // <------------------- scores & chapters
+                      //   )
+                      // })
+                    }
+                    </Modal>
+                  </div> 
+                </td>
+              </tr>
+           )
+        })
+       }
     }
 
     renderTableHeader() {
