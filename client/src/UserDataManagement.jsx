@@ -65,14 +65,14 @@ const departments = [
     };
   
     handleOk = e => {
-      console.log(e);
+      // console.log(e);
       this.setState({
         visible: false,
       });
     };
   
     handleCancel = e => {
-      console.log(e);
+      // console.log(e);
       this.setState({
         visible: false,
       });
@@ -80,12 +80,12 @@ const departments = [
 
     renderTableData() {
       console.log("staffList: ", this.props.staffList[0]);
-      console.log("type: ", typeof(this.props.staffList))
+      console.log("type of staffList: ", typeof(this.props.staffList))
       if (!this.props.staffList) {
         return;
        } else {
          return this.props.staffList.map((staff) => {
-           const { branches, email, progresses, nickname, staffID } = staff
+           const { branches, email, progress, nickname, staffID } = staff
            return (
               <tr key={staffID}>
                 <td>{nickname}</td>
@@ -104,12 +104,16 @@ const departments = [
                       onOk={this.handleOk}
                       onCancel={this.handleCancel}
                     >
-                    {
-                      progresses.map((g) => {
-                        return (
-                          <p>{}</p> // <------------------- scores & chapters
-                        )
-                      })
+                    { console.log("progress type: ", typeof(progress[0].progresses));
+                      const chapterPrg = progress[0].progresses;
+                      Object.keys(chapterPrg).map((key, index) => {
+                        
+                      });
+                      // progress[0].progresses.map((g) => {
+                      //   return (
+                      //     <p>{}</p> // <------------------- scores & chapters
+                      //   )
+                      // })
                     }
                     </Modal>
                   </div> 
