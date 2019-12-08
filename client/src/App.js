@@ -18,6 +18,8 @@ import ManagerPage from './ManagerPage';
 import EditAccountWrapper from './EditAccountWrapper';
 import Login from './Login';
 import PrivateRoute from './components/PrivateRoute';
+import AddChapterContent from './AddChapterContent'
+
 const WrappedLogin = Form.create({ name: 'normal_login' })(Login);
 
 class App extends React.Component {
@@ -107,6 +109,9 @@ class App extends React.Component {
       case 'profile':
       console.log("profile");
 
+      break;
+      case 'addChapter':
+      window.location.href = "/chapters/add";
       break;
       case 'managerPage':
       console.log("managerPage");
@@ -236,6 +241,7 @@ class App extends React.Component {
                   <PrivateRoute exact path="/chapter/:chapter_id" component={ChapterContent} />
                   <PrivateRoute exact path="/questions/:chapter_id" component={QuestionSet} />
                   <PrivateRoute exact path="/profile" component={EditAccountWrapper} />
+                  <PrivateRoute exact path="/chapters/add" component={AddChapterContent} />
                 </Switch>
             </div>
           </HomeLayout>

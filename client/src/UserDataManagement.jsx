@@ -162,6 +162,7 @@ class UserDataManagement extends React.Component {
           axios.post('/users/manager/search', values)
           .then(function (response) {
             console.log(response);
+            this.setState(response.data)
             // TODO: Clear form data here
           })
           .catch(function (error) {
