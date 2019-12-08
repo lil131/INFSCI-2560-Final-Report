@@ -37,31 +37,53 @@ const departments = [
      constructor(props) {
         super(props) 
         this.state = { 
-           staff: [
-              { name: 'Wasif', staffID: 21, email: 'wasif@email.com', branch: 'branch-1', department: 'dep-1', scores: [90,30] },
-              { name: 'Ali', staffID: 19, email: 'ali@email.com', branch: 'branch-2', department: 'dep-2', scores: [90,30] }
-           ]
+          tableHeader: ["Name", "StaffID", "Email", "Branch", "Department", "Scores"],
+          //  staff: [
+          //     { 
+          //       branches: ["branch-1", "department-1"],
+          //       email: "cas386@pitt.edu",
+          //       grade: 0,
+          //       nickname: "Eden",
+          //       password: "$2a$10$6AWdOMM0MjJp0oq.h1ES1ePA8R4sSq2HH8khC0aF7gpDmObpKAdkC",
+          //       permission: 0,
+          //       phone: 341241324341,
+          //       prefix: 86,
+          //       staffID: 1,
+          //       __v: 0,
+          //       _id: "5ddcd8d65692222ca785b1f8",
+          //     },
+          //     // { name: 'Ali', staffID: 19, email: 'ali@email.com', branch: 'branch-2', department: 'dep-2', scores: [90,30] }
+          //  ]
         }
      }
+  
 
      renderTableData() {
-       return this.state.staff.map((staff, index) => {
-          const { name, staffID, email, branch, department, scores } = staff
-          return (
-             <tr key={staffID}>
-                <td>{name}</td>
-                <td>{staffID}</td>
-                <td>{email}</td>
-                <td>{branch}</td>
-                <td>{department}</td>
-                <td>{scores}</td>
-             </tr>
-          )
-       })
+       console.log("staffList: ", this.props.staffList[0]);
+       let arr = [1,2,3,4]//this.props.staffList
+       console.log("dji: "+ typeof(arr))
+       console.log("type: ", typeof(this.props.staffList))
+       if (!this.props.staffList) {
+         return;
+        } else {
+          return this.props.staffList.map((staff) => {
+            const { branches, email, grade, nickname, staffID } = staff
+            return (
+               <tr key={staffID}>
+                  <td>{nickname}</td>
+                  <td>{staffID}</td>
+                  <td>{email}</td>
+                  <td>{branches[0]}</td>
+                  <td>{branches[1]}</td>
+                  <td>{grade}</td>
+               </tr>
+            )
+         })
+        }
     }
 
     renderTableHeader() {
-      let header = Object.keys(this.state.staff[0])
+      let header = this.state.tableHeader;
       return header.map((key, index) => {
          return <th key={index}>{key.toUpperCase()}</th>
       })
@@ -91,6 +113,7 @@ class UserDataManagement extends React.Component {
 
   state = {
     expand: false,
+    staff: []
   };
 
   // To generate mock Form.Item
@@ -153,15 +176,17 @@ class UserDataManagement extends React.Component {
     return children;
   }
 
+
   handleSearch = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       console.log('Received values of form: ', values);
         if (!err) {
           axios.post('/users/manager/search', values)
-          .then(function (response) {
-            console.log(response);
-            // TODO: Clear form data here
+          .then((response) => {
+            const staffs = response.data;
+            console.log("staffs: ", staffs);
+            this.setState({staff: staffs});
           })
           .catch(function (error) {
             console.log(error);
@@ -176,7 +201,7 @@ class UserDataManagement extends React.Component {
 
   toggle = () => {
     const { expand } = this.state;
-    this.setState({ expand: !expand });
+    this.setState({ expand: !expand, staff: [] });
   };
 
   render() {
@@ -195,7 +220,7 @@ class UserDataManagement extends React.Component {
             </Col>
           </Row>
         </Form>
-        <Table/>
+        <Table staffList={this.state.staff}/>
       </div>
     );
   }
