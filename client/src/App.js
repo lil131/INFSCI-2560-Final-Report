@@ -19,6 +19,8 @@ import EditAccountWrapper from './EditAccountWrapper';
 import Login from './Login';
 import PrivateRoute from './components/PrivateRoute';
 import AddChapterContent from './AddChapterContent'
+import Forget from './Forget';
+import Reset from './Reset';
 
 const WrappedLogin = Form.create({ name: 'normal_login' })(Login);
 
@@ -236,6 +238,8 @@ class App extends React.Component {
                   <PrivateRoute exact path="/" component={Landing} />*/}
                 <Switch>
                   <Route exact path="/login" component={WrappedLogin} />
+                  <Route exact path="/forget" component={WrappedForget} />
+                  <Route exact path="/reset" component={WrappedReset} />
                   <PrivateRoute exact path="/manager" component={ManagerPage} />
                   <PrivateRoute exact path="/chapters" component={ChapterList} />
                   <PrivateRoute exact path="/chapter/:chapter_id" component={ChapterContent} />
