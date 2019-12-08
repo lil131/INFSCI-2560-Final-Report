@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import 'antd/dist/antd.css';
 import './UserDataManagement.css';
-import { Form, Row, Col, Input, Button, Cascader, Select } from 'antd';
+import { Form, Row, Col, Input, Button, Cascader, Select, Modal } from 'antd';
 import axios from 'axios';
 
 const { Option } = Select;
@@ -33,6 +33,50 @@ const departments = [
     }
   ];
 
+  class Scores extends React.Component {
+    state = { visible: false };
+  
+    showModal = () => {
+      this.setState({
+        visible: true,
+      });
+    };
+  
+    handleOk = e => {
+      console.log(e);
+      this.setState({
+        visible: false,
+      });
+    };
+  
+    handleCancel = e => {
+      console.log(e);
+      this.setState({
+        visible: false,
+      });
+    };
+  
+    render() {
+      return (
+        <div>
+          <Button type="primary" onClick={this.showModal}>
+            Open Modal
+          </Button>
+          <Modal
+            title="Basic Modal"
+            visible={this.state.visible}
+            onOk={this.handleOk}
+            onCancel={this.handleCancel}
+          >
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+          </Modal>
+        </div>
+      );
+    }
+  }
+
   class Table extends React.Component {
      constructor(props) {
         super(props) 
@@ -60,8 +104,6 @@ const departments = [
 
      renderTableData() {
        console.log("staffList: ", this.props.staffList[0]);
-       let arr = [1,2,3,4]//this.props.staffList
-       console.log("dji: "+ typeof(arr))
        console.log("type: ", typeof(this.props.staffList))
        if (!this.props.staffList) {
          return;
