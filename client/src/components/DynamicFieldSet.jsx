@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Form, Input, Icon, Button } from 'antd';
 import './DynamicFieldSet.css';
 let id = 0;
+const { TextArea } = Input;
+
 
 class DynamicFieldSet extends Component {
   remove = k => {
@@ -91,6 +93,27 @@ class DynamicFieldSet extends Component {
     ));
     return (
       <Form onSubmit={this.handleSubmit}>
+        <Form.Item label="Title">
+            {getFieldDecorator("chapter_title", {
+              rules: [
+                {
+                  required: false,
+                  message: 'Input something!',
+                },
+              ],
+            })(<Input placeholder="Chapter Title" />)}
+          </Form.Item>
+          <Form.Item label="Content">
+            {getFieldDecorator("content", {
+              rule: [
+                {
+                  required: true,
+                  message: "Input chapter content"
+                }
+              ]
+            })(<TextArea rows={4} placeholder="Chapter Content"/>)
+            }
+          </Form.Item>
         {formItems}
         <Form.Item {...formItemLayoutWithOutLabel}>
           <Button type="dashed" onClick={this.add} style={{ width: '80%' }}>

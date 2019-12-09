@@ -5,6 +5,7 @@ import { Form, Row, Col, Input, Button } from "antd";
 import {Editor, EditorState, RichUtils} from 'draft-js';
 import DynamicFieldSet from './components/DynamicFieldSet'
 import axios from 'axios';
+const { TextArea } = Input;
 
 class AddChapterContent extends Component {
   constructor(props) {
@@ -18,6 +19,7 @@ class AddChapterContent extends Component {
     this.focusEditor = () => {
       if (this.editor) {
         this.editor.focus();
+        console.log("editor: ", this.editor)
       }
     };
   }
@@ -57,7 +59,7 @@ class AddChapterContent extends Component {
         <h2>Add Chapter</h2>
 
         <Form className="ant-advanced-search-form" onSubmit={this.handleSearch}>
-          <Form.Item label="Title">
+          {/* <Form.Item label="Title">
             {getFieldDecorator("chapter_title", {
               rules: [
                 {
@@ -75,16 +77,19 @@ class AddChapterContent extends Component {
                   message: "Input chapter content"
                 }
               ]
-            })(<div style={styles.editor} onClick={this.focusEditor}>
-              <Editor
-                ref={this.setEditor}
-                editorState={this.state.editorState}
-                onChange={this.onChange}
-              />
-            </div>)
+            })(
+              <TextArea rows={4} placeholder="Chapter Content"/>
+            // <div style={styles.editor} onClick={this.focusEditor}>
+            //   <Editor
+            //     ref={this.setEditor}
+            //     editorState={this.state.editorState}
+            //     onChange={this.onChange}
+            //   />
+            // </div>
+            )
 
             }
-          </Form.Item>
+          </Form.Item> */}
           <WrappedDynamicFieldSet />
 
           <Row>
