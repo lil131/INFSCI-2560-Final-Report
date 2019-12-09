@@ -146,12 +146,12 @@ class ChapterList extends React.Component {
                               '100%': '#87d068',
                             }}
                             // percent={80}
-                            percent={(this.state.progresses.progresses[item.title].viewed | 1) / this.state.chapters[index].content.length * 100}
+                            percent={(this.state.progresses.progresses[item.title].viewed) / this.state.chapters[index].content.length * 100}
                           />
                         }
                       />
                       {console.log(item.title, this.state.progresses.progresses[item.title].viewed)}
-                        {console.log("length: ", this.state.chapters[index].content.length)} 
+                        {console.log("length: ", this.state.chapters[index].content.length)}
                     </Skeleton>
                   </List.Item>
                 )}

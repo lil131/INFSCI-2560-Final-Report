@@ -11,7 +11,7 @@ class ChapterContent extends React.Component {
   //   content: PropTypes.arrayOf(PropTypes.string),
   //   onBack: PropTypes.func
   // }
-  
+
   constructor(props) {
     console.log("ChapterContent");
     super(props);
@@ -31,6 +31,7 @@ class ChapterContent extends React.Component {
       .get("/api/chapters/"+chapter_id+"/users/"+userData.user_id)
       .then(res => {
         console.log("result: "+ JSON.stringify(res.data));
+        console.log("rqerqrqw: "+res.data.chapter_content.title);
         let chapter_content = res.data.chapter_content
         let chapter_progress = res.data.progress[chapter_content.title]
         console.log(chapter_content.content);
@@ -38,7 +39,7 @@ class ChapterContent extends React.Component {
           currentPage: chapter_progress.viewed,
           chapter: chapter_content,
           scores: chapter_progress.scores,
-          chapter_content: chapter_content.content
+          chapter_content: chapter_content.content,
         })
       })
       .catch(err =>
@@ -107,14 +108,14 @@ class ChapterContent extends React.Component {
             <Button type='link' onClick={this.onBack} size='large'>
               <Icon type='left' />
             </Button>
-            {`Chapter 1`}
+            {(this.state.chapter) ? this.state.chapter.title : ""}
           </>
         }
         bordered={false}
       >
         <p>
           {this.state.chapter_content[(this.state.currentPage - 1) < 0? 0 : (this.state.currentPage - 1)]}
-          {console.log("content: ", this.state.chapter_content)} 
+          {console.log("content: ", this.state.chapter_content)}
           {console.log("curPage: ", (this.state.currentPage - 1)|0)}
         </p>
         <div align='center'>

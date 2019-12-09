@@ -98,7 +98,7 @@ router.put('/:chapter_id/users/:user_id', async (req, res) => {
             arr.push(req.body.score)
             response.progresses[chapter['title']].scores = arr
           } else {
-            return res.status(480).json("Reached the maximum test times")
+            return res.status(480).json({"error": "Reached the maximum test times"})
           }
         }
         let new_progress = new Progress({user_id: req.params.user_id, progresses: response.progresses})

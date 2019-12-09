@@ -115,8 +115,10 @@ class QuestionSet extends React.Component {
         .then(res => {
           this.setState({userScore: score, disableSubmitBtn: true});
         })
-        .catch(err =>
-          alert(err)
+        .catch(err => {
+          // console.log(JSON.parse(err).error);
+          alert("Reached the maximum test times, please contact your manager to reset the score!")
+        }
         );
     }
   };

@@ -73,6 +73,7 @@ class CreatAccount extends React.Component {
         console.log('Received values of form: ', values);
         delete values.confirm;
         this.props.registerUser(values);
+        window.location.reload(false);
         // values.password = md5(values.password)
         // axios.post('/users', values)
         // .then(function (response) {
