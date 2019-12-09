@@ -120,7 +120,6 @@ class QuestionSet extends React.Component {
         .catch(err =>
           alert(err)
         );
-      // onScoreSubmit(chapterId, questionSetIndex, score);
     }
   };
 

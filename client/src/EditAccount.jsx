@@ -105,35 +105,40 @@ class CreatAccount extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.count = this.count || 1
-    toastr.options = {
-      positionClass : 'toast-top-full-width',
-      hideDuration: 300,
-      timeOut: 5000
-    }
-    toastr.clear()
-    setTimeout(() => toastr.success(`Settings updated ${this.count++}`), 1000)
-    // this.props.form.validateFieldsAndScroll((err, values) => {
-    //   if (!err) {
-    //     console.log('Received values of form: ', values);
-    //     delete values.confirm;
-    //     console.log(values.password);
-    //     if (values.password == undefined || values.password.length > 20) {
-    //       delete values.password
-    //     }
-    //     console.log('11Received values of form: ', values);
-    //     let userData = JSON.parse(localStorage.getItem("currentUser"))
-    //     axios
-    //       .put("/users/"+userData.user_id, values)
-    //       .then(res => {
-    //         console.log("eeee: "+ JSON.stringify(res.data));
-    //         // this.setState({userData: res.data.userData})
-    //       })
-    //       .catch(err =>
-    //         alert(err)
-    //       );
-    //   }
-    // });
+
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+        delete values.confirm;
+        console.log(values.password);
+        if (values.password == undefined || values.password.length > 20) {
+          delete values.password
+        }
+        console.log('11Received values of form: ', values);
+        let userData = JSON.parse(localStorage.getItem("currentUser"))
+        axios
+          .put("/users/"+userData.user_id, values)
+          .then(res => {
+            console.log("eeee: "+ JSON.stringify(res.data));
+            toastr.options = {
+              positionClass : 'toast-top-full-width',
+              hideDuration: 300,
+              timeOut: 5000
+            }
+            toastr.clear()
+            setTimeout(() => toastr.success(`Settings updated`), 1000)
+
+            if(userData.nickname != values.nickname) {
+              userData.nickname = values.nickname
+              localStorage.setItem("currentUser", JSON.stringify(userData));
+              window.location.reload(false);
+            }
+          })
+          .catch(err =>
+            alert(err)
+          );
+      }
+    });
   };
 
   handleConfirmBlur = e => {
