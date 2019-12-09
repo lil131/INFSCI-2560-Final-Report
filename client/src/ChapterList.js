@@ -97,7 +97,7 @@ class ChapterList extends React.Component {
                       >
                           Best Score: {
                             Math.max(...this.state.progresses.progresses[item.title].scores) > 0?
-                              Math.max(...this.state.progresses.progresses[item.title].scores) : 0
+                              Math.max(...this.state.progresses.progresses[item.title].scores).toPrecision(3) : 0
                           }
                           {console.log("score of" + item.title + ":", this.state.progresses.progresses[item.title].scores)}
                       </Tooltip>
