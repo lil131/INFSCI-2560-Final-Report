@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
 import './Login.css';
-import { Form, Row, Col, Button } from "antd";
+import { Form, Row, Col} from "antd";
 // import { connect } from "react-redux";
 // import { loginUser } from "./actions/authActions";
 import {EditorState, RichUtils} from 'draft-js';

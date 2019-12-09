@@ -27,10 +27,10 @@ class ChapterList extends React.Component {
       .get("/api/chapters/users/"+userData.user_id)
       .then(res => {
         console.log("eeee: "+ JSON.stringify(res.data));
-        console.log("userID: ", userData.user_id)
+        console.log("userID: ", userData.user_id);
         this.setState(res.data);
         // this.setState({chapters: res.data.chapters, progresses: res.data.progresses.progresses});
-        console.log("prog: ", res.data.progresses)
+        console.log("prog: ", res.data.progresses);
       })
       .catch(err =>
         alert(err)
