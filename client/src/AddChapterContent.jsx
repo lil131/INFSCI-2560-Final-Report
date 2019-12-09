@@ -7,7 +7,6 @@ import { Form, Row, Col, Button } from "antd";
 import {EditorState, RichUtils} from 'draft-js';
 // import {Editor, EditorState, RichUtils} from 'draft-js';
 import DynamicFieldSet from './components/DynamicFieldSet'
-// import axios from 'axios';
 // const { TextArea } = Input;
 
 class AddChapterContent extends Component {
@@ -46,12 +45,14 @@ class AddChapterContent extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-        this.props.loginUser(values);
-      }
-    });
+    // this.props.form.validateFields((err, values) => {
+    //   if (!err) {
+    //     console.log('1111Received values of form: ', values);
+    //     console.log("----------------------------------");
+    //   }
+    //
+    // });
+
   };
 
   render() {
@@ -60,8 +61,7 @@ class AddChapterContent extends Component {
     return (
       <div>
         <h2>Add Chapter</h2>
-
-        <Form className="ant-advanced-search-form" onSubmit={this.handleSearch}>
+        <Form className="ant-advanced-search-form" onSubmit={this.handleSubmit}>
           {/* <Form.Item label="Title">
             {getFieldDecorator("chapter_title", {
               rules: [
@@ -97,9 +97,9 @@ class AddChapterContent extends Component {
 
           <Row>
             <Col span={24} style={{ textAlign: 'right' }}>
-              <Button type="primary" htmlType="submit">
+              {/*<Button type="primary" htmlType="submit">
                 Add another content
-              </Button>
+              </Button>*/}
             </Col>
           </Row>
         </Form>
