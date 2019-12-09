@@ -83,6 +83,19 @@ class CreatAccount extends React.Component {
     }
   }
 
+  componentWillMount() {
+    let userData = JSON.parse(localStorage.getItem("currentUser"))
+    axios
+      .get("/users/"+userData.user_id)
+      .then(res => {
+        console.log("eeee: "+ JSON.stringify(res.data));
+        this.setState({userData: res.data.userData})
+      })
+      .catch(err =>
+        alert(err)
+      );
+  }
+
   state = {
     confirmDirty: false,
   };
@@ -93,16 +106,21 @@ class CreatAccount extends React.Component {
       if (!err) {
         console.log('Received values of form: ', values);
         delete values.confirm;
-        this.props.registerUser(values);
-        // values.password = md5(values.password)
-        // axios.post('/users', values)
-        // .then(function (response) {
-        //   console.log(response);
-        //   // TODO: Clear form data here
-        // })
-        // .catch(function (error) {
-        //   console.log(error);
-        // });
+        console.log(values.password);
+        if (values.password == undefined || values.password.length > 20) {
+          delete values.password
+        }
+        console.log('11Received values of form: ', values);
+        let userData = JSON.parse(localStorage.getItem("currentUser"))
+        axios
+          .put("/users/"+userData.user_id, values)
+          .then(res => {
+            console.log("eeee: "+ JSON.stringify(res.data));
+            // this.setState({userData: res.data.userData})
+          })
+          .catch(err =>
+            alert(err)
+          );
       }
     });
   };
@@ -131,6 +149,9 @@ class CreatAccount extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
+    const { userData } = this.state;
+    const { phone, branches, email, staffID, password, nickname, prefix } = this.state.userData;
+    console.log("userData:", userData);
 
     const formItemLayout = {
       labelCol: {
@@ -155,18 +176,16 @@ class CreatAccount extends React.Component {
       },
     };
     const prefixSelector = getFieldDecorator('prefix', {
-      initialValue: '86',
+      initialValue: prefix,
     })(
       <Select style={{ width: 70 }}>
         <Option value="86">+86</Option>
         <Option value="852">+852</Option>
+        <Option value="886">+886</Option>
+        <Option value="1">+1</Option>
       </Select>,
     );
 
-
-    const { userData } = this.state;
-    const { phone, branches, email, staffID, password, nickname } = this.state.userData;
-    console.log("userData:", userData);
     return (
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
         <Form.Item label="Email">
@@ -178,11 +197,40 @@ class CreatAccount extends React.Component {
                 message: 'The input is not valid E-mail!',
               },
               {
-                required: true,
+                required: false,
                 message: 'Please input your E-mail!',
               }
             ],
-          })(<Input disabled/>)}
+          })(<p>{email}</p>)}
+        </Form.Item>
+        <Form.Item
+          label={
+            <span>
+              Staff ID&nbsp;
+              <Tooltip title="The serial number on your staff card.">
+                <Icon type="question-circle-o" />
+              </Tooltip>
+            </span>
+          }
+        >
+          {getFieldDecorator('staffID', {
+            initialValue: staffID
+          })(<p>{staffID}</p>)}
+        </Form.Item>
+        <Form.Item
+          label={
+            <span>
+              Name&nbsp;
+              <Tooltip title="The real name on your staff card.">
+                <Icon type="question-circle-o" />
+              </Tooltip>
+            </span>
+          }
+        >
+          {getFieldDecorator('nickname', {
+            initialValue: nickname,
+            rules: [{ required: false, message: 'Please input your name!', whitespace: true }],
+          })(<Input placeholder={nickname} />)}
         </Form.Item>
         <Form.Item
           label={
@@ -198,7 +246,7 @@ class CreatAccount extends React.Component {
           {getFieldDecorator('password', {
             rules: [
               {
-                required: true,
+                required: false,
                 message: 'Please input your password!',
               },
               {
@@ -211,7 +259,7 @@ class CreatAccount extends React.Component {
           {getFieldDecorator('confirm', {
             rules: [
               {
-                required: true,
+                required: false,
                 message: 'Please confirm your password!',
               },
               {
@@ -220,63 +268,24 @@ class CreatAccount extends React.Component {
             ],
           })(<Input.Password placeholder="*****" onBlur={this.handleConfirmBlur} />)}
         </Form.Item>
-        <Form.Item
-          label={
-            <span>
-              Name&nbsp;
-              <Tooltip title="The real name on your staff card.">
-                <Icon type="question-circle-o" />
-              </Tooltip>
-            </span>
-          }
-        >
-          {getFieldDecorator('nickname', {
-            rules: [{ required: true, message: 'Please input your name!', whitespace: true }],
-          })(<Input placeholder={nickname}/>)}
-        </Form.Item>
-        <Form.Item
-          label={
-            <span>
-              Staff ID&nbsp;
-              <Tooltip title="The serial number on your staff card.">
-                <Icon type="question-circle-o" />
-              </Tooltip>
-            </span>
-          }
-        >
-          {getFieldDecorator('staffID', {
-            initialValue: staffID,
-            rules: [{ required: true, message: 'Please input your staff ID!', whitespace: true }],
-          })(<Input disabled/>)}
-        </Form.Item>
         <Form.Item label="Branch / Department">
           {getFieldDecorator('branches', {
             initialValue: [branches[0], branches[1]],
             rules: [
-              { type: 'array', required: true, message: 'Please select your branch & department!' },
+              { type: 'array', required: false, message: 'Please select your branch & department!' },
             ],
           })(<Cascader options={defaultBranches} />)}
         </Form.Item>
-
-        <Form.Item label="Permission">
-          {getFieldDecorator('permission', {
-            rules: [{ required: true, message: 'Please assign the user permission' }],
-          })(
-            <Select>
-            </Select>,
-          )}
-        </Form.Item>
-
-
         <Form.Item label="Phone Number">
           {getFieldDecorator('phone', {
-            rules: [{ required: true, message: 'Please input your phone number!' }],
+            initialValue: phone,
+            rules: [{ required: false, message: 'Please input your phone number!' }],
           })(<Input addonBefore={prefixSelector} placeholder={phone} style={{ width: '100%' }} />)}
         </Form.Item>
 
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">
-            Register
+            Update
           </Button>
         </Form.Item>
       </Form>
