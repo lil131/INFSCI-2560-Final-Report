@@ -127,7 +127,7 @@ class QuestionSet extends React.Component {
 
   test = () => {
     console.log("Quit");
-    const { questions, chapterId } = this.props.location.state;
+    const { questions } = this.props.location.state;
     console.log("questions: " + JSON.stringify(questions));
     console.log("userAnswers: " + JSON.stringify(this.state.userAnswers));
 

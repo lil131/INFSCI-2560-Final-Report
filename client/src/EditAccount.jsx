@@ -111,7 +111,7 @@ class CreatAccount extends React.Component {
       if (!err) {
         // console.log('Received values of form: ', values);
         delete values.confirm;
-        if (values.password == undefined || values.password.length > 20) {
+        if (values.password === undefined || values.password.length > 20) {
           delete values.password
         }
 
@@ -129,7 +129,7 @@ class CreatAccount extends React.Component {
             setTimeout(() => toastr.success(`Settings updated`), 1000)
 
             if (userData.email === values.email) {
-              if(userData.nickname != values.nickname) {
+              if(userData.nickname !== values.nickname) {
                 userData.nickname = values.nickname
                 localStorage.setItem("currentUser", JSON.stringify(userData));
                 window.location.reload(false);
@@ -169,7 +169,7 @@ class CreatAccount extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { userData } = this.state;
-    const { phone, branches, email, staffID, password, nickname, prefix } = this.state.userData;
+    const { phone, branches, email, staffID, nickname, prefix } = this.state.userData;
     console.log("userData:", userData);
 
     const formItemLayout = {

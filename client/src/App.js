@@ -199,8 +199,8 @@ class App extends React.Component {
   }
 
   render() {
-    const { user, chapterId, chapters, currentTest } = this.state;
-    const questionSet = chapters[0].questionSets[0];
+    // const { user, chapterId, chapters, currentTest } = this.state;
+    // const questionSet = chapters[0].questionSets[0];
 
     // const MyChapterList = (props) => {
     //   return (

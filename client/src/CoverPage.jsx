@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Card, Button } from "antd";
 import './CoverPage.css';
 import {
-  BrowserRouter as Router,
+  // BrowserRouter as Router,
   Link
 } from "react-router-dom";
 

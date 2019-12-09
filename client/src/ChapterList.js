@@ -13,8 +13,8 @@ class ChapterList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      chapters: [],
-      progresses: null,
+      // chapters: [],
+      // progresses: null,
     }
   }
 
@@ -27,9 +27,10 @@ class ChapterList extends React.Component {
       .get("/api/chapters/users/"+userData.user_id)
       .then(res => {
         console.log("eeee: "+ JSON.stringify(res.data));
+        console.log("userID: ", userData.user_id)
         this.setState(res.data);
         // this.setState({chapters: res.data.chapters, progresses: res.data.progresses.progresses});
-        console.log("", res.data.chapters)
+        console.log("prog: ", res.data.progresses)
       })
       .catch(err =>
         alert(err)
@@ -145,10 +146,12 @@ class ChapterList extends React.Component {
                               '100%': '#87d068',
                             }}
                             // percent={80}
-                            percent={this.state.progresses.progresses[item.title].viewed / this.state.chapters[0].content.length * 100}
+                            percent={(this.state.progresses.progresses[item.title].viewed | 1) / this.state.chapters[index].content.length * 100}
                           />
                         }
                       />
+                      {console.log(item.title, this.state.progresses.progresses[item.title].viewed)}
+                        {console.log("length: ", this.state.chapters[index].content.length)} 
                     </Skeleton>
                   </List.Item>
                 )}

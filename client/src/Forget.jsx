@@ -1,5 +1,5 @@
 import { Form, Icon, Input, Button, Card } from "antd";
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import 'antd/dist/antd.css';
 import './Login.css';
