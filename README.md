@@ -36,7 +36,13 @@ Linlu Liu and Shengxuan Qiu are mainly responsible for front-end, Cai-Cian Song 
 ##  Technical Architecture
 `What are the libraries, frameworks, and other technologies you used and how did you put them together. Use the MVC conceptual model to provide a guide (i.e. what are the models/views/controllers and what do they do).`
 ##  Challenges
-`Discuss any challenges you faced in trying to develop this app. Were there libraries or technologies you wanted to use but we’re frustrating? Where there features you couldn’t get working?`
+When we tried to build the reset password API, we did face some challenges head-on. The first is less secure problem and the other one is about encrypting the password. Fortunately, we overcame two critical challenges and activated the functions. 
+1. Less secure app
+> In our structure, we expect that users enter their emails as the parameter of the API after they click the “forgot password” button in the frontend application,  and backend system will create a random token and send the authentic email to the user immediately. After the user confirms the email in an hour, it will redirect the user to the reset password page with unique token which allows our system to verify the reset request is from the user.  Therefore, we use “nodemailer” in node.js to achieve this function and it needs a transport service using which it can send emails.  (We used gmail as our transport service.) 
+However,  Google account did not allow us to access since it determined that our app is non secure. We have tried to create and use app passwords from the google document. It did not work at first, but after we enabled the less secure apps option, it worked. Meaning, nodemailer can use our gmail for sending the emails now.
+2. Password encryption
+> Nevertheless, we faced another issue immediately while resetting the password. At first, we used a synchronous approach ` bcrypt.hashSync('myPassword', 10); ` to create one-way hashes. Yet, it did not consist with our structure as we worked with asynchronous JavaScript.  While the sync version is more convenient, it's best to stick with async since we are concerned about performance. The asynchronous approach is recommended because hashing is CPU intensive, and the synchronous version will block the event loop and prevent your app from handling other requests until it finishes. Thus, we changed to use asynchronous approach ` bcrypt.hash('myPassword', 10, function(err, hash){});` and properly hashed and verified the password using Node.js and Bcrypt.
+
 ## Future Work
 `What features would you like to add to your application? If you had more time what technologies would you like to learn?`
 ## Conclusion
