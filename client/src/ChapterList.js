@@ -27,10 +27,10 @@ class ChapterList extends React.Component {
       .get("/api/chapters/users/"+userData.user_id)
       .then(res => {
         console.log("eeee: "+ JSON.stringify(res.data));
-        console.log("userID: ", userData.user_id)
+        console.log("userID: ", userData.user_id);
         this.setState(res.data);
         // this.setState({chapters: res.data.chapters, progresses: res.data.progresses.progresses});
-        console.log("prog: ", res.data.progresses)
+        console.log("prog: ", res.data.progresses);
       })
       .catch(err =>
         alert(err)
@@ -146,7 +146,7 @@ class ChapterList extends React.Component {
                               '100%': '#87d068',
                             }}
                             // percent={80}
-                            percent={(this.state.progresses.progresses[item.title].viewed | 1) / this.state.chapters[index].content.length * 100}
+                            percent={(this.state.progresses.progresses[item.title].viewed) / this.state.chapters[index].content.length * 100}
                           />
                         }
                       />

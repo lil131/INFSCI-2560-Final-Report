@@ -17,7 +17,7 @@ class CoverPage extends React.Component {
     this.state = {}
   }
 
- onClickOfImage = () => {window.location.href = "/chapters";}
+ onClickOfImage = () => {window.location.href = "/login";}
 
   render() {
     return (

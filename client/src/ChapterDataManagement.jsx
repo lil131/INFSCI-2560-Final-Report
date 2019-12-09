@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import 'antd/dist/antd.css';
 import './UserDataManagement.css';
 import './CoverPage.css';
-import { Form, Row, Col, Input, Button, Modal } from 'antd';
+import { Button } from 'antd';
+// import { Form, Row, Col, Input, Button, Modal } from 'antd';
 import axios from 'axios';
-import { throws } from 'assert';
+// import { throws } from 'assert';
 import {
-  BrowserRouter as Router,
+  // BrowserRouter as Router,
   Link
 } from "react-router-dom";
 
@@ -24,7 +25,7 @@ import {
     handleDelete = (chapter_id, e) => {
       console.log("DELETE", chapter_id);
       var r = window.confirm("This action is irreversible, are you sure to delete this chapter?");
-      if (r == true) {
+      if (r === true) {
         axios
           .delete("/api/chapters/"+chapter_id)
           .then(res => {
@@ -54,7 +55,7 @@ import {
               <tr key={_id}>
                 <td>{title}</td>
                 <td>
-                  <Button onClick={this.handleEdit}>Edit</Button>
+                  {/* <Button onClick={this.handleEdit}>Edit</Button> */}
                   <Button onClick={this.handleDelete.bind(null, _id)} className="btn-gap" type="danger">Delete</Button>
                 </td>
               </tr>
@@ -70,7 +71,7 @@ import {
    }
 
    render() {
-     const header = ['Chapter Title', "function"]
+     const header = ['Chapter Title', "Delete"]
       return (
          <div>
             <table id='staff'>
