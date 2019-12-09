@@ -13,7 +13,7 @@ class ChapterList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      chapters: [], 
+      chapters: [],
       progresses: null,
       scores:[],
     }
@@ -81,7 +81,7 @@ class ChapterList extends React.Component {
   render() {
     return (
       <div>
-      <button onClick={this.test}>check</button>
+      {/*<button onClick={this.test}>check</button>*/}
             <Card title='Your Progress' bordered={false}>
               <List
                 className='demo-loadmore-list'

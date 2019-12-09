@@ -145,7 +145,7 @@ class QuestionSet extends React.Component {
 
     return (
       <div>
-      <button onClick={this.test}>check</button>
+      {/*<button onClick={this.test}>check</button>*/}
       <Card
         title={
           <>
