@@ -244,6 +244,7 @@ class App extends React.Component {
                   renders the first one that matches the current URL.
                   <PrivateRoute exact path="/" component={Landing} />*/}
                 <Switch>
+                  <Route exact path="/" component={CoverPage} />
                   <Route exact path="/login" component={WrappedLogin} />
                   <Route exact path="/forget" component={WrappedForget} />
                   <Route exact path="/reset/:token" component={WrappedReset} />
@@ -253,7 +254,6 @@ class App extends React.Component {
                   <PrivateRoute exact path="/questions/:chapter_id" component={QuestionSet} />
                   <PrivateRoute exact path="/profile/:user_id" component={EditAccountWrapper} />
                   <PrivateRoute exact path="/chapters/add" component={WrappedAddChapterContent} />
-                  <PrivateRoute exact path="/coverpage" component={CoverPage} />
                 </Switch>
             </div>
           </HomeLayout>

@@ -12,6 +12,42 @@ require('dotenv').config();
  * @route GET api/chapters
  * @desc query all chapters
  */
+router.get('/', async (req, res) => {
+  try {
+    const chapters = await Chapter.find({});
+    return res.json(chapters)
+
+  } catch (error) {
+    return res.status(500).json({
+      message: 'Internal Server error'
+    });
+  }
+})
+
+/**
+ * @route GET api/chapters
+ * @desc query all chapters
+ */
+router.delete('/:chapter_id', async (req, res) => {
+  try {
+    Chapter.findById(req.params.chapter_id, function(err, chapter) {
+      if (err) {
+        throw err
+      }
+      chapter.remove()
+      return res.json({message: "Action Successfully", debug: chapter})
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: 'Internal Server error'
+    });
+  }
+})
+
+/**
+ * @route GET api/chapters
+ * @desc query all chapters
+ */
 router.get('/users/:user_id', async (req, res) => {
   try {
     const chapters = await Chapter.find({});

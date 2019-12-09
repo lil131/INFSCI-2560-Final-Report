@@ -6,11 +6,12 @@ import { Tabs, Form } from 'antd';
 import './ManagerPage.css';
 import CreatAccount from './CreatAccount.jsx';
 import UserDataManagement from './UserDataManagement';
+import ChapterDataManagement from './ChapterDataManagement';
 
 const { TabPane } = Tabs;
 const WrappedCreatAccount = Form.create({ name: 'register' })(CreatAccount);
 const WrappedUserDataManagement = Form.create({ name: 'advanced_search' })(UserDataManagement);
-
+const WrappedChapterDataManagement = Form.create({ name: 'chapter_list' })(ChapterDataManagement);
 
 class ManagerPage extends React.Component {
 
@@ -22,10 +23,13 @@ class ManagerPage extends React.Component {
     return(
       <div className="card-container">
         <Tabs type="card" size='large'>
-        <TabPane tab="User Data Management" key="2">
+          <TabPane tab="User Data Management" key="1">
             <WrappedUserDataManagement />
           </TabPane>
-          <TabPane tab="Creat Account" key="1">
+          <TabPane tab="Chapter Management" key="2">
+            <WrappedChapterDataManagement />
+          </TabPane>
+          <TabPane tab="Creat Account" key="3">
             <WrappedCreatAccount />
           </TabPane>
         </Tabs>

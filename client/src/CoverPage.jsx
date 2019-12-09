@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card } from "antd";
+import { Card, Button } from "antd";
 import './CoverPage.css';
+import {
+  BrowserRouter as Router,
+  Link
+} from "react-router-dom";
 
 const imgURL = "http://5b0988e595225.cdn.sohucs.com/images/20171025/7b06bb86ad6140bd9dac1f4b669f3103.jpeg";
 class CoverPage extends React.Component {
@@ -18,7 +22,8 @@ class CoverPage extends React.Component {
   render() {
     return (
       <div>
-        <h1><a href="/chapters">Staff Training System</a></h1>
+        {/*<h1><a href="/chapters">Staff Training System</a></h1>*/}
+        <Link to="/login" className="flex-center"><Button className="custom-ant-btn banner-btns">Login Systen</Button></Link>
         <Card id="card-image">
           <img alt="Cover-Page" src={imgURL} onClick={this.onClickOfImage}></img>
         </Card>

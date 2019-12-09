@@ -20,6 +20,7 @@ export function setUserLoading() {
 // Register User
 export const registerUser = (userData) => dispatch => {
   console.log("Enter register user");
+  userData.username = userData.username.toLowerCase()
   axios
     .post("/api/users", userData)
     .then(res => {
@@ -38,6 +39,7 @@ export const registerUser = (userData) => dispatch => {
 */
 export const loginUser = userData => dispatch => {
   console.log("Enter login user");
+  userData.username = userData.username.toLowerCase()
   axios
     .post("/api/users/login", userData)
     .then(res => {
@@ -57,12 +59,13 @@ export const loginUser = userData => dispatch => {
       dispatch(setCurrentUser(decoded));
       localStorage.setItem("currentUser", JSON.stringify(res.data));
     })
-    .catch(err =>
+    .catch(err => {
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
       })
-    );
+      alert("Something wrong. Please check your account and password.")
+    });
 };
 
 // Log user out
