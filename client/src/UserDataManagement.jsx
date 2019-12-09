@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import 'antd/dist/antd.css';
+import './CoverPage.css'
 import './UserDataManagement.css';
 import { Form, Row, Col, Input, Button, Modal } from 'antd';
 import axios from 'axios';
@@ -177,7 +178,7 @@ import {
                       View Details
                     </Button>
                     <Link to={"/profile/"+_id}>
-                      <Button type="primary">
+                      <Button  className="btn-gap" type="primary">
                         Edit
                       </Button>
                     </Link>
