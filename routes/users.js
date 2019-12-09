@@ -162,6 +162,36 @@ router.post('/', async (req, res) => {
 });
 
 /**
+ * @route PUT api/users/
+ * @desc Update an account
+ */
+ router.put('/:user_id', function(req, res) {
+   User.findById(req.params.user_id, function(err, user) {
+     if(req.body.nickname) user.nickname = req.body.nickname
+     if(req.body.branches) user.branches = req.body.branches
+     if(req.body.phone) user.phone = req.body.phone
+     if(req.body.prefix) user.prefix = req.body.prefix
+
+     if(req.body.password) {
+       // user.password = req.body.password
+       bcrypt.hash(req.body.password, 10, (err, hash) => {
+         if (err) throw err;
+         user.password = hash;
+         user
+           .save()
+           .then(user => {
+             return res.json(user)
+           })
+           .catch(err => console.log(err));
+       });
+     } else {
+       user.save()
+       return res.json(user)
+     }
+   })
+ })
+
+/**
  * @route POST api/users/login
  * @desc Login user and return JWT token
  * @access Public

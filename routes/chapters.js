@@ -50,6 +50,10 @@ router.get('/:chapter_id/users/:user_id', async (req, res) => {
     Chapter.findById(req.params.chapter_id, function(err, chapter_content) {
       Progress.findOne({user_id: req.params.user_id}, function(err, user_progress) {
         // TOOD error handle
+        if(!(chapter_content.title in user_progress.progresses)) {
+          user_progress.progresses[chapter_content.title] = {viewed: 0, scores: []}
+        }
+
         let p = user_progress.progresses
         return res.json({
           chapter_content, progress: user_progress.progresses

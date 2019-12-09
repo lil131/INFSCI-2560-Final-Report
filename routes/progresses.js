@@ -78,25 +78,34 @@ router.put('/:chapter_id/users/:user_id', async (req, res) => {
         });
       }
 
-      if (req.body.viewed <= response.progresses[chapter['title']].viewed) {
-        return res.status(200).json("SUCCESS")
-      }
-      if (req.body.viewed) {
-        response.progresses[chapter['title']].viewed = req.body.viewed
-      }
-      if (req.body.score) {
-        let arr = response.progresses[chapter['title']].scores
-        if (arr.length < 2) {
-          arr.push(req.body.score)
-          response.progresses[chapter['title']].scores = arr
-        } else {
-          return res.status(480).json("Reached the maximum test times")
-        }
-      }
-      let new_progress = new Progress({user_id: req.params.user_id, progresses: response.progresses})
+      if (!(chapter.title in response.progresses)) {
+        let obj = {viewed: req.body.viewed, scores: []}
+        response.progresses[chapter.title] = obj
+        let new_progress = new Progress({user_id: req.params.user_id, progresses: response.progresses})
 
-      new_progress.save().then(response.remove())
-      res.status(200).json(new_progress)
+        new_progress.save().then(response.remove())
+        return res.status(200).json(new_progress)
+      } else {
+        if (req.body.viewed <= response.progresses[chapter['title']].viewed) {
+          return res.status(200).json("SUCCESS")
+        }
+        if (req.body.viewed) {
+          response.progresses[chapter['title']].viewed = req.body.viewed
+        }
+        if (req.body.score) {
+          let arr = response.progresses[chapter['title']].scores
+          if (arr.length < 2) {
+            arr.push(req.body.score)
+            response.progresses[chapter['title']].scores = arr
+          } else {
+            return res.status(480).json("Reached the maximum test times")
+          }
+        }
+        let new_progress = new Progress({user_id: req.params.user_id, progresses: response.progresses})
+
+        new_progress.save().then(response.remove())
+        return res.status(200).json(new_progress)
+      }
     })
   })
 });

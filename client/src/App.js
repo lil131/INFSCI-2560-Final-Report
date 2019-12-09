@@ -113,7 +113,7 @@ class App extends React.Component {
     switch (e.key) {
       case 'profile':
       console.log("profile");
-
+      window.location.href = "/profile";
       break;
       case 'addChapter':
       window.location.href = "/chapters/add";
