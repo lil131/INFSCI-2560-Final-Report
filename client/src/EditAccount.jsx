@@ -12,6 +12,7 @@ import 'toastr/build/toastr.min.css'
 
 import {
   Form,
+  Card,
   Input,
   Tooltip,
   Icon,
@@ -166,6 +167,10 @@ class CreatAccount extends React.Component {
     callback();
   };
 
+  onBack = () => {
+    window.history.back();
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const { userData } = this.state;
@@ -206,108 +211,120 @@ class CreatAccount extends React.Component {
     );
 
     return (
-      <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-        <Form.Item label="Email">
-          {getFieldDecorator('email', {
-            initialValue: email,
-            rules: [
-              {
-                type: 'email',
-                message: 'The input is not valid E-mail!',
-              },
-              {
-                required: false,
-                message: 'Please input your E-mail!',
-              }
-            ],
-          })(<p>{email}</p>)}
-        </Form.Item>
-        <Form.Item
-          label={
-            <span>
-              Staff ID&nbsp;
-              <Tooltip title="The serial number on your staff card.">
+      <Card
+        title={
+          <>
+            <Button type='link' onClick={this.onBack} size='large'>
+              <Icon type='left' />
+            </Button>
+            {`Back`}
+          </>
+        }
+        bordered={false}
+      >
+        <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+          <Form.Item label="Email">
+            {getFieldDecorator('email', {
+              initialValue: email,
+              rules: [
+                {
+                  type: 'email',
+                  message: 'The input is not valid E-mail!',
+                },
+                {
+                  required: false,
+                  message: 'Please input your E-mail!',
+                }
+              ],
+            })(<p>{email}</p>)}
+          </Form.Item>
+          <Form.Item
+            label={
+              <span>
+                Staff ID&nbsp;
+                <Tooltip title="The serial number on your staff card.">
+                  <Icon type="question-circle-o" />
+                </Tooltip>
+              </span>
+            }
+          >
+            {getFieldDecorator('staffID', {
+              initialValue: staffID
+            })(<p>{staffID}</p>)}
+          </Form.Item>
+          <Form.Item
+            label={
+              <span>
+                Name&nbsp;
+                <Tooltip title="The real name on your staff card.">
+                  <Icon type="question-circle-o" />
+                </Tooltip>
+              </span>
+            }
+          >
+            {getFieldDecorator('nickname', {
+              initialValue: nickname,
+              rules: [{ required: false, message: 'Please input your name!', whitespace: true }],
+            })(<Input placeholder={nickname} />)}
+          </Form.Item>
+          <Form.Item
+            label={
+              <span>
+                Password&nbsp;
+                <Tooltip title="Should be combination of alphabets and numbers.">
                 <Icon type="question-circle-o" />
-              </Tooltip>
-            </span>
-          }
-        >
-          {getFieldDecorator('staffID', {
-            initialValue: staffID
-          })(<p>{staffID}</p>)}
-        </Form.Item>
-        <Form.Item
-          label={
-            <span>
-              Name&nbsp;
-              <Tooltip title="The real name on your staff card.">
-                <Icon type="question-circle-o" />
-              </Tooltip>
-            </span>
-          }
-        >
-          {getFieldDecorator('nickname', {
-            initialValue: nickname,
-            rules: [{ required: false, message: 'Please input your name!', whitespace: true }],
-          })(<Input placeholder={nickname} />)}
-        </Form.Item>
-        <Form.Item
-          label={
-            <span>
-              Password&nbsp;
-              <Tooltip title="Should be combination of alphabets and numbers.">
-              <Icon type="question-circle-o" />
-              </Tooltip>
-            </span>
-          }
-          hasFeedback
-        >
-          {getFieldDecorator('password', {
-            rules: [
-              {
-                required: false,
-                message: 'Please input your password!',
-              },
-              {
-                validator: this.validateToNextPassword,
-              },
-            ],
-          })(<Input.Password placeholder="*****"/>)}
-        </Form.Item>
-        <Form.Item label="Confirm Password" hasFeedback>
-          {getFieldDecorator('confirm', {
-            rules: [
-              {
-                required: false,
-                message: 'Please confirm your password!',
-              },
-              {
-                validator: this.compareToFirstPassword,
-              },
-            ],
-          })(<Input.Password placeholder="*****" onBlur={this.handleConfirmBlur} />)}
-        </Form.Item>
-        <Form.Item label="Branch / Department">
-          {getFieldDecorator('branches', {
-            initialValue: [branches[0], branches[1]],
-            rules: [
-              { type: 'array', required: false, message: 'Please select your branch & department!' },
-            ],
-          })(<Cascader options={defaultBranches} />)}
-        </Form.Item>
-        <Form.Item label="Phone Number">
-          {getFieldDecorator('phone', {
-            initialValue: phone,
-            rules: [{ required: false, message: 'Please input your phone number!' }],
-          })(<Input addonBefore={prefixSelector} placeholder={phone} style={{ width: '100%' }} />)}
-        </Form.Item>
+                </Tooltip>
+              </span>
+            }
+            hasFeedback
+          >
+            {getFieldDecorator('password', {
+              rules: [
+                {
+                  required: false,
+                  message: 'Please input your password!',
+                },
+                {
+                  validator: this.validateToNextPassword,
+                },
+              ],
+            })(<Input.Password placeholder="*****"/>)}
+          </Form.Item>
+          <Form.Item label="Confirm Password" hasFeedback>
+            {getFieldDecorator('confirm', {
+              rules: [
+                {
+                  required: false,
+                  message: 'Please confirm your password!',
+                },
+                {
+                  validator: this.compareToFirstPassword,
+                },
+              ],
+            })(<Input.Password placeholder="*****" onBlur={this.handleConfirmBlur} />)}
+          </Form.Item>
+          <Form.Item label="Branch / Department">
+            {getFieldDecorator('branches', {
+              initialValue: [branches[0], branches[1]],
+              rules: [
+                { type: 'array', required: false, message: 'Please select your branch & department!' },
+              ],
+            })(<Cascader options={defaultBranches} />)}
+          </Form.Item>
+          <Form.Item label="Phone Number">
+            {getFieldDecorator('phone', {
+              initialValue: phone,
+              rules: [{ required: false, message: 'Please input your phone number!' }],
+            })(<Input addonBefore={prefixSelector} placeholder={phone} style={{ width: '100%' }} />)}
+          </Form.Item>
 
-        <Form.Item {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">
-            Update
-          </Button>
-        </Form.Item>
-      </Form>
+          <Form.Item {...tailFormItemLayout}>
+            <Button type="primary" htmlType="submit">
+              Update
+            </Button>
+          </Form.Item>
+        </Form>
+      </Card>
     );
   }
 }
