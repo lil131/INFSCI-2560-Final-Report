@@ -4,37 +4,37 @@ import 'antd/dist/antd.css';
 import './UserDataManagement.css';
 import { Form, Row, Col, Input, Button, Modal } from 'antd';
 import axios from 'axios';
-import { throws } from 'assert';
+// import { throws } from 'assert';
 import {
-  BrowserRouter as Router,
+  // BrowserRouter as Router,
   Link
 } from "react-router-dom";
 
-const branches = [
-    {
-      value: 'branch-1',
-      label: 'branch-1',
-    },
-    {
-      value: 'branch-2',
-      label: 'branch-2',
-    },
-  ];
+// const branches = [
+//     {
+//       value: 'branch-1',
+//       label: 'branch-1',
+//     },
+//     {
+//       value: 'branch-2',
+//       label: 'branch-2',
+//     },
+//   ];
 
-const departments = [
-    {
-      value: 'department-1',
-      label: 'department-1'
-    },
-    {
-      value: 'department-2',
-      label: 'department-2'
-    },
-    {
-      value: 'department-3',
-      label: 'department-3'
-    }
-  ];
+// const departments = [
+//     {
+//       value: 'department-1',
+//       label: 'department-1'
+//     },
+//     {
+//       value: 'department-2',
+//       label: 'department-2'
+//     },
+//     {
+//       value: 'department-3',
+//       label: 'department-3'
+//     }
+//   ];
 
   class Table extends React.Component {
     constructor(props) {
@@ -157,13 +157,13 @@ const departments = [
 
     renderTableData() {
       console.log("userData: ", this.props.userData.staff);
-      const chapters = this.props.userData.chapters; //array
+      // const chapters = this.props.userData.chapters; //array
       // console.log("type of staffList: ", typeof(this.props.staffList))
       if (!this.props.userData.staff) {
         return;
        } else {
          return this.props.userData.staff.map((staff, staffIndex) => {
-           const { branches, email, progress, nickname, staffID, _id } = staff
+           const { branches, email, nickname, staffID, _id } = staff
            return (
               <tr key={staffID}>
                 <td>{nickname}</td>
@@ -299,8 +299,8 @@ class UserDataManagement extends React.Component {
   getFields() {
     const { getFieldDecorator } = this.props.form;
     const searchFields = [['Name', 'nickname'], ['StaffID', 'staffID'], ['Email', 'email']];
-    const selectFields = ['Branch', 'Department', 'Grade'];
-    const selectFrom = [branches, departments];
+    // const selectFields = ['Branch', 'Department', 'Grade'];
+    // const selectFrom = [branches, departments];
     const children = [];
     // const prefixSelector = getFieldDecorator('prefix', {
     //   initialValue: 'Ch1',
