@@ -9,7 +9,7 @@ import { Button, notification, Form } from 'antd';
 import { BrowserRouter  as Router, Switch, Route } from "react-router-dom";
 
 import './App.css';
-import Landing from "./layout/Landing";
+// import Landing from "./layout/Landing";
 import HomeLayout from './HomeLayout'; //'.js' can be omitted.
 import QuestionSet from './QuestionSet';
 import ChapterContent from './ChapterContent';
@@ -21,11 +21,13 @@ import PrivateRoute from './components/PrivateRoute';
 import AddChapterContent from './AddChapterContent'
 import Forget from './Forget';
 import Reset from './Reset';
+import CoverPage from './CoverPage';
 
 const WrappedLogin = Form.create({ name: 'normal_login' })(Login);
 const WrappedForget = Form.create({ name: 'normal_forget' })(Forget);
 const WrappedReset = Form.create({ name: 'normal_reset' })(Reset);
 const WrappedAddChapterContent = Form.create({name: 'normal_addChapterContent'})(AddChapterContent);
+const WrappedAddCoverPage = Form.create({name: 'normal_coverPage'})(CoverPage);
 
 class App extends React.Component {
   constructor(props) {
@@ -133,7 +135,8 @@ class App extends React.Component {
     // this.setState({currentPage: e.key})
   };
 
-  onClickOfHome = () => {window.location.href = "/chapters";}//this.setState({currentPage: 'chapterListPage'})
+  //this.setState({currentPage: 'chapterListPage'})
+  onClickOfHome = () => {window.location.href = "/chapters";}
 
   onSelectChapter = (i, e) => { // logic of using bind()!
     this.setState({currentPage: e.target.value, chapterId: i}); // just to demo the usage of e and bind().
@@ -249,6 +252,7 @@ class App extends React.Component {
                   <PrivateRoute exact path="/questions/:chapter_id" component={QuestionSet} />
                   <PrivateRoute exact path="/profile" component={EditAccountWrapper} />
                   <PrivateRoute exact path="/chapters/add" component={WrappedAddChapterContent} />
+                  <PrivateRoute exact path="/coverpage" component={CoverPage} />
                 </Switch>
             </div>
           </HomeLayout>

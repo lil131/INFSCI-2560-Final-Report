@@ -1,0 +1,12 @@
+img {
+    width: 100%;
+    cursor: pointer;
+}
+
+/* div.ant-card-body {
+    padding: 0px;
+} */
+
+#card-image {
+    padding: 0px;
+}

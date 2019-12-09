@@ -22,7 +22,7 @@ class HomeLayout extends React.Component {
   }
 
   render(){
-    const { children, user, onClickOfMenu, onClickOfHome } = this.props;
+    const { children, onClickOfMenu, onClickOfHome } = this.props;
     const userData = JSON.parse(localStorage.getItem("currentUser"))
     const perm = userData ? userData.permission : -1
     const username = userData ? userData.nickname : "Guest"

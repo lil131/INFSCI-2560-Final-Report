@@ -15,7 +15,8 @@ class Login extends Component {
     console.log("componentWillReceiveProps!!"+JSON.stringify(nextProps));
     if (nextProps.auth.isAuthenticated) {
       // this.props.history.push("/chapters");
-      window.location.href = "/chapters";
+      // window.location.href = "/chapters";
+      window.location.href = "/coverPage";
     }
 
     if (nextProps.errors) {

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import 'antd/dist/antd.css';
 import './Login.css';
-import { Form, Row, Col, Icon, Input, Button, Checkbox, Card } from "antd";
-import { connect } from "react-redux";
-import { loginUser } from "./actions/authActions";
+import { Form, Row, Col, Input, Button } from "antd";
+// import { connect } from "react-redux";
+// import { loginUser } from "./actions/authActions";
 import {Editor, EditorState, RichUtils} from 'draft-js';
 import DynamicFieldSet from './components/DynamicFieldSet'
 
