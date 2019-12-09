@@ -2,10 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import 'antd/dist/antd.css';
 import './UserDataManagement.css';
-import { Form, Row, Col, Input, Button, Cascader, Select, Modal } from 'antd';
+import { Form, Row, Col, Input, Button, Modal } from 'antd';
 import axios from 'axios';
 
-const { Option } = Select;
 
 const branches = [
     {
@@ -39,6 +38,7 @@ const departments = [
       this.state = {
         tableHeader: ["Name", "StaffID", "Email", "Branch", "Department", "Scores"],
         visible: false,
+        modalData: {},
           //  staff: [
           //     {
           //       branches: ["branch-1", "department-1"],
@@ -64,6 +64,8 @@ const departments = [
       });
     };
 
+    
+
     handleOk = e => {
       // console.log(e);
       this.setState({
@@ -78,23 +80,24 @@ const departments = [
       });
     };
 
-    resetScore = (chapter, staffIndex) => {
+    resetScore = (chapter, staffIndex, IdKey) => {
       const staff = this.props.userData.staff[staffIndex];
       const scores = staff.progress[0].progresses[chapter].scores;
-      const myObject = this.refs.chapter;
-      console.log(myObject);
+      const myObject = this.refs[IdKey];
+      const showScore = "Score: 1";
+      myObject.innerHTML = showScore;
+      console.log(staffIndex);
 
-      let userData = JSON.parse(localStorage.getItem("currentUser"))
-      axios.post('/progresses/users/'+userData.user_id+'/reset', {"title": chapter})
-      .then((response) => {
-        // const userData = response.data;
-        // console.log("userData: ", userData);
-        // this.setState({userData: userData});
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-
+      // let userData = JSON.parse(localStorage.getItem("currentUser"))
+      // axios.post('/progresses/users/'+userData.user_id+'/reset', {"title": chapter})
+      // .then((response) => {
+      //   // const userData = response.data;
+      //   // console.log("userData: ", userData);
+      //   // this.setState({userData: userData});
+      // })
+      // .catch(function (error) {
+      //   console.log(error);
+      // });
     }
 
     renderTableData() {
@@ -118,32 +121,32 @@ const departments = [
                     <Button type="primary" onClick={this.showModal}>
                       View Details
                     </Button>
-                    <Modal
-                      title="Basic Modal"
+                    {/* <Modal
+                      title={staffID}
                       visible={this.state.visible}
                       onOk={this.handleOk}
                       onCancel={this.handleCancel}
                     >
                     {
-                      // console.log("progress type: ", typeof(progress[0].progresses))
-                      Object.keys(progress[0].progresses).map((key, index) => {
-                        console.log(key);
+                      Object.keys(progress[0].progresses).map((chp, index) => {
+                        console.log("ch: ", chp);
                         let chProg = progress[0].progresses;
                         let chapterLen = chapters[index].content.length;
                         return (
-                          <div key={key}>
-                            <h3 >{key}</h3>
-                            <p>Progress: { Math.floor((chProg[key].viewed / chapterLen) * 100) + "%"}</p>
-                            <p ref={key}>Scores: {Math.max(...chProg[key].scores) > 0 ? Math.max(...chProg[key].scores) : 0}
-                              <Button type="danger" size="small" onClick={this.resetScore.bind(null, key, i)}>
-                                Reset Score
-                              </Button>
+                          <div key={staffID + chp}>
+                            <h3 >{chp}</h3>
+                            <p>Staff ID: {staffID}</p>
+                            <p>Progress: { Math.floor((chProg[chp].viewed / chapterLen) * 100) + "%"}</p>
+                            <p ref={staffID + chp}>Score: {Math.max(...chProg[chp].scores) > 0 ? Math.max(...chProg[chp].scores) : 0}
                             </p>
+                            <Button type="danger" size="small" onClick={this.resetScore.bind(null, chp, i, staffID + chp)}>
+                              Reset Score
+                            </Button>
                           </div>
                         );
                       })
                     }
-                    </Modal>
+                    </Modal> */}
                   </div>
                 </td>
               </tr>
