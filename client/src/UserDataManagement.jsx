@@ -4,6 +4,7 @@ import 'antd/dist/antd.css';
 import './UserDataManagement.css';
 import { Form, Row, Col, Input, Button, Modal } from 'antd';
 import axios from 'axios';
+import { throws } from 'assert';
 
 
 const branches = [
@@ -39,6 +40,8 @@ const departments = [
         tableHeader: ["Name", "StaffID", "Email", "Branch", "Department", "Scores"],
         visible: false,
         modalData: {},
+        showUser: null,
+        progress: {}
           //  staff: [
           //     {
           //       branches: ["branch-1", "department-1"],
@@ -58,13 +61,42 @@ const departments = [
         }
      }
 
-    showModal = () => {
+
+    viewModal = (staffID, progresses, i) => {
       this.setState({
         visible: true,
       });
-    };
+      const chapters = this.props.userData.chapters;
+      return (
+      <Modal
+        title={staffID}
+        visible={this.state.visible}
+        onOk={this.handleOk}
+        onCancel={this.handleCancel}
+      >
+      {
+        Object.keys(progresses).map((chp, index) => {
+          console.log("ch: ", chp);
+          let chProg = progresses;
+          let chapterLen = chapters[index].content.length;
+          return (
+            <div key={staffID + chp}>
+              <h3 >{chp}</h3>
+              <p>Staff ID: {staffID}</p>
+              <p>Progress: { Math.floor((chProg[chp].viewed / chapterLen) * 100) + "%"}</p>
+              <p ref={staffID + chp}>Score: {Math.max(...chProg[chp].scores) > 0 ? Math.max(...chProg[chp].scores) : 0}
+              </p>
+              <Button type="danger" size="small" onClick={this.resetScore.bind(null, chp, i, staffID + chp)}>
+                Reset Score
+              </Button>
+            </div>
+          );
+        })
+      }
+      </Modal>
+      )
+    }
 
-    
 
     handleOk = e => {
       // console.log(e);
@@ -80,24 +112,44 @@ const departments = [
       });
     };
 
-    resetScore = (chapter, staffIndex, IdKey) => {
-      const staff = this.props.userData.staff[staffIndex];
-      const scores = staff.progress[0].progresses[chapter].scores;
-      const myObject = this.refs[IdKey];
-      const showScore = "Score: 1";
-      myObject.innerHTML = showScore;
-      console.log(staffIndex);
+    resetScore = (chapter, user_id, IdKey) => {
+      // const myObject = this.refs[IdKey];
+      // const showScore = "Score: 1";
+      // myObject.innerHTML = showScore;
+      console.log("chapter", chapter);
+      console.log("user_id", user_id)
 
-      // let userData = JSON.parse(localStorage.getItem("currentUser"))
-      // axios.post('/progresses/users/'+userData.user_id+'/reset', {"title": chapter})
-      // .then((response) => {
-      //   // const userData = response.data;
-      //   // console.log("userData: ", userData);
-      //   // this.setState({userData: userData});
-      // })
-      // .catch(function (error) {
-      //   console.log(error);
-      // });
+      let userData = JSON.parse(localStorage.getItem("currentUser"))
+      axios.put('/progresses/users/'+userData.user_id+'/reset', {"title": chapter})
+      .then((response) => {
+        window.location.href = "/manager";
+        // let p = this.state.showUser
+        // p.progress[0].progresses.chapter.scores = []
+        // // this.setState({showUser: p})
+
+        // let tmp = this.state.userData
+        // for (var i = 0 ; i < tmp.staff.length ; i++) {
+        //   if (tmp.staff._id === user_id) {
+        //     tmp.staff[i] = p
+        //     break;
+        //   }
+        // }
+        // this.setState({userData: tmp, showUser: p})
+        // const userData = response.data;
+        console.log("response: ", response);
+        // this.setState({userData: userData});
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
+    viewModal2(staff) {
+      console.log("dqwd:"+JSON.stringify(staff))
+      this.setState({
+        visible: true,
+        showUser: staff,
+        progress: staff.progress[0].progresses
+      });
     }
 
     renderTableData() {
@@ -107,7 +159,7 @@ const departments = [
       if (!this.props.userData.staff) {
         return;
        } else {
-         return this.props.userData.staff.map((staff, i) => {
+         return this.props.userData.staff.map((staff, staffIndex) => {
            const { branches, email, progress, nickname, staffID } = staff
            return (
               <tr key={staffID}>
@@ -118,7 +170,7 @@ const departments = [
                 <td>{branches[1]}</td>
                 <td>
                   <div>
-                    <Button type="primary" onClick={this.showModal}>
+                    <Button type="primary" onClick={() => this.viewModal2(staff)}>
                       View Details
                     </Button>
                     {/* <Modal
@@ -171,6 +223,52 @@ const departments = [
                   {this.renderTableData()}
                </tbody>
             </table>
+            <Modal
+          title={(this.state.showUser) ? this.state.showUser.nickname+"'s Progress" : ''}
+          visible={this.state.visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+        >
+          <p>Name: {(this.state.showUser) ? this.state.showUser.nickname : '' }</p>
+          <p>Staff ID: {this.state.showUser ? this.state.showUser.staffID : ''}</p>
+          {console.log("WTF:"+JSON.stringify(this.state.progress))}
+          {<hr
+                      style={{
+                          color: "rgba(166,166,166,0.65)",
+                          backgroundColor: "rgba(166,166,166,0.65)",
+                          height: 1
+                      }}
+                  />}
+          {
+            Object.keys(this.state.progress).map((chp, index) => {
+              console.log("ch: ", chp)
+              console.log("index", index)
+              console.log("fwe", this.state.progress[chp])
+              console.log("chapter length", this.props.userData.chapters)
+              let chapters = this.props.userData.chapters
+              let chapterLen = chapters[index].content.length;
+              let chProg = this.state.progress;
+              return (
+                <div key={this.state.showUser.staffID + chp}>
+                  <h3 >{chp}</h3>
+                  <p>Progress: { Math.floor((chProg[chp].viewed / chapterLen) * 100) + "%"}</p>
+                  <p ref={this.state.showUser.staffID + chp}>Score: {Math.max(...chProg[chp].scores) > 0 ? Math.max(...chProg[chp].scores) : 0}</p>
+                  <Button type="danger" size="small" onClick={this.resetScore.bind(null, chp, this.state.showUser._id)}>
+                    Reset Score
+                  </Button>
+                  <hr
+                      style={{
+                          color: "rgba(166,166,166,0.65)",
+                          backgroundColor: "rgba(166,166,166,0.65)",
+                          height: 1
+                      }}
+                  />
+                </div>
+              )
+            })
+          }
+          
+        </Modal>
          </div>
       )
    }

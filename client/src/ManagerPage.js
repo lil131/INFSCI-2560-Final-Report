@@ -22,11 +22,11 @@ class ManagerPage extends React.Component {
     return(
       <div className="card-container">
         <Tabs type="card" size='large'>
+        <TabPane tab="User Data Management" key="2">
+            <WrappedUserDataManagement />
+          </TabPane>
           <TabPane tab="Creat Account" key="1">
             <WrappedCreatAccount />
-          </TabPane>
-          <TabPane tab="User Data Management" key="2">
-            <WrappedUserDataManagement />
           </TabPane>
         </Tabs>
       </div>

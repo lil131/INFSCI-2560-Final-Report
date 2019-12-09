@@ -28,7 +28,7 @@ class HomeLayout extends React.Component {
     const username = userData ? userData.nickname : "Guest"
     const menu =
       <Menu onClick={onClickOfMenu}>
-        {perm === 0 ? <Menu.Item key='managerPage'>Create account</Menu.Item> : null }
+        {perm === 0 ? <Menu.Item key='managerPage'>Management</Menu.Item> : null }
         {perm === 0 ? <Menu.Item key='addChapter'>Create chapter</Menu.Item> : null }
         <Menu.Item key='profile'>Edit Profile</Menu.Item>
         <Menu.Item key='logout'>Log out</Menu.Item>

@@ -1,8 +1,8 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import { Card, List, Button, Tooltip, Skeleton, Progress } from 'antd';
-import { connect } from "react-redux";
-import * as actions from "./actions/chapterActions";
+// import { connect } from "react-redux";
+// import * as actions from "./actions/chapterActions";
 import axios from 'axios';
 import {
   BrowserRouter as Router,
@@ -12,7 +12,11 @@ import {
 class ChapterList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {chapters: [], progresses: null}
+    this.state = {
+      chapters: [], 
+      progresses: null,
+      scores:[],
+    }
   }
 
   componentWillMount() {
@@ -73,7 +77,11 @@ class ChapterList extends React.Component {
   }
 
   render() {
-    const { chapters, userScores, progresses, onSelectTest, onSelectChapter} = this.props;
+    // const { chapters, userScores, progresses, onSelectTest, onSelectChapter} = this.props;
+    // const scoreList = Object.keys(this.state.progresses).map((key) => Math.max(this.state.progresses[key].scores))
+    // const { progresses } = this.state.progresses;
+    // console.log("prog: ", (this.state.progresses.progresses)? this.state.progresses.progresses : "");
+    const { scores } = this.state;
     return (
       <div>
       <button onClick={this.test}>check</button>
@@ -82,7 +90,7 @@ class ChapterList extends React.Component {
                 className='demo-loadmore-list'
                 itemLayout='horizontal'
                 dataSource={this.state.chapters}
-                renderItem={item => (
+                renderItem={(item, index) => (
                   <List.Item
                     actions={[
                       <Tooltip
@@ -90,7 +98,9 @@ class ChapterList extends React.Component {
                         placement='top'
                         title={`Not Passed`}
                       >
-                          Best Score: {}
+                          Best Score: {
+                          scores? scores[index]:0
+                          }
                       </Tooltip>
                       ,
                       <Tooltip key='chapter' placement='top' title={`Read Chapter ${item.title}`}>
