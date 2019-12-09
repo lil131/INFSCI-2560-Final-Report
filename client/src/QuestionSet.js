@@ -108,25 +108,18 @@ class QuestionSet extends React.Component {
         (a, i) => a === OPT_MAP[questions[i].correctAnswer]
       ).length / questions.length * 100;
 
-      this.setState({userScore: score, disableSubmitBtn: true});
-      this.uploadScore()
-      // onScoreSubmit(chapterId, questionSetIndex, score);
+      const { chapter_id } = this.props.match.params
+      let userData = JSON.parse(localStorage.getItem("currentUser"))
+      axios
+        .put("/progresses/"+chapter_id+"/users/"+userData.user_id, {"score": score})
+        .then(res => {
+          this.setState({userScore: score, disableSubmitBtn: true});
+        })
+        .catch(err =>
+          alert(err)
+        );
     }
   };
-
-  uploadScore = () => {
-    const { chapter_id } = this.props.match.params
-    let userData = JSON.parse(localStorage.getItem("currentUser"))
-    let score = (parseFloat(this.state.userScore) > 0) ? this.state.userScore : -1
-    axios
-      .put("/progresses/"+chapter_id+"/users/"+userData.user_id, {"score": score})
-      .then(res => {
-        console.log("result: "+ JSON.stringify(res.data));
-      })
-      .catch(err =>
-        alert(err)
-      );
-  }
 
   onQuit = () => {
     this.props.history.goBack()

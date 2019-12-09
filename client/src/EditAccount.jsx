@@ -7,6 +7,9 @@ import 'antd/dist/antd.css';
 import './index.css';
 import axios from 'axios';
 import md5 from 'md5';
+import toastr from 'toastr'
+import 'toastr/build/toastr.min.css'
+
 import {
   Form,
   Input,
@@ -84,9 +87,10 @@ class CreatAccount extends React.Component {
   }
 
   componentWillMount() {
-    let userData = JSON.parse(localStorage.getItem("currentUser"))
+    // let userData = JSON.parse(localStorage.getItem("currentUser"))
+    console.log("user_id", this.props.user_id);
     axios
-      .get("/users/"+userData.user_id)
+      .get("/users/"+this.props.user_id)
       .then(res => {
         console.log("eeee: "+ JSON.stringify(res.data));
         this.setState({userData: res.data.userData})
@@ -102,21 +106,36 @@ class CreatAccount extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
+
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        // console.log('Received values of form: ', values);
         delete values.confirm;
-        console.log(values.password);
         if (values.password == undefined || values.password.length > 20) {
           delete values.password
         }
-        console.log('11Received values of form: ', values);
+
         let userData = JSON.parse(localStorage.getItem("currentUser"))
         axios
-          .put("/users/"+userData.user_id, values)
+          .put("/users/"+this.props.user_id, values)
           .then(res => {
             console.log("eeee: "+ JSON.stringify(res.data));
-            // this.setState({userData: res.data.userData})
+            toastr.options = {
+              positionClass : 'toast-top-full-width',
+              hideDuration: 300,
+              timeOut: 5000
+            }
+            toastr.clear()
+            setTimeout(() => toastr.success(`Settings updated`), 1000)
+
+            if (userData.email === values.email) {
+              if(userData.nickname != values.nickname) {
+                userData.nickname = values.nickname
+                localStorage.setItem("currentUser", JSON.stringify(userData));
+                window.location.reload(false);
+              }
+            }
+
           })
           .catch(err =>
             alert(err)

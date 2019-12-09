@@ -5,7 +5,10 @@ import './UserDataManagement.css';
 import { Form, Row, Col, Input, Button, Modal } from 'antd';
 import axios from 'axios';
 import { throws } from 'assert';
-
+import {
+  BrowserRouter as Router,
+  Link
+} from "react-router-dom";
 
 const branches = [
     {
@@ -160,7 +163,7 @@ const departments = [
         return;
        } else {
          return this.props.userData.staff.map((staff, staffIndex) => {
-           const { branches, email, progress, nickname, staffID } = staff
+           const { branches, email, progress, nickname, staffID, _id } = staff
            return (
               <tr key={staffID}>
                 <td>{nickname}</td>
@@ -173,6 +176,11 @@ const departments = [
                     <Button type="primary" onClick={() => this.viewModal2(staff)}>
                       View Details
                     </Button>
+                    <Link to={"/profile/"+_id}>
+                      <Button type="primary">
+                        Edit
+                      </Button>
+                    </Link>
                     {/* <Modal
                       title={staffID}
                       visible={this.state.visible}
@@ -267,7 +275,7 @@ const departments = [
               )
             })
           }
-          
+
         </Modal>
          </div>
       )
