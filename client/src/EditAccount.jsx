@@ -18,7 +18,7 @@ import {
 } from 'antd';
 
 const { Option } = Select;
-const branches = [
+const defaultBranches = [
   {
     value: 'branch-1',
     label: 'branch-1',
@@ -61,6 +61,27 @@ class CreatAccount extends React.Component {
   static propTypes = {
     form: PropTypes.any,
   };
+  constructor(props) {
+    super(props)
+    this.state = {
+      userData: {
+          "branches": [
+              "branch-1",
+              "department-2"
+              ],
+          "_id": "5ddcd8d65692222ca785b1f8",
+          "prefix": 886,
+          "email": "cas386@pitt.edu",
+          "password": "$2a$10$47VR75cHvdWDuXJva2EXrO/tir4CoopUAH/Bv/Y2Pa7oljnBfpv3G",
+          "nickname": "eden",
+          "staffID": 1,
+          "permission": 0,
+          "phone": 341241324341,
+          "grade": 0,
+          "__v": 0
+      }
+    }
+  }
 
   state = {
     confirmDirty: false,
@@ -142,11 +163,15 @@ class CreatAccount extends React.Component {
       </Select>,
     );
 
+
+    const { userData } = this.state;
+    const { phone, branches, email, staffID, password, nickname } = this.state.userData;
+    console.log("userData:", userData);
     return (
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
         <Form.Item label="Email">
           {getFieldDecorator('email', {
-            initialValue: "lucy",
+            initialValue: email,
             rules: [
               {
                 type: 'email',
@@ -180,7 +205,7 @@ class CreatAccount extends React.Component {
                 validator: this.validateToNextPassword,
               },
             ],
-          })(<Input.Password />)}
+          })(<Input.Password placeholder="*****"/>)}
         </Form.Item>
         <Form.Item label="Confirm Password" hasFeedback>
           {getFieldDecorator('confirm', {
@@ -193,7 +218,7 @@ class CreatAccount extends React.Component {
                 validator: this.compareToFirstPassword,
               },
             ],
-          })(<Input.Password onBlur={this.handleConfirmBlur} />)}
+          })(<Input.Password placeholder="*****" onBlur={this.handleConfirmBlur} />)}
         </Form.Item>
         <Form.Item
           label={
@@ -207,7 +232,7 @@ class CreatAccount extends React.Component {
         >
           {getFieldDecorator('nickname', {
             rules: [{ required: true, message: 'Please input your name!', whitespace: true }],
-          })(<Input />)}
+          })(<Input placeholder={nickname}/>)}
         </Form.Item>
         <Form.Item
           label={
@@ -220,28 +245,24 @@ class CreatAccount extends React.Component {
           }
         >
           {getFieldDecorator('staffID', {
-            initialValue: "lucy",
+            initialValue: staffID,
             rules: [{ required: true, message: 'Please input your staff ID!', whitespace: true }],
           })(<Input disabled/>)}
         </Form.Item>
         <Form.Item label="Branch / Department">
           {getFieldDecorator('branches', {
-            initialValue: ['branch-1', 'department-1'],
+            initialValue: [branches[0], branches[1]],
             rules: [
               { type: 'array', required: true, message: 'Please select your branch & department!' },
             ],
-          })(<Cascader options={branches} />)}
+          })(<Cascader options={defaultBranches} />)}
         </Form.Item>
 
         <Form.Item label="Permission">
           {getFieldDecorator('permission', {
             rules: [{ required: true, message: 'Please assign the user permission' }],
           })(
-            <Select
-              placeholder="Select permission"
-            >
-              <Option value="0">Admin</Option>
-              <Option value="1">Employee</Option>
+            <Select>
             </Select>,
           )}
         </Form.Item>
@@ -250,7 +271,7 @@ class CreatAccount extends React.Component {
         <Form.Item label="Phone Number">
           {getFieldDecorator('phone', {
             rules: [{ required: true, message: 'Please input your phone number!' }],
-          })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
+          })(<Input addonBefore={prefixSelector} placeholder={phone} style={{ width: '100%' }} />)}
         </Form.Item>
 
         <Form.Item {...tailFormItemLayout}>
