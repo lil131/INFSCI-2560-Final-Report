@@ -110,11 +110,9 @@ class QuestionSet extends React.Component {
 
       const { chapter_id } = this.props.match.params
       let userData = JSON.parse(localStorage.getItem("currentUser"))
-      console.log("dw", score);
       axios
         .put("/progresses/"+chapter_id+"/users/"+userData.user_id, {"score": score})
         .then(res => {
-          console.log("result: "+ JSON.stringify(res.data));
           this.setState({userScore: score, disableSubmitBtn: true});
         })
         .catch(err =>

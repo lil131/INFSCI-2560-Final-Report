@@ -113,7 +113,8 @@ class App extends React.Component {
     switch (e.key) {
       case 'profile':
       console.log("profile");
-      window.location.href = "/profile";
+      let userData = JSON.parse(localStorage.getItem("currentUser"))
+      window.location.href = "/profile/"+userData.user_id;
       break;
       case 'addChapter':
       window.location.href = "/chapters/add";
@@ -247,7 +248,7 @@ class App extends React.Component {
                   <PrivateRoute exact path="/chapters" component={ChapterList} />
                   <PrivateRoute exact path="/chapter/:chapter_id" component={ChapterContent} />
                   <PrivateRoute exact path="/questions/:chapter_id" component={QuestionSet} />
-                  <PrivateRoute exact path="/profile" component={EditAccountWrapper} />
+                  <PrivateRoute exact path="/profile/:user_id" component={EditAccountWrapper} />
                   <PrivateRoute exact path="/chapters/add" component={WrappedAddChapterContent} />
                 </Switch>
             </div>
