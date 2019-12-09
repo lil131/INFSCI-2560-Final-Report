@@ -24,7 +24,7 @@ class ChapterList extends React.Component {
     console.log("Current user: " + JSON.stringify(userData));
 
     axios
-      .get("/chapters/users/"+userData.user_id)
+      .get("/api/chapters/users/"+userData.user_id)
       .then(res => {
         console.log("eeee: "+ JSON.stringify(res.data));
         this.setState(res.data);

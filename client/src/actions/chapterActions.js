@@ -13,7 +13,7 @@ export function setCurrentChapters(chapters) {
 export const fetchChapters = () => dispatch => {
   console.log("Enter fetch chapters");
   axios
-    .get("/chapters")
+    .get("/api/chapters")
     .then(res => {
       console.log(res);
       const { chapters } = res.data;

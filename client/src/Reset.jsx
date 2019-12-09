@@ -19,7 +19,7 @@ class Reset extends React.Component {
       if (!err) {
         console.log('Received values of form: ', values);
         axios
-          .post("/users/reset/"+token, values)
+          .post("/api/users/reset/"+token, values)
           .then(res => {
             alert("Update your password successfully!, please login again")
             this.props.history.push("/login")
