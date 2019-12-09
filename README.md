@@ -61,6 +61,10 @@ npm run start-dev
 MONGODB_URI=***
 NODE_ENV=***
 PORT=***
+MAILER_EMAIL_ID=***
+MAILER_PASSWORD=***
+LOCALHOST_URL=http://localhost:8080/api/users
+
 ```
 
 ## References
