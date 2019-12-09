@@ -18,7 +18,7 @@ class Forget extends React.Component {
       if (!err) {
         console.log('Received values of form: ', values);
         axios
-          .post("/users/forgot", values)
+          .post("/api/users/forgot", values)
           .then(res => {
             alert("please check you email and reset your password with an hour.")
           })

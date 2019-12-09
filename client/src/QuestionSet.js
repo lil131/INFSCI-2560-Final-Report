@@ -111,7 +111,7 @@ class QuestionSet extends React.Component {
       const { chapter_id } = this.props.match.params
       let userData = JSON.parse(localStorage.getItem("currentUser"))
       axios
-        .put("/progresses/"+chapter_id+"/users/"+userData.user_id, {"score": score})
+        .put("/api/progresses/"+chapter_id+"/users/"+userData.user_id, {"score": score})
         .then(res => {
           this.setState({userScore: score, disableSubmitBtn: true});
         })
@@ -145,7 +145,7 @@ class QuestionSet extends React.Component {
 
     return (
       <div>
-      <button onClick={this.test}>check</button>
+      {/*<button onClick={this.test}>check</button>*/}
       <Card
         title={
           <>

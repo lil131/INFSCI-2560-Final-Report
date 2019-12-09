@@ -90,7 +90,7 @@ class CreatAccount extends React.Component {
     // let userData = JSON.parse(localStorage.getItem("currentUser"))
     console.log("user_id", this.props.user_id);
     axios
-      .get("/users/"+this.props.user_id)
+      .get("/api/users/"+this.props.user_id)
       .then(res => {
         console.log("eeee: "+ JSON.stringify(res.data));
         this.setState({userData: res.data.userData})
@@ -117,7 +117,7 @@ class CreatAccount extends React.Component {
 
         let userData = JSON.parse(localStorage.getItem("currentUser"))
         axios
-          .put("/users/"+this.props.user_id, values)
+          .put("/api/users/"+this.props.user_id, values)
           .then(res => {
             console.log("eeee: "+ JSON.stringify(res.data));
             toastr.options = {

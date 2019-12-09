@@ -13,7 +13,7 @@ class ChapterList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      chapters: [], 
+      chapters: [],
       progresses: null,
     }
   }
@@ -24,7 +24,7 @@ class ChapterList extends React.Component {
     console.log("Current user: " + JSON.stringify(userData));
 
     axios
-      .get("/chapters/users/"+userData.user_id)
+      .get("/api/chapters/users/"+userData.user_id)
       .then(res => {
         console.log("eeee: "+ JSON.stringify(res.data));
         this.setState(res.data);
@@ -80,7 +80,7 @@ class ChapterList extends React.Component {
   render() {
     return (
       <div>
-      <button onClick={this.test}>check</button>
+      {/*<button onClick={this.test}>check</button>*/}
             <Card title='Your Progress' bordered={false}>
               <List
                 className='demo-loadmore-list'

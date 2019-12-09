@@ -123,7 +123,7 @@ const departments = [
       console.log("user_id", user_id)
 
       let userData = JSON.parse(localStorage.getItem("currentUser"))
-      axios.put('/progresses/users/'+userData.user_id+'/reset', {"title": chapter})
+      axios.put('/api/progresses/users/'+userData.user_id+'/reset', {"title": chapter})
       .then((response) => {
         window.location.href = "/manager";
         // let p = this.state.showUser
@@ -361,7 +361,7 @@ class UserDataManagement extends React.Component {
     this.props.form.validateFields((err, values) => {
       console.log('Received values of form: ', values);
         if (!err) {
-          axios.post('/users/manager/search', values)
+          axios.post('/api/users/manager/search', values)
           .then((response) => {
             const userData = response.data;
             console.log("userData: ", userData);

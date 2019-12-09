@@ -21,7 +21,7 @@ export function setUserLoading() {
 export const registerUser = (userData) => dispatch => {
   console.log("Enter register user");
   axios
-    .post("/users", userData)
+    .post("/api/users", userData)
     .then(res => {
       console.log(res);
     })
@@ -39,7 +39,7 @@ export const registerUser = (userData) => dispatch => {
 export const loginUser = userData => dispatch => {
   console.log("Enter login user");
   axios
-    .post("/users/login", userData)
+    .post("/api/users/login", userData)
     .then(res => {
       // Save to localStorage
 

@@ -28,7 +28,7 @@ class ChapterContent extends React.Component {
     const { chapter_id } = this.props.match.params
     let userData = JSON.parse(localStorage.getItem("currentUser"))
     axios
-      .get("/chapters/"+chapter_id+"/users/"+userData.user_id)
+      .get("/api/chapters/"+chapter_id+"/users/"+userData.user_id)
       .then(res => {
         console.log("result: "+ JSON.stringify(res.data));
         let chapter_content = res.data.chapter_content
@@ -59,7 +59,7 @@ class ChapterContent extends React.Component {
     const { chapter_id } = this.props.match.params
     let userData = JSON.parse(localStorage.getItem("currentUser"))
     axios
-      .put("/progresses/"+chapter_id+"/users/"+userData.user_id, {"viewed": this.state.currentPage})
+      .put("/api/progresses/"+chapter_id+"/users/"+userData.user_id, {"viewed": this.state.currentPage})
       .then(res => {
         console.log("result: "+ JSON.stringify(res.data));
         this.props.history.goBack()
