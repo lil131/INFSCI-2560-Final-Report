@@ -5,8 +5,8 @@ import { connect } from "react-redux";
 import { registerUser } from "./actions/authActions";
 import 'antd/dist/antd.css';
 import './index.css';
-// import axios from 'axios';
-// import md5 from 'md5';
+import axios from 'axios';
+
 import {
   Form,
   Input,
@@ -72,17 +72,17 @@ class CreatAccount extends React.Component {
       if (!err) {
         console.log('Received values of form: ', values);
         delete values.confirm;
-        this.props.registerUser(values);
-        window.location.reload(false);
+        // this.props.registerUser(values);
+
         // values.password = md5(values.password)
-        // axios.post('/users', values)
-        // .then(function (response) {
-        //   console.log(response);
-        //   // TODO: Clear form data here
-        // })
-        // .catch(function (error) {
-        //   console.log(error);
-        // });
+        axios.post('/api/users', values)
+        .then(function (response) {
+          console.log(response);
+          window.location.reload(false);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
       }
     });
   };
