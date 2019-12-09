@@ -7,7 +7,7 @@ import {
   Link
 } from "react-router-dom";
 
-const imgURL = "http://5b0988e595225.cdn.sohucs.com/images/20171025/7b06bb86ad6140bd9dac1f4b669f3103.jpeg";
+const imgURL = "https://i.imgur.com/ny3oslC.jpg";
 class CoverPage extends React.Component {
   static propTypes = {
     form: PropTypes.any,
