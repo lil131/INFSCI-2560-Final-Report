@@ -15,7 +15,6 @@ class ChapterList extends React.Component {
     this.state = {
       chapters: [],
       progresses: null,
-      scores:[],
     }
   }
 
