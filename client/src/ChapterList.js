@@ -5,7 +5,7 @@ import { Card, List, Button, Tooltip, Skeleton, Progress } from 'antd';
 // import * as actions from "./actions/chapterActions";
 import axios from 'axios';
 import {
-  BrowserRouter as Router,
+  // BrowserRouter as Router,
   Link
 } from "react-router-dom";
 
@@ -39,7 +39,7 @@ class ChapterList extends React.Component {
   test = () => {
     // let item = this.state.chapters[0];
     let item = this.state;
-    let chapters = this.state.chapters;
+    // let chapters = this.state.chapters;
     console.log("item title: "+ JSON.stringify(item));
     console.log("progresses: "+ JSON.stringify(this.state.progresses));
     console.log("scores: " + JSON.stringify(this.state.progresses.progresses.ch1.scores));
@@ -98,6 +98,7 @@ class ChapterList extends React.Component {
                             Math.max(...this.state.progresses.progresses[item.title].scores) > 0?
                               Math.max(...this.state.progresses.progresses[item.title].scores) : 0
                           }
+                          {console.log("score of" + item.title + ":", this.state.progresses.progresses[item.title].scores)}
                       </Tooltip>
                       ,
                       <Tooltip key='chapter' placement='top' title={`Read Chapter ${item.title}`}>

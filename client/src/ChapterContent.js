@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { Pagination, Card, Icon, Button } from 'antd';
 import axios from 'axios';
 
@@ -11,7 +11,7 @@ class ChapterContent extends React.Component {
   //   content: PropTypes.arrayOf(PropTypes.string),
   //   onBack: PropTypes.func
   // }
-  //
+  
   constructor(props) {
     console.log("ChapterContent");
     super(props);
@@ -59,7 +59,7 @@ class ChapterContent extends React.Component {
     const { chapter_id } = this.props.match.params
     let userData = JSON.parse(localStorage.getItem("currentUser"))
     axios
-      .put("/api/progresses/"+chapter_id+"/users/"+userData.user_id, {"viewed": this.state.currentPage})
+      .put("/api/progresses/"+chapter_id+"/users/"+userData.user_id, {"viewed": this.state.currentPage === -1? 0 : this.state.currentPage})
       .then(res => {
         console.log("result: "+ JSON.stringify(res.data));
         this.props.history.goBack()
@@ -113,10 +113,12 @@ class ChapterContent extends React.Component {
         bordered={false}
       >
         <p>
-          {this.state.chapter_content[this.state.currentPage - 1]}
+          {this.state.chapter_content[(this.state.currentPage - 1) < 0? 0 : (this.state.currentPage - 1)]}
+          {console.log("content: ", this.state.chapter_content)} 
+          {console.log("curPage: ", (this.state.currentPage - 1)|0)}
         </p>
         <div align='center'>
-          <Pagination defaultCurrent={this.state.currentPage} total={this.state.chapter_content.length * 10} onChange={this.onChangePage} />
+          <Pagination defaultCurrent={this.state.currentPage|1} total={this.state.chapter_content.length * 10} onChange={this.onChangePage} />
         </div>
       </Card>
     );

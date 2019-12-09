@@ -1,9 +1,10 @@
 import React from 'react';
-import PropTypes from "prop-types";
-import jwt_decode from "jwt-decode";
-import setAuthToken from "./utils/setAuthToken";
+// import PropTypes from "prop-types";
+// import jwt_decode from "jwt-decode";
+// import setAuthToken from "./utils/setAuthToken";
 import { Provider } from "react-redux";
-import { setCurrentUser, logoutUser } from "./actions/authActions";
+import { logoutUser } from "./actions/authActions";
+// import { setCurrentUser, logoutUser } from "./actions/authActions";
 import store from "./store";
 import { Button, notification, Form } from 'antd';
 import { BrowserRouter  as Router, Switch, Route } from "react-router-dom";
@@ -27,7 +28,7 @@ const WrappedLogin = Form.create({ name: 'normal_login' })(Login);
 const WrappedForget = Form.create({ name: 'normal_forget' })(Forget);
 const WrappedReset = Form.create({ name: 'normal_reset' })(Reset);
 const WrappedAddChapterContent = Form.create({name: 'normal_addChapterContent'})(AddChapterContent);
-const WrappedAddCoverPage = Form.create({name: 'normal_coverPage'})(CoverPage);
+// const WrappedAddCoverPage = Form.create({name: 'normal_coverPage'})(CoverPage);
 
 class App extends React.Component {
   constructor(props) {
@@ -198,42 +199,42 @@ class App extends React.Component {
   }
 
   render() {
-    const { user, currentPage, chapterId, chapters, currentTest } = this.state;
+    const { user, chapterId, chapters, currentTest } = this.state;
     const questionSet = chapters[0].questionSets[0];
 
-    const MyChapterList = (props) => {
-      return (
-        <ChapterList
-          userScores={user.scores}
-          progresses={user.bookmarks}
-          onSelectTest={this.onSelectTest}
-          onSelectChapter={this.onSelectChapter}
-        />
-      );
-    }
+    // const MyChapterList = (props) => {
+    //   return (
+    //     <ChapterList
+    //       userScores={user.scores}
+    //       progresses={user.bookmarks}
+    //       onSelectTest={this.onSelectTest}
+    //       onSelectChapter={this.onSelectChapter}
+    //     />
+    //   );
+    // }
 
-    const MyChapterContent = (props) => {
-      return (
-        <ChapterContent
-          chapterId={chapterId}
-          chapterTitle={chapters[chapterId].title}
-          bookmark={user.bookmarks[chapterId]}
-          content={chapters[chapterId].content}
-          onBack={this.onBack}
-        />
-      );
-    }
+    // const MyChapterContent = (props) => {
+    //   return (
+    //     <ChapterContent
+    //       chapterId={chapterId}
+    //       chapterTitle={chapters[chapterId].title}
+    //       bookmark={user.bookmarks[chapterId]}
+    //       content={chapters[chapterId].content}
+    //       onBack={this.onBack}
+    //     />
+    //   );
+    // }
 
-    const MyQuestionSet = (props) => {
-      return (
-        <QuestionSet
-          chapterId={chapterId}
-          questionSetIndex={currentTest}
-          questions={questionSet}
-          onScoreSubmit={this.onScoreSubmit}
-          onQuit={this.onQuit}/>
-      );
-    }
+    // const MyQuestionSet = (props) => {
+    //   return (
+    //     <QuestionSet
+    //       chapterId={chapterId}
+    //       questionSetIndex={currentTest}
+    //       questions={questionSet}
+    //       onScoreSubmit={this.onScoreSubmit}
+    //       onQuit={this.onQuit}/>
+    //   );
+    // }
 
     return (
       <Provider store={store}>

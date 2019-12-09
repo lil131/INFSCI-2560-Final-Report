@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import 'antd/dist/antd.css';
 import './Login.css';
-import { Form, Row, Col, Input, Button } from "antd";
+import { Form, Row, Col, Button } from "antd";
 // import { connect } from "react-redux";
 // import { loginUser } from "./actions/authActions";
-import {Editor, EditorState, RichUtils} from 'draft-js';
+import {EditorState, RichUtils} from 'draft-js';
+// import {Editor, EditorState, RichUtils} from 'draft-js';
 import DynamicFieldSet from './components/DynamicFieldSet'
-const { TextArea } = Input;
+// const { TextArea } = Input;
 
 class AddChapterContent extends Component {
   constructor(props) {
@@ -55,7 +56,7 @@ class AddChapterContent extends Component {
 
   render() {
     const WrappedDynamicFieldSet = Form.create({ name: 'dynamic_form_item' })(DynamicFieldSet);
-    const { getFieldDecorator } = this.props.form;
+    // const { getFieldDecorator } = this.props.form;
     return (
       <div>
         <h2>Add Chapter</h2>
@@ -107,13 +108,13 @@ class AddChapterContent extends Component {
   }
 }
 
-const styles = {
-  editor: {
-    'border': '1px solid #d9d9d9',
-    'minHeight': '6em',
-    'border-radius': '4px',
-    'padding': '0px 10px'
-  }
-};
+// const styles = {
+//   editor: {
+//     'border': '1px solid #d9d9d9',
+//     'minHeight': '6em',
+//     'border-radius': '4px',
+//     'padding': '0px 10px'
+//   }
+// };
 
 export default AddChapterContent;

@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from "react-router-dom";
+// import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { registerUser } from "./actions/authActions";
 import 'antd/dist/antd.css';
 import './index.css';
 import axios from 'axios';
-import md5 from 'md5';
+// import md5 from 'md5';
 import toastr from 'toastr'
 import 'toastr/build/toastr.min.css'
 
