@@ -28,7 +28,9 @@ class ChapterList extends React.Component {
       .get("/chapters/users/"+userData.user_id)
       .then(res => {
         console.log("eeee: "+ JSON.stringify(res.data));
-        this.setState(res.data)
+        this.setState(res.data);
+        // this.setState({chapters: res.data.chapters, progresses: res.data.progresses.progresses});
+        console.log("", res.data.chapters)
       })
       .catch(err =>
         alert(err)
@@ -37,7 +39,7 @@ class ChapterList extends React.Component {
 
   test = () => {
     // let item = this.state.chapters[0];
-    let item = this.state
+    let item = this.state;
     let chapters = this.state.chapters;
     console.log("item title: "+ JSON.stringify(item));
     console.log("progresses: "+ JSON.stringify(this.state.progresses));
@@ -77,11 +79,6 @@ class ChapterList extends React.Component {
   }
 
   render() {
-    // const { chapters, userScores, progresses, onSelectTest, onSelectChapter} = this.props;
-    // const scoreList = Object.keys(this.state.progresses).map((key) => Math.max(this.state.progresses[key].scores))
-    // const { progresses } = this.state.progresses;
-    // console.log("prog: ", (this.state.progresses.progresses)? this.state.progresses.progresses : "");
-    const { scores } = this.state;
     return (
       <div>
       <button onClick={this.test}>check</button>
@@ -99,7 +96,8 @@ class ChapterList extends React.Component {
                         title={`Not Passed`}
                       >
                           Best Score: {
-                          scores? scores[index]:0
+                            Math.max(...this.state.progresses.progresses[item.title].scores) > 0?
+                              Math.max(...this.state.progresses.progresses[item.title].scores) : 0
                           }
                       </Tooltip>
                       ,
