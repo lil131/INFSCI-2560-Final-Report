@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
 import 'antd/dist/antd.css';
 import './Login.css';
 import { Form, Row, Col, Button } from "antd";
@@ -8,6 +7,7 @@ import { Form, Row, Col, Button } from "antd";
 import {EditorState, RichUtils} from 'draft-js';
 // import {Editor, EditorState, RichUtils} from 'draft-js';
 import DynamicFieldSet from './components/DynamicFieldSet'
+import axios from 'axios';
 // const { TextArea } = Input;
 
 class AddChapterContent extends Component {

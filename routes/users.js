@@ -27,17 +27,6 @@ var smtpTrans = nodemailer.createTransport({
   }
 });
 
-router.get('/email', function(req, res) {
-  transporter.sendMail(mailOptions, function(err, info) {
-    if (err)
-      console.log(err)
-    else
-      console.log(info);
-    res.json(info)
-  });
-
-})
-
 router.get('/', async (req, res) => {
   try {
     const users = await User.find({});
@@ -65,25 +54,6 @@ router.get('/:user_id', async (req, res) => {
     });
   }
 })
-
-router.get('/test', async (req, res) => {
-  try {
-    Chapter.find({}, function(err, chapters) {
-      let init = {}
-      chapters.forEach(chapter => {
-        init[chapter.title] = {
-          viewed: 0,
-          scores: []
-        }
-      })
-      return res.json("huhu")
-    })
-  } catch (error) {
-    return res.status(500).json({
-      message: 'Internal Server error'
-    });
-  }
-});
 
 /**
  * @route POST api/users/

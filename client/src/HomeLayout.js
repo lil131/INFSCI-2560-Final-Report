@@ -29,7 +29,7 @@ class HomeLayout extends React.Component {
     const menu =
       <Menu onClick={onClickOfMenu}>
         {perm === 0 ? <Menu.Item key='managerPage'>Management</Menu.Item> : null }
-        {perm === 0 ? <Menu.Item key='addChapter'>Create chapter</Menu.Item> : null }
+        {/*perm === 0 ? <Menu.Item key='addChapter'>Create chapter</Menu.Item> : null */}
         <Menu.Item key='profile'>Edit Profile</Menu.Item>
         <Menu.Item key='logout'>Log out</Menu.Item>
       </Menu>
@@ -49,8 +49,8 @@ class HomeLayout extends React.Component {
                   <Icon type='down' />
                 </a>
               </Dropdown>
-            </div> : 
-            null 
+            </div> :
+            null
           }
         </Header>
         <Content>
