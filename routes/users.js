@@ -276,7 +276,11 @@ router.post('/forgot', function(req, res, next) {
         email: req.body.email
       }, function(err, user) {
         if (!user) {
-          req.flash('error', 'User not found. No account with that email address exists.');
+          res.status(404).json({
+            message: 'User not found. No account with that email address exists.',
+            statusCode: 404
+          })
+          //req.flash('error', 'User not found. No account with that email address exists.');
           return res.redirect('/forgot');
         }
         console.log('Completed step 1: confirmed the user email');
@@ -304,7 +308,7 @@ router.post('/forgot', function(req, res, next) {
       // email template
       var data = {
         from: 'sender@email.com', //email,
-        to: user.email,
+        to: 'chh171@pitt.edu',//user.email,
         subject: 'Password Reset',
         text: 'You are receiving this because you have requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
@@ -373,30 +377,30 @@ router.post('/reset/:token', function(req, res) {
             message: 'Password reset token is invalid or has expired.'
           });
         }
-        return res.json(reset)
+        console.log('completed reset 1: found token')
+        
         // Check to see that the password entered is correctly typed
         // by comparing the two typed passwords
         User.findOne({
           _id: reset.userID
         }, function(err, user) {
           if (req.body.newPassword === req.body.verifyPassword) {
+            console.log('completed reset 2: verify new password')
             bcrypt.hash(req.body.newPassword, 10, (err, hash) => {
               if (err) return res.status(404).json(err)
               user.password = hash;
-              user.save().then(function(err) {
-              if (err) {
-                return res.status(422).send({
-                  message: err
-                });
-              } else {
+              console.log('completed reset 3: hash password')
+
+              user.save().then( () => {
                 // an email is sent to the user on successfully completing his/her password reset.
                 var data = {
                   from: 'sender@email.com', //email,
-                  to: user.email,
+                  to: 'chh171@pitt.edu',//user.email,
                   subject: 'Password Reset Confirmation',
                   text: 'Hello,\n\n' +
                     ' - This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
                 };
+                console.log('completed reset 4: setup mail option')
 
                 smtpTrans.sendMail(data, function(err) {
                   if (!err) {
@@ -409,7 +413,6 @@ router.post('/reset/:token', function(req, res) {
                     return done(err);
                   }
                 });
-              }
             });
             });
           } else {
