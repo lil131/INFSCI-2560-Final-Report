@@ -373,7 +373,7 @@ router.post('/reset/:token', function(req, res) {
             message: 'Password reset token is invalid or has expired.'
           });
         }
-        return res.json(reset)
+
         // Check to see that the password entered is correctly typed
         // by comparing the two typed passwords
         User.findOne({
@@ -381,7 +381,9 @@ router.post('/reset/:token', function(req, res) {
         }, function(err, user) {
           if (req.body.newPassword === req.body.verifyPassword) {
             bcrypt.hash(req.body.newPassword, 10, (err, hash) => {
-              if (err) return res.status(404).json(err)
+              if (err) throw err;
+              // if (err) return res.status(404).json(err)
+              // return res.json(reset)
               user.password = hash;
               user.save().then(function(err) {
               if (err) {

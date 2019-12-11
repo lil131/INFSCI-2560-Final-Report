@@ -178,7 +178,7 @@ import {
                       View Details
                     </Button>
                     <Link to={"/profile/"+_id}>
-                      <Button  className="btn-gap" type="primary">
+                      <Button  className="btn-gap"  type="primary">
                         Edit
                       </Button>
                     </Link>

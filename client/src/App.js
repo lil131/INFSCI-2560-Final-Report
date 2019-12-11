@@ -23,6 +23,7 @@ import AddChapterContent from './AddChapterContent'
 import Forget from './Forget';
 import Reset from './Reset';
 import CoverPage from './CoverPage';
+import AccessDenied from './AccessDenied';
 
 const WrappedLogin = Form.create({ name: 'normal_login' })(Login);
 const WrappedForget = Form.create({ name: 'normal_forget' })(Forget);
@@ -249,6 +250,7 @@ class App extends React.Component {
                   <Route exact path="/login" component={WrappedLogin} />
                   <Route exact path="/forget" component={WrappedForget} />
                   <Route exact path="/reset/:token" component={WrappedReset} />
+                  <Route exact path="/forbidden" component={AccessDenied} />
                   <PrivateRoute exact path="/manager" component={ManagerPage} />
                   <PrivateRoute exact path="/chapters" component={ChapterList} />
                   <PrivateRoute exact path="/chapter/:chapter_id" component={ChapterContent} />
