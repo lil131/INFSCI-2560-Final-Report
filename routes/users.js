@@ -335,29 +335,6 @@ router.post('/forgot', function(req, res, next) {
   });
 });
 
-router.get('/reset/:token', function(req, res) {
-  // Check if the token exists in the database and has not expired.
-  Reset.findOne({
-    reset_password_token: req.params.token,
-    reset_password_expires: {
-      $gt: Date.now()
-    }
-  }, function(err, reset) {
-    if (!reset) {
-      console.log('Error: Password reset token is invalid or has expired.');
-      //return res.redirect('/forgot');
-      res.status(422).json({
-        message: reset.reset_password_token
-      });
-    }
-    console.log(reset);
-    res.status(200).json({
-      message: 'Reset password',
-      statusCode: 200
-    })
-  });
-});
-
 /**
  * @route POST api/users/rest/:token
  * @desc Reset the password
@@ -396,7 +373,7 @@ router.post('/reset/:token', function(req, res) {
                 // an email is sent to the user on successfully completing his/her password reset.
                 var data = {
                   from: 'sender@email.com', //email,
-                  to: 'chh171@pitt.edu',//user.email,
+                  to: user.email,
                   subject: 'Password Reset Confirmation',
                   text: 'Hello,\n\n' +
                     ' - This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
