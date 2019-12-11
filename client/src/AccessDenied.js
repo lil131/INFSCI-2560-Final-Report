@@ -15,7 +15,12 @@ class AccessDenied extends React.Component {
   }
 
   render() {
-    return (<h2>Permission Denied</h2>)
+    return (
+      <div>
+        <h2 align="center">Permission Denied</h2>
+        <img src="https://i.imgur.com/pgtbOn6.jpg"/>
+      </div>
+    );
   }
 }
 

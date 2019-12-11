@@ -58,7 +58,7 @@ class HomeLayout extends React.Component {
             {children}
           </div>
         </Content>
-        <Footer>© 2018-2019 xxx.com. All rights reserved.</Footer>
+        <Footer>© 2019-2020 Staff Taining System. All rights reserved.</Footer>
       </Layout>
     );
   }
