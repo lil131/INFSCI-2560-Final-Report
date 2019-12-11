@@ -41,7 +41,7 @@ class DynamicFieldSet extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const { keys, names } = values;
+        // const { keys, names } = values;
         console.log('Received values of form: ', values);
         // console.log('Merged values:', keys.map(key => names[key]));
         let arr = values.names
@@ -56,13 +56,13 @@ class DynamicFieldSet extends Component {
           let ans = arr[i+5]
           let correctAns = -1
           for (var j = 0 ; j < 4 ; j++) {
-            if (options[j] == ans) {
+            if (options[j] === ans) {
               correctAns = j
               break
             }
           }
 
-          if (correctAns == -1) {
+          if (correctAns === -1) {
             alert("Question " + (i/6 +1) + " didn't have correct answer")
             return
           }
