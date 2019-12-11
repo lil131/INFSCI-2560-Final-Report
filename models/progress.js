@@ -7,5 +7,4 @@ var ProgressSchema = new Schema({
 }, { strict: false });
 
 const Progress = mongoose.model('Progress', ProgressSchema);
-
 module.exports = Progress;

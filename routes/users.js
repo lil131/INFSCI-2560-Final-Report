@@ -335,29 +335,6 @@ router.post('/forgot', function(req, res, next) {
   });
 });
 
-router.get('/reset/:token', function(req, res) {
-  // Check if the token exists in the database and has not expired.
-  Reset.findOne({
-    reset_password_token: req.params.token,
-    reset_password_expires: {
-      $gt: Date.now()
-    }
-  }, function(err, reset) {
-    if (!reset) {
-      console.log('Error: Password reset token is invalid or has expired.');
-      //return res.redirect('/forgot');
-      res.status(422).json({
-        message: reset.reset_password_token
-      });
-    }
-    console.log(reset);
-    res.status(200).json({
-      message: 'Reset password',
-      statusCode: 200
-    })
-  });
-});
-
 /**
  * @route POST api/users/rest/:token
  * @desc Reset the password
@@ -377,8 +354,7 @@ router.post('/reset/:token', function(req, res) {
             message: 'Password reset token is invalid or has expired.'
           });
         }
-        console.log('completed reset 1: found token')
-        
+
         // Check to see that the password entered is correctly typed
         // by comparing the two typed passwords
         User.findOne({
@@ -387,7 +363,9 @@ router.post('/reset/:token', function(req, res) {
           if (req.body.newPassword === req.body.verifyPassword) {
             console.log('completed reset 2: verify new password')
             bcrypt.hash(req.body.newPassword, 10, (err, hash) => {
-              if (err) return res.status(404).json(err)
+              if (err) throw err;
+              // if (err) return res.status(404).json(err)
+              // return res.json(reset)
               user.password = hash;
               console.log('completed reset 3: hash password')
 
@@ -395,7 +373,7 @@ router.post('/reset/:token', function(req, res) {
                 // an email is sent to the user on successfully completing his/her password reset.
                 var data = {
                   from: 'sender@email.com', //email,
-                  to: 'chh171@pitt.edu',//user.email,
+                  to: user.email,
                   subject: 'Password Reset Confirmation',
                   text: 'Hello,\n\n' +
                     ' - This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
