@@ -93,7 +93,7 @@ class ChapterList extends React.Component {
                       <Tooltip
                         key='score'
                         placement='top'
-                        title={`Not Passed`}
+                        title={Math.max(...this.state.progresses.progresses[item.title].scores) > 70? `You Passed!` : `Not Passed`}
                       >
                           Best Score: {
                             Math.max(...this.state.progresses.progresses[item.title].scores) > 0?
