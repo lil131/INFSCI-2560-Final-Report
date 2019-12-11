@@ -314,8 +314,8 @@ class UserDataManagement extends React.Component {
 
     for (let i = 0; i < 3; i++) {
       children.push(
-        <Col span={8} key={i} >
-          <Form.Item label={searchFields[i][0]}>
+        <Col sm={24} md={8} key={i} >
+          <Form.Item label={searchFields[i][0]} className="custom-form-item-label" wrapperCol={{ span: 4 }}>
             {getFieldDecorator(searchFields[i][1], {
               rules: [
                 {
@@ -323,6 +323,7 @@ class UserDataManagement extends React.Component {
                   message: 'Input something!',
                 },
               ],
+              className: "custom-form-item-label"
             })(<Input placeholder={searchFields[i][0]} />)}
           </Form.Item>
         </Col>,
