@@ -1,26 +1,84 @@
 # INFSCI 2560 Final Report
 
 ## Project Name - Staff Training System
-![](https://i.imgur.com/7g8XUT8.png)
+![](https://i.imgur.com/ny3oslC.jpg)
+
 - Team Members  
     - Chia-Hsuan Hsieh(4301472, chh171@pitt.edu)
     - Linlu Liu (4302031, lil131@pitt.edu)
     - Shengxuan Qiu(4321458, shq14@pitt.edu)
     - Cai-Cian Song(4301228, cas386@pitt.edu)
-- Project Description:
-    - Framework/library: React JS, Express JS, Node JS
-    - Database: MongoDB
-    - CSS: Ant Design
 - Deploy URL: https://staff-training-system-deploy.herokuapp.com/
+- Github repo: https://github.com/lil131/staff-training-system/tree/mern/eden
+
+- Account for test
+```
+Admin
+Account: tonya.edmonds@pitt.edu
+Password: 1234
+
+Employee
+Account: test@pitt.edu
+Password: 1234
+```
 ## Introduction
 We use MERN stack in this project and the web tools are listed in project description. In this web application, we provide the staff training system lettin users access articles or any kind of training material online, and take tests in our system. Also, by providing Access control lists(ACL), the system allows administrators to create/delete user accounts, monitor/manage user data and add/modify teaching materials.
 Linlu Liu and Shengxuan Qiu are mainly responsible for front-end, Cai-Cian Song and Chia-Hsuan Hsieh are mainly responsible for back-end.
 
 ## Objective
-`Describe with more specific details what your objectives and goals are for the project. What problems did you want to solve or what did you want to learn in developing this application? What features, beyond the ones listed in the assignment requirements, did you implement?`
+Our main objective for this web application is making an online staff training system for both administrator and staff to realize the function of online studying and testing with regard to their routine work. By providing multiple chapters, the staff can access each of them and make the test after reading the correspond chapter. Each chapter contains multiple choice questions for the staff to complete. After completing the test, a test score will show up automatically. The best score status will show whether the staff pass the test. This application allows administrator to control the whole procedure of online training and testing. It’s a convenient way for both administrator and staff to learn and train.
 
 ##  Technical Architecture
-`What are the libraries, frameworks, and other technologies you used and how did you put them together. Use the MVC conceptual model to provide a guide (i.e. what are the models/views/controllers and what do they do).`
+Here is the main library we use, and our project structure. In order to run front-end and back-end at the same time, we figure out that we can use `concurrently` to host both applications in different ports.
+- Framework/library: React JS, Express JS, Node JS
+- Database: MongoDB
+- CSS: Ant Design
+```
+├── Procfile
+├── README.md
+├── client
+│   ├── README.md
+│   ├── package.json
+│   ├── public
+│   └── src
+├── models
+│   ├── chapter.js
+│   ├── comment.js
+│   ├── counter.js
+│   ├── progress.js
+│   ├── reset.js
+│   └── user.js
+├── package.json
+├── public
+│   └── images
+├── routes
+│   ├── chapters.js
+│   ├── comments.js
+│   ├── index.js
+│   ├── progresses.js
+│   └── users.js
+└── server.js
+```
+## Screenshot
+### Chapter list(Main page)
+![](https://i.imgur.com/SXOyDVq.png)
+
+### Chpater Content
+![](https://i.imgur.com/j3U1Fnc.png)
+
+### Management page
+![](https://i.imgur.com/bOvZUbq.png)
+
+### User profile
+![](https://i.imgur.com/wmF1Dex.png)
+
+### Password reset email
+![](https://i.imgur.com/vRdsKo6.png)
+
+### Password updated
+![](https://i.imgur.com/wsKwf38.png)
+
+
 ##  Challenges
 When we tried to build the reset password API, we did face some challenges head-on. The first is less secure problem and the other one is about encrypting the password. Fortunately, we overcame two critical challenges and activated the functions.
 
@@ -72,9 +130,10 @@ npm run start-dev
 MONGODB_URI=***
 NODE_ENV=***
 PORT=***
+secretOrkey=***
 MAILER_EMAIL_ID=***
 MAILER_PASSWORD=***
-LOCALHOST_URL=http://localhost:8080/api/users
+LOCALHOST_URL=https://staff-training-system-deploy.herokuapp.com
 
 ```
 
