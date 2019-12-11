@@ -1,9 +1,9 @@
 import {
   GET_API_SUCCESS,
   CREATE_API_SUCCESS,
-  EDIT_API_SUCCESS,
-  DELETE_API_SUCCESS,
-  GET_API_DETAIL_SUCCESS
+  // EDIT_API_SUCCESS,
+  // DELETE_API_SUCCESS,
+  // GET_API_DETAIL_SUCCESS
 } from "../actions/types";
 
 const initialState = {

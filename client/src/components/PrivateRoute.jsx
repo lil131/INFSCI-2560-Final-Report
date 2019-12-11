@@ -1,8 +1,8 @@
 import React from "react";
-import { Route, Redirect, RouteProps } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import ManagerPage from '../ManagerPage';
+// import ManagerPage from '../ManagerPage';
 
 
 // const PrivateRoute = ({ component: Component, auth, ...rest }: RouteProps) => (
@@ -29,7 +29,7 @@ const PrivateRoute = ({ component: Component, roles, ...rest }) => (
         
         if (window.location.pathname.indexOf("/profile/") > -1) {
             var arr = (window.location.pathname).split("/")
-            if (currentUser.permission === 1 && arr.pop() != currentUser.user_id) {
+            if (currentUser.permission === 1 && arr.pop() !== currentUser.user_id) {
               return <Redirect to={{ pathname: '/forbidden'}} />
             }
         }
