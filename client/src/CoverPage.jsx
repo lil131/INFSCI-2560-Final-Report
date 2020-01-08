@@ -23,7 +23,7 @@ class CoverPage extends React.Component {
     return (
       <div>
         {/*<h1><a href="/chapters">Staff Training System</a></h1>*/}
-        <Link to="/login" className="flex-center"><Button className="custom-ant-btn banner-btns">Login Systen</Button></Link>
+        <Link to="/login" className="flex-center"><Button className="custom-ant-btn banner-btns">登录</Button></Link>
         <Card id="card-image">
           <img alt="Cover-Page" src={imgURL} onClick={this.onClickOfImage}></img>
         </Card>

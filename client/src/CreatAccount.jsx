@@ -145,16 +145,16 @@ class CreatAccount extends React.Component {
 
     return (
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-        <Form.Item label="Email">
+        <Form.Item label="邮箱">
           {getFieldDecorator('email', {
             rules: [
               {
                 type: 'email',
-                message: 'The input is not valid E-mail!',
+                message: '邮箱地址无效!',
               },
               {
                 required: true,
-                message: 'Please input your E-mail!',
+                message: '请输入邮箱!',
               },
             ],
           })(<Input />)}
@@ -162,8 +162,8 @@ class CreatAccount extends React.Component {
         <Form.Item
           label={
             <span>
-              Password&nbsp;
-              <Tooltip title="Should be combination of alphabets and numbers.">
+              密码&nbsp;
+              <Tooltip title="密码需包含字母和数字.">
               <Icon type="question-circle-o" />
               </Tooltip>
             </span>
@@ -174,7 +174,7 @@ class CreatAccount extends React.Component {
             rules: [
               {
                 required: true,
-                message: 'Please input your password!',
+                message: '请输入密码!',
               },
               {
                 validator: this.validateToNextPassword,
@@ -182,7 +182,7 @@ class CreatAccount extends React.Component {
             ],
           })(<Input.Password />)}
         </Form.Item>
-        <Form.Item label="Confirm Password" hasFeedback>
+        <Form.Item label="确认密码" hasFeedback>
           {getFieldDecorator('confirm', {
             rules: [
               {
@@ -198,63 +198,63 @@ class CreatAccount extends React.Component {
         <Form.Item
           label={
             <span>
-              Name&nbsp;
-              <Tooltip title="The real name on your staff card.">
+              姓名&nbsp;
+              <Tooltip title="请填写员工卡上的姓名.">
                 <Icon type="question-circle-o" />
               </Tooltip>
             </span>
           }
         >
           {getFieldDecorator('nickname', {
-            rules: [{ required: true, message: 'Please input your name!', whitespace: true }],
+            rules: [{ required: true, message: '请输入姓名!', whitespace: true }],
           })(<Input />)}
         </Form.Item>
         <Form.Item
           label={
             <span>
-              Staff ID&nbsp;
-              <Tooltip title="The serial number on your staff card.">
+              员工编号&nbsp;
+              <Tooltip title="请输入员工卡上的员工编号.">
                 <Icon type="question-circle-o" />
               </Tooltip>
             </span>
           }
         >
           {getFieldDecorator('staffID', {
-            rules: [{ required: true, message: 'Please input your staff ID!', whitespace: true }],
+            rules: [{ required: true, message: '请输入员工编号！', whitespace: true }],
           })(<Input />)}
         </Form.Item>
-        <Form.Item label="Branch / Department">
+        <Form.Item label="分园 / 部门">
           {getFieldDecorator('branches', {
             initialValue: ['branch-1', 'department-1'],
             rules: [
-              { type: 'array', required: true, message: 'Please select your branch & department!' },
+              { type: 'array', required: true, message: '请选择分园名称和部门!' },
             ],
           })(<Cascader options={branches} />)}
         </Form.Item>
 
-        <Form.Item label="Permission">
+        <Form.Item label="账号权限">
           {getFieldDecorator('permission', {
-            rules: [{ required: true, message: 'Please assign the user permission' }],
+            rules: [{ required: true, message: '请选择账号权限' }],
           })(
             <Select
-              placeholder="Select permission"
+              placeholder="账号权限"
             >
-              <Option value="0">Admin</Option>
-              <Option value="1">Employee</Option>
+              <Option value="0">管理员</Option>
+              <Option value="1">普通用户</Option>
             </Select>,
           )}
         </Form.Item>
 
 
-        <Form.Item label="Phone Number">
+        <Form.Item label="电话">
           {getFieldDecorator('phone', {
-            rules: [{ required: true, message: 'Please input your phone number!' }],
+            rules: [{ required: true, message: '请输入电话号码!' }],
           })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
         </Form.Item>
 
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">
-            Register
+            创建账号
           </Button>
         </Form.Item>
       </Form>

@@ -38,7 +38,7 @@ class ChoiceQuestion extends React.Component {
         {id + 1}. {statement}: {
           // show answer when answer is not null and userAns is not same as answer:
           OPT_MAP[answer] && OPT_MAP[answer] !== userAns ?
-            <Text type='danger'>{'Ans: ' + OPT_MAP[answer]}</Text> :
+            <Text type='danger'>{'答案: ' + OPT_MAP[answer]}</Text> :
             null
         }
         <br />
@@ -117,7 +117,7 @@ class QuestionSet extends React.Component {
         })
         .catch(err => {
           // console.log(JSON.parse(err).error);
-          alert("Reached the maximum test times, please contact your manager to reset the score!")
+          alert("已达到尝试次数上限，请联系管理员重置成绩！")
         }
         );
     }
@@ -154,26 +154,26 @@ class QuestionSet extends React.Component {
             <Button type='link' onClick={this.onQuit} size='large'>
               <Icon type='left' />
             </Button>
-            {`Test for Chapter ${chapterId}`}
+            {`测试章节： ${chapterId}`}
           </>
         }
         bordered={false}
         actions={[
           <Button key='submit' type='link' onClick={this.onSubmit} size='large' disabled={this.state.disableSubmitBtn} >
             <Icon type='check-circle' key='submit' theme='twoTone' twoToneColor='#52c41a' />
-            Submit
+            提交答案
           </Button>
           ,
           <Button key='quit' type='link' onClick={this.onQuit} size='large'>
             <Icon type='close-circle' key='quit' theme='twoTone' twoToneColor='#eb2f96' />
-            Quit
+            放弃
           </Button>
         ]}
       >
         {
           userScore !== null ?
             <Statistic
-              title='Your Score:'
+              title='本次成绩：'
               value={userScore}
               precision={1}
               valueStyle={{ color: userScore >= 70 ? '#3f8600' : '#cf1322'}}

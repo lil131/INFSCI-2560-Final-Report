@@ -153,7 +153,7 @@ class CreatAccount extends React.Component {
   compareToFirstPassword = (rule, value, callback) => {
     const { form } = this.props;
     if (value && value !== form.getFieldValue('password')) {
-      callback('Two passwords that you enter is inconsistent!');
+      callback('两次输入的密码不一致!');
     } else {
       callback();
     }
@@ -217,23 +217,23 @@ class CreatAccount extends React.Component {
             <Button type='link' onClick={this.onBack} size='large'>
               <Icon type='left' />
             </Button>
-            {`Back`}
+            {`返回`}
           </>
         }
         bordered={false}
       >
         <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-          <Form.Item label="Email">
+          <Form.Item label="邮箱">
             {getFieldDecorator('email', {
               initialValue: email,
               rules: [
                 {
                   type: 'email',
-                  message: 'The input is not valid E-mail!',
+                  message: '邮箱地址无效!',
                 },
                 {
                   required: false,
-                  message: 'Please input your E-mail!',
+                  message: '请输入邮箱!',
                 }
               ],
             })(<p>{email}</p>)}
@@ -241,10 +241,10 @@ class CreatAccount extends React.Component {
           <Form.Item
             label={
               <span>
-                Staff ID&nbsp;
-                <Tooltip title="The serial number on your staff card.">
+                员工编号&nbsp;
+                {/* <Tooltip title="请填写员工卡上的编号">
                   <Icon type="question-circle-o" />
-                </Tooltip>
+                </Tooltip> */}
               </span>
             }
           >
@@ -255,8 +255,8 @@ class CreatAccount extends React.Component {
           <Form.Item
             label={
               <span>
-                Name&nbsp;
-                <Tooltip title="The real name on your staff card.">
+                姓名&nbsp;
+                <Tooltip title="请填写员工卡上的姓名">
                   <Icon type="question-circle-o" />
                 </Tooltip>
               </span>
@@ -264,14 +264,14 @@ class CreatAccount extends React.Component {
           >
             {getFieldDecorator('nickname', {
               initialValue: nickname,
-              rules: [{ required: false, message: 'Please input your name!', whitespace: true }],
+              rules: [{ required: false, message: '请输入姓名!', whitespace: true }],
             })(<Input placeholder={nickname} />)}
           </Form.Item>
           <Form.Item
             label={
               <span>
-                Password&nbsp;
-                <Tooltip title="Should be combination of alphabets and numbers.">
+                密码&nbsp;
+                <Tooltip title="密码需包含字母和数字">
                 <Icon type="question-circle-o" />
                 </Tooltip>
               </span>
@@ -282,7 +282,7 @@ class CreatAccount extends React.Component {
               rules: [
                 {
                   required: false,
-                  message: 'Please input your password!',
+                  message: '请输入密码!',
                 },
                 {
                   validator: this.validateToNextPassword,
@@ -290,12 +290,12 @@ class CreatAccount extends React.Component {
               ],
             })(<Input.Password placeholder="*****"/>)}
           </Form.Item>
-          <Form.Item label="Confirm Password" hasFeedback>
+          <Form.Item label="确认密码" hasFeedback>
             {getFieldDecorator('confirm', {
               rules: [
                 {
                   required: false,
-                  message: 'Please confirm your password!',
+                  message: '请确认密码!',
                 },
                 {
                   validator: this.compareToFirstPassword,
@@ -303,24 +303,24 @@ class CreatAccount extends React.Component {
               ],
             })(<Input.Password placeholder="*****" onBlur={this.handleConfirmBlur} />)}
           </Form.Item>
-          <Form.Item label="Branch / Department">
+          <Form.Item label="分园 / 部门">
             {getFieldDecorator('branches', {
               initialValue: [branches[0], branches[1]],
               rules: [
-                { type: 'array', required: false, message: 'Please select your branch & department!' },
+                { type: 'array', required: false, message: '请选择分园名称及部门!' },
               ],
             })(<Cascader options={defaultBranches} />)}
           </Form.Item>
-          <Form.Item label="Phone Number">
+          <Form.Item label="电话">
             {getFieldDecorator('phone', {
               initialValue: phone,
-              rules: [{ required: false, message: 'Please input your phone number!' }],
+              rules: [{ required: false, message: '请输入电话号码!' }],
             })(<Input addonBefore={prefixSelector} placeholder={phone} style={{ width: '100%' }} />)}
           </Form.Item>
 
           <Form.Item {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit">
-              Update
+              保存更新
             </Button>
           </Form.Item>
         </Form>

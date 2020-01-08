@@ -56,7 +56,7 @@ import {
                 <td>{title}</td>
                 <td>
                   {/* <Button onClick={this.handleEdit}>Edit</Button> */}
-                  <Button onClick={this.handleDelete.bind(null, _id)} className="btn-gap" type="danger">Delete</Button>
+                  <Button onClick={this.handleDelete.bind(null, _id)} className="btn-gap" type="danger">删除</Button>
                 </td>
               </tr>
            )
@@ -71,7 +71,7 @@ import {
    }
 
    render() {
-     const header = ['Chapter Title', "Delete"]
+     const header = ['章节', "操作"]
       return (
          <div>
             <table id='staff'>
@@ -118,7 +118,7 @@ class ChapterDataManagement extends React.Component {
     return (
       <div>
         <Link to="/chapters/add">
-          <Button className="custom-ant-btn layout-btn-right">Create Chapter</Button>
+          <Button className="custom-ant-btn layout-btn-right">添加新章节</Button>
         </Link>
         <Table chapterData={this.state.chapterData}/>
       </div>

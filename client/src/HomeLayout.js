@@ -28,10 +28,10 @@ class HomeLayout extends React.Component {
     const username = userData ? userData.nickname : "Guest"
     const menu =
       <Menu onClick={onClickOfMenu}>
-        {perm === 0 ? <Menu.Item key='managerPage'>Management</Menu.Item> : null }
+        {perm === 0 ? <Menu.Item key='managerPage'>数据管理</Menu.Item> : null }
         {/*perm === 0 ? <Menu.Item key='addChapter'>Create chapter</Menu.Item> : null */}
-        <Menu.Item key='profile'>Edit Profile</Menu.Item>
-        <Menu.Item key='logout'>Log out</Menu.Item>
+        <Menu.Item key='profile'>编辑个人信息</Menu.Item>
+        <Menu.Item key='logout'>登出</Menu.Item>
       </Menu>
 
     return(

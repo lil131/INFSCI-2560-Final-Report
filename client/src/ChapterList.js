@@ -1,6 +1,6 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
-import { Card, List, Button, Tooltip, Skeleton, Progress } from 'antd';
+import { Card, List, Button, Tooltip, Skeleton, Progress, Row, Col } from 'antd';
 // import { connect } from "react-redux";
 // import * as actions from "./actions/chapterActions";
 import axios from 'axios';
@@ -82,37 +82,38 @@ class ChapterList extends React.Component {
     return (
       <div>
       {/*<button onClick={this.test}>check</button>*/}
-            <Card title='Your Progress' bordered={false}>
+            <Card title='学习进度' headStyle={{fontSize:'25px'}} bordered={false}>
               <List
+                size='large'
                 className='demo-loadmore-list'
                 itemLayout='horizontal'
                 dataSource={this.state.chapters}
                 renderItem={(item, index) => (
                   <List.Item
                     actions={[
-                      <Tooltip
-                        key='score'
-                        placement='top'
-                        title={Math.max(...this.state.progresses.progresses[item.title].scores) > 70? `You Passed!` : `Not Passed`}
-                      >
-                          Best Score: {
-                            Math.max(...this.state.progresses.progresses[item.title].scores) > 0?
-                              Math.max(...this.state.progresses.progresses[item.title].scores).toPrecision(3) : 0
-                          }
-                          {console.log("score of" + item.title + ":", this.state.progresses.progresses[item.title].scores)}
-                      </Tooltip>
-                      ,
-                      <Tooltip key='chapter' placement='top' title={`Read Chapter ${item.title}`}>
+                      // <Tooltip
+                      //   key='score'
+                      //   placement='top'
+                      //   title={Math.max(...this.state.progresses.progresses[item.title].scores) > 70? `已通过！` : `未通过`}
+                      // >
+                      //     成绩: {
+                      //       Math.max(...this.state.progresses.progresses[item.title].scores) > 0?
+                      //         Math.max(...this.state.progresses.progresses[item.title].scores).toPrecision(3) : 0
+                      //     }
+                      //     {console.log("score of" + item.title + ":", this.state.progresses.progresses[item.title].scores)}
+                      // </Tooltip>
+                      // ,
+                      <Tooltip key='chapter' placement='top' title={`阅读： ${item.title}`}>
                         <Button
                           value='chapterContentPage'
                           type='primary'
                           shape='circle'
                           icon='read'
-                          size='small'
+                          size='large'
                           onClick={this.onSelectChapter.bind(null, item)}/>
                       </Tooltip>
                       ,
-                      <Tooltip key='test' placement='top' title={`Take the test of Chapter ${item.title}`}>
+                      <Tooltip key='test' placement='top' title={`测试： ${item.title}`}>
 
                         {
                           this.state.progresses.progresses[item.title].viewed === item.content.length ?
@@ -128,11 +129,10 @@ class ChapterList extends React.Component {
                               type='primary'
                               shape='circle'
                               icon='form'
-                              size='small'
+                              size='large'
                               ></Button></Link> :
-                            <Button type='primary' shape='circle' icon='form' size='small' disabled/>
+                            <Button type='primary' shape='circle' icon='form' size='large' disabled/>
                         }
-
                       </Tooltip>
                     ]}
                   >
@@ -140,14 +140,32 @@ class ChapterList extends React.Component {
                       <List.Item.Meta
                         title={`${item.title}`}
                         description={
-                          <Progress
-                            strokeColor={{
-                              '0%': '#108ee9',
-                              '100%': '#87d068',
-                            }}
-                            // percent={80}
-                            percent={(this.state.progresses.progresses[item.title].viewed) / this.state.chapters[index].content.length * 100}
-                          />
+                          <div STYLE="margin-top: 20px; margin-bottom: 10px">
+                          <Row>
+                            <Col span={21}>
+                              <Progress
+                                strokeColor={{
+                                  '0%': '#108ee9',
+                                  '100%': '#87d068',
+                                }}
+                                percent={(this.state.progresses.progresses[item.title].viewed) / this.state.chapters[index].content.length * 100}
+                              />
+                            </Col>
+                            <Col span={2} offset={1}>
+                              <Tooltip
+                                key='score'
+                                placement='top'
+                                title={Math.max(...this.state.progresses.progresses[item.title].scores) > 70? `已通过！` : `未通过`}
+                              >
+                                  成绩: {
+                                    Math.max(...this.state.progresses.progresses[item.title].scores) > 0?
+                                      Math.max(...this.state.progresses.progresses[item.title].scores).toPrecision(3) : 0
+                                  }
+                                  {console.log("score of" + item.title + ":", this.state.progresses.progresses[item.title].scores)}
+                              </Tooltip>
+                            </Col>
+                          </Row>
+                          </div>
                         }
                       />
                       {console.log(item.title, this.state.progresses.progresses[item.title].viewed)}

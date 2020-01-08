@@ -63,7 +63,7 @@ class DynamicFieldSet extends Component {
           }
 
           if (correctAns === -1) {
-            alert("Question " + (i/6 +1) + " didn't have correct answer")
+            alert("问题 " + (i/6 +1) + " 未设置正确答案！")
             return
           }
 
@@ -106,7 +106,7 @@ class DynamicFieldSet extends Component {
     const formItems = keys.map((k, index) => (
       <Form.Item
         {...(index%6 === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-        label={index%6 === 0 ? 'Question'+(index/6+1)+':' : ''}
+        label={index%6 === 0 ? '问题'+(index/6+1)+':' : ''}
         required={false}
         key={k}
       >
@@ -116,10 +116,10 @@ class DynamicFieldSet extends Component {
             {
               required: true,
               whitespace: true,
-              message: "Please input option or delete this field.",
+              message: "请输入内容或删除此栏。",
             },
           ],
-        })(<Input placeholder={index%6 === 0 ? 'Question' : ((index%6===5)? 'Answer' : 'Option')} style={{ width: '80%', marginRight: 8 }} />)}
+        })(<Input placeholder={index%6 === 0 ? '题目' : ((index%6===5)? '答案' : '选项')} style={{ width: '80%', marginRight: 8 }} />)}
         {keys.length > 1 ? (
           <Icon
             className="dynamic-delete-button"
@@ -131,7 +131,7 @@ class DynamicFieldSet extends Component {
     ));
     return (
       <Form onSubmit={this.handleSubmit}>
-        <Form.Item label="Title">
+        <Form.Item label="标题">
             {getFieldDecorator("chapter_title", {
               rules: [
                 {
@@ -139,9 +139,9 @@ class DynamicFieldSet extends Component {
                   message: 'Input something!',
                 },
               ],
-            })(<Input placeholder="Chapter Title" />)}
+            })(<Input placeholder="章节标题" />)}
           </Form.Item>
-          <Form.Item label="Content">
+          <Form.Item label="内容">
             {getFieldDecorator("content", {
               rule: [
                 {
@@ -149,18 +149,18 @@ class DynamicFieldSet extends Component {
                   message: "Input chapter content"
                 }
               ]
-            })(<TextArea rows={4} placeholder="Chapter Content"/>)
+            })(<TextArea rows={4} placeholder="章节内容"/>)
             }
           </Form.Item>
         {formItems}
         <Form.Item {...formItemLayoutWithOutLabel}>
           <Button type="dashed" onClick={this.add} style={{ width: '80%' }}>
-            <Icon type="plus" /> Add field
+            <Icon type="plus" /> 添加
           </Button>
         </Form.Item>
         <Form.Item {...formItemLayoutWithOutLabel}>
           {<Button type="primary" htmlType="submit">
-            Submit
+            提交
           </Button>}
         </Form.Item>
       </Form>

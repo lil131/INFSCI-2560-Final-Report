@@ -8,6 +8,11 @@ import {EditorState, RichUtils} from 'draft-js';
 // import {Editor, EditorState, RichUtils} from 'draft-js';
 import DynamicFieldSet from './components/DynamicFieldSet'
 // const { TextArea } = Input;
+import {
+  Card,
+  Icon,
+  Button,
+} from 'antd';
 
 class AddChapterContent extends Component {
   constructor(props) {
@@ -54,13 +59,28 @@ class AddChapterContent extends Component {
     // });
 
   };
+  
+  onBack = () => {
+    window.history.back();
+  }
 
   render() {
     const WrappedDynamicFieldSet = Form.create({ name: 'dynamic_form_item' })(DynamicFieldSet);
     // const { getFieldDecorator } = this.props.form;
     return (
+      <Card
+        title={
+          <>
+            <Button type='link' onClick={this.onBack} size='large'>
+              <Icon type='left' />
+            </Button>
+            {`返回`}
+          </>
+        }
+        bordered={false}
+      >
       <div>
-        <h2>Add Chapter</h2>
+        <h2>添加章节</h2>
         <Form className="ant-advanced-search-form" onSubmit={this.handleSubmit}>
           {/* <Form.Item label="Title">
             {getFieldDecorator("chapter_title", {
@@ -104,6 +124,7 @@ class AddChapterContent extends Component {
           </Row>
         </Form>
       </div>
+      </Card>
     )
   }
 }

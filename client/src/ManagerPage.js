@@ -23,13 +23,13 @@ class ManagerPage extends React.Component {
     return(
       <div className="card-container">
         <Tabs type="card" size='large'>
-          <TabPane tab="User Data Management" key="1">
+          <TabPane tab="用户信息管理" key="1">
             <WrappedUserDataManagement />
           </TabPane>
-          <TabPane tab="Chapter Management" key="2">
+          <TabPane tab="章节管理" key="2">
             <WrappedChapterDataManagement />
           </TabPane>
-          <TabPane tab="Creat Account" key="3">
+          <TabPane tab="创建账号" key="3">
             <WrappedCreatAccount />
           </TabPane>
         </Tabs>
